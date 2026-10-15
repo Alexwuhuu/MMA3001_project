@@ -1,0 +1,75 @@
+{
+  "audit_version": 1,
+  "created_at_utc": "2026-10-15T08:51:38.154233+00:00",
+  "scope": "session_01_part_01_basic_file_checks",
+  "files": 4986,
+  "observations": 2212,
+  "summer_gt_masks": 562,
+  "png_headers_checked": 4986,
+  "errors": 0,
+  "review_issues": 52,
+  "issue_counts": {
+    "embedded_tree_identifier": 52
+  },
+  "identity_review_observations": 52,
+  "exact_duplicate_groups": 16,
+  "exact_duplicate_files": 52,
+  "reused_depth_files": 52,
+  "observations_requiring_review": 53,
+  "folders": {
+    "Dataset": {
+      "filename_tree_ids": 544,
+      "observations": 1088,
+      "png_files": 2176,
+      "season_counts": {
+        "Summer": 544,
+        "Winter": 544
+      },
+      "modality_counts": {
+        "D": 1088,
+        "RGB": 1088
+      },
+      "identity_review_observations": 31
+    },
+    "Dataset (With Summer GT)": {
+      "filename_tree_ids": 562,
+      "observations": 1124,
+      "png_files": 2810,
+      "season_counts": {
+        "Summer": 562,
+        "Winter": 562
+      },
+      "modality_counts": {
+        "D": 1124,
+        "GT": 562,
+        "RGB": 1124
+      },
+      "identity_review_observations": 21
+    }
+  },
+  "image_formats": {
+    "D|640x480|bit_depth=8|colour_type=2": 2212,
+    "GT|256x256|bit_depth=8|colour_type=0": 562,
+    "RGB|640x480|bit_depth=8|colour_type=2": 2212
+  },
+  "auxiliary_files": [
+    "resources/TreeID/FANK_Sat.png"
+  ],
+  "unresolved": [
+    "Depth encoding, units and calibration",
+    "GT semantics and coordinate transform",
+    "Physical identities and seasonal correspondence",
+    "Independent 3D reference",
+    "Dataset attribution and redistribution terms"
+  ],
+  "checks": [
+    "Full filename suffix pairing",
+    "PNG signature, dimensions and colour type",
+    "SHA-256 exact-file duplicate detection"
+  ],
+  "limits": [
+    "Header checks only; image pixels and compressed data are not decoded",
+    "No depth, GT alignment or physical identity inference",
+    "No train/validation/test split assignment"
+  ]
+}

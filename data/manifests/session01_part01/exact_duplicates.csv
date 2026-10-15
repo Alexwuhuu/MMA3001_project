@@ -1,0 +1,53 @@
+sha256,path,modality,dataset,tree_id
+21c46abf8c71c232c71092ad1d802dacd75858939bc768813f317160e93d35fe,resources/TreeID/Dataset/R04U26_Winter_D-R04N45_RGB_12-19-56.png,D,Dataset,R04U26
+21c46abf8c71c232c71092ad1d802dacd75858939bc768813f317160e93d35fe,resources/TreeID/Dataset/R04U27_Winter_D-R04N46_RGB_12-20-00.png,D,Dataset,R04U27
+21c46abf8c71c232c71092ad1d802dacd75858939bc768813f317160e93d35fe,resources/TreeID/Dataset (With Summer GT)/R04N17_Winter_D-R04N44_RGB_12-19-52.png,D,Dataset (With Summer GT),R04N17
+24c1dde3971d055699c213b37087fe190a4f6fddbd02fdb03dc8d743af26c6fe,resources/TreeID/Dataset/R04U03_Winter_D-R04N07_RGB_12-17-26.png,D,Dataset,R04U03
+24c1dde3971d055699c213b37087fe190a4f6fddbd02fdb03dc8d743af26c6fe,resources/TreeID/Dataset (With Summer GT)/R04N01_Winter_D-R04N05_RGB_12-17-20.png,D,Dataset (With Summer GT),R04N01
+24c1dde3971d055699c213b37087fe190a4f6fddbd02fdb03dc8d743af26c6fe,resources/TreeID/Dataset (With Summer GT)/R04N02_Winter_D-R04N06_RGB_12-17-23.png,D,Dataset (With Summer GT),R04N02
+2736aa87ad5d3eab2fd78014b346e556f3050e41decf2f69039df730c4c12c28,resources/TreeID/Dataset (With Summer GT)/R04N19_Winter_D-R04N51_RGB_12-20-21.png,D,Dataset (With Summer GT),R04N19
+2736aa87ad5d3eab2fd78014b346e556f3050e41decf2f69039df730c4c12c28,resources/TreeID/Dataset (With Summer GT)/R04N20_Winter_D-R04N52_RGB_12-20-25.png,D,Dataset (With Summer GT),R04N20
+2736aa87ad5d3eab2fd78014b346e556f3050e41decf2f69039df730c4c12c28,resources/TreeID/Dataset (With Summer GT)/R04N21_Winter_D-R04N53_RGB_12-20-29.png,D,Dataset (With Summer GT),R04N21
+354b0116855f11cfba1d0735cd0bcb0b4b1cf2d0fb4a05176a1535e1dc61b474,resources/TreeID/Dataset/R04U01_Winter_D-R04N03_RGB_12-17-14.png,D,Dataset,R04U01
+354b0116855f11cfba1d0735cd0bcb0b4b1cf2d0fb4a05176a1535e1dc61b474,resources/TreeID/Dataset/R04U02_Winter_D-R04N04_RGB_12-17-17.png,D,Dataset,R04U02
+354b0116855f11cfba1d0735cd0bcb0b4b1cf2d0fb4a05176a1535e1dc61b474,resources/TreeID/Dataset (With Summer GT)/R03N34_Winter_D-11-39-13.png,D,Dataset (With Summer GT),R03N34
+37394b90452933be908cafbe05a0c6b42a97785c4ab5658bbd4a3ee9b9394555,resources/TreeID/Dataset/R04U10_Winter_D-R04N16_RGB_12-18-01.png,D,Dataset,R04U10
+37394b90452933be908cafbe05a0c6b42a97785c4ab5658bbd4a3ee9b9394555,resources/TreeID/Dataset (With Summer GT)/R04N04_Winter_D-R04N15_RGB_12-17-58.png,D,Dataset (With Summer GT),R04N04
+37394b90452933be908cafbe05a0c6b42a97785c4ab5658bbd4a3ee9b9394555,resources/TreeID/Dataset (With Summer GT)/R04N05_Winter_D-R04N17_RGB_12-18-04.png,D,Dataset (With Summer GT),R04N05
+4363eefb4d7b367ba9c86c29fd3122038bc74dccd7972223f1a3e49c6c2e2471,resources/TreeID/Dataset/R04U11_Winter_D-R04N19_RGB_12-18-10.png,D,Dataset,R04U11
+4363eefb4d7b367ba9c86c29fd3122038bc74dccd7972223f1a3e49c6c2e2471,resources/TreeID/Dataset/R04U12_Winter_D-R04N20_RGB_12-18-13.png,D,Dataset,R04U12
+4363eefb4d7b367ba9c86c29fd3122038bc74dccd7972223f1a3e49c6c2e2471,resources/TreeID/Dataset (With Summer GT)/R04N06_Winter_D-R04N18_RGB_12-18-07.png,D,Dataset (With Summer GT),R04N06
+6137f75aebd69330774eb0839ff956a8fd68c8f7930c48b311bbaa5622465b5a,resources/TreeID/Dataset (With Summer GT)/R04N14_Winter_D-R04N41_RGB_12-19-42.png,D,Dataset (With Summer GT),R04N14
+6137f75aebd69330774eb0839ff956a8fd68c8f7930c48b311bbaa5622465b5a,resources/TreeID/Dataset (With Summer GT)/R04N15_Winter_D-R04N42_RGB_12-19-45.png,D,Dataset (With Summer GT),R04N15
+6137f75aebd69330774eb0839ff956a8fd68c8f7930c48b311bbaa5622465b5a,resources/TreeID/Dataset (With Summer GT)/R04N16_Winter_D-R04N43_RGB_12-19-48.png,D,Dataset (With Summer GT),R04N16
+63451b4a2e734bb6478ef8d3c72b4f7eb402c3959e0a699268091631c352296b,resources/TreeID/Dataset/R04U04_Winter_D-R04N08_RGB_12-17-29.png,D,Dataset,R04U04
+63451b4a2e734bb6478ef8d3c72b4f7eb402c3959e0a699268091631c352296b,resources/TreeID/Dataset/R04U05_Winter_D-R04N09_RGB_12-17-35.png,D,Dataset,R04U05
+63451b4a2e734bb6478ef8d3c72b4f7eb402c3959e0a699268091631c352296b,resources/TreeID/Dataset/R04U06_Winter_D-R04N10_RGB_12-17-39.png,D,Dataset,R04U06
+6b5ea60096755daa26037ca6ec98423e2494dcf0fb7e030cc3e03405d438ee27,resources/TreeID/Dataset/R04U28_Winter_D-R04N47_RGB_12-20-05.png,D,Dataset,R04U28
+6b5ea60096755daa26037ca6ec98423e2494dcf0fb7e030cc3e03405d438ee27,resources/TreeID/Dataset/R04U29_Winter_D-R04N48_RGB_12-20-09.png,D,Dataset,R04U29
+6b5ea60096755daa26037ca6ec98423e2494dcf0fb7e030cc3e03405d438ee27,resources/TreeID/Dataset/R04U30_Winter_D-R04N50_RGB_12-20-18.png,D,Dataset,R04U30
+6b5ea60096755daa26037ca6ec98423e2494dcf0fb7e030cc3e03405d438ee27,resources/TreeID/Dataset (With Summer GT)/R04N18_Winter_D-R04N49_RGB_12-20-14.png,D,Dataset (With Summer GT),R04N18
+772ec34c28a9674cdf9a08fe0413e68e0d00c670c62219a68fcd8545b72e7428,resources/TreeID/Dataset/R04U21_Winter_D-R04N34_RGB_12-19-18.png,D,Dataset,R04U21
+772ec34c28a9674cdf9a08fe0413e68e0d00c670c62219a68fcd8545b72e7428,resources/TreeID/Dataset/R04U22_Winter_D-R04N35_RGB_12-19-22.png,D,Dataset,R04U22
+772ec34c28a9674cdf9a08fe0413e68e0d00c670c62219a68fcd8545b72e7428,resources/TreeID/Dataset/R04U23_Winter_D-R04N37_RGB_12-19-29.png,D,Dataset,R04U23
+772ec34c28a9674cdf9a08fe0413e68e0d00c670c62219a68fcd8545b72e7428,resources/TreeID/Dataset (With Summer GT)/R04N12_Winter_D-R04N36_RGB_12-19-25.png,D,Dataset (With Summer GT),R04N12
+8090e353c172f8847eef4cbdcb9ed9a36a9918321da7893dcf84a078206f457f,resources/TreeID/Dataset/R04U14_Winter_D-R04N25_RGB_12-18-42.png,D,Dataset,R04U14
+8090e353c172f8847eef4cbdcb9ed9a36a9918321da7893dcf84a078206f457f,resources/TreeID/Dataset (With Summer GT)/R04N10_Winter_D-R04N26_RGB_12-18-46.png,D,Dataset (With Summer GT),R04N10
+8090e353c172f8847eef4cbdcb9ed9a36a9918321da7893dcf84a078206f457f,resources/TreeID/Dataset (With Summer GT)/R04N11_Winter_D-R04N27_RGB_12-18-49.png,D,Dataset (With Summer GT),R04N11
+955f3a2103ade856efa0c0db0b2db435ba4ad6bc0777085c31a74f1fa29b9b1f,resources/TreeID/Dataset/R04U18_Winter_D-R04N31_RGB_12-19-08.png,D,Dataset,R04U18
+955f3a2103ade856efa0c0db0b2db435ba4ad6bc0777085c31a74f1fa29b9b1f,resources/TreeID/Dataset/R04U19_Winter_D-R04N32_RGB_12-19-12.png,D,Dataset,R04U19
+955f3a2103ade856efa0c0db0b2db435ba4ad6bc0777085c31a74f1fa29b9b1f,resources/TreeID/Dataset/R04U20_Winter_D-R04N33_RGB_12-19-15.png,D,Dataset,R04U20
+b80affcd0dfb8ff1f27f10f4966764c01511e0f49454e2d6920a8e24091158e6,resources/TreeID/Dataset/R04U15_Winter_D-R04N28_RGB_12-18-58.png,D,Dataset,R04U15
+b80affcd0dfb8ff1f27f10f4966764c01511e0f49454e2d6920a8e24091158e6,resources/TreeID/Dataset/R04U16_Winter_D-R04N29_RGB_12-19-01.png,D,Dataset,R04U16
+b80affcd0dfb8ff1f27f10f4966764c01511e0f49454e2d6920a8e24091158e6,resources/TreeID/Dataset/R04U17_Winter_D-R04N30_RGB_12-19-05.png,D,Dataset,R04U17
+b81180fd5e668674e1bafecaa3f84cb2b42c4cc9e5a59b3bdc2c2d5d3e6a7bdb,resources/TreeID/Dataset/R04U13_Winter_D-R04N21_RGB_12-18-24.png,D,Dataset,R04U13
+b81180fd5e668674e1bafecaa3f84cb2b42c4cc9e5a59b3bdc2c2d5d3e6a7bdb,resources/TreeID/Dataset (With Summer GT)/R04N07_Winter_D-R04N22_RGB_12-18-32.png,D,Dataset (With Summer GT),R04N07
+b81180fd5e668674e1bafecaa3f84cb2b42c4cc9e5a59b3bdc2c2d5d3e6a7bdb,resources/TreeID/Dataset (With Summer GT)/R04N08_Winter_D-R04N23_RGB_12-18-36.png,D,Dataset (With Summer GT),R04N08
+b81180fd5e668674e1bafecaa3f84cb2b42c4cc9e5a59b3bdc2c2d5d3e6a7bdb,resources/TreeID/Dataset (With Summer GT)/R04N09_Winter_D-R04N24_RGB_12-18-39.png,D,Dataset (With Summer GT),R04N09
+c8e8a3604078ea8b66018aa2cffe323a367092a23b88704cf089cf01df819745,resources/TreeID/Dataset/R04U07_Winter_D-R04N11_RGB_12-17-45.png,D,Dataset,R04U07
+c8e8a3604078ea8b66018aa2cffe323a367092a23b88704cf089cf01df819745,resources/TreeID/Dataset/R04U08_Winter_D-R04N13_RGB_12-17-52.png,D,Dataset,R04U08
+c8e8a3604078ea8b66018aa2cffe323a367092a23b88704cf089cf01df819745,resources/TreeID/Dataset/R04U09_Winter_D-R04N14_RGB_12-17-55.png,D,Dataset,R04U09
+c8e8a3604078ea8b66018aa2cffe323a367092a23b88704cf089cf01df819745,resources/TreeID/Dataset (With Summer GT)/R04N03_Winter_D-R04N12_RGB_12-17-49.png,D,Dataset (With Summer GT),R04N03
+fea66aaa9d4a1964474ea399394afa632fe652a7c1351410c6e761b481217063,resources/TreeID/Dataset/R04U24_Winter_D-R04N38_RGB_12-19-32.png,D,Dataset,R04U24
+fea66aaa9d4a1964474ea399394afa632fe652a7c1351410c6e761b481217063,resources/TreeID/Dataset/R04U25_Winter_D-R04N40_RGB_12-19-38.png,D,Dataset,R04U25
+fea66aaa9d4a1964474ea399394afa632fe652a7c1351410c6e761b481217063,resources/TreeID/Dataset (With Summer GT)/R04N13_Winter_D-R04N39_RGB_12-19-35.png,D,Dataset (With Summer GT),R04N13
