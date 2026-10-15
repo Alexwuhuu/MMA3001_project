@@ -1,8 +1,4 @@
-"""Basic filename pairing and PNG-header audit.
 
-Uses the Python standard library only. Image intensity semantics, physical tree
-identity and registration are deliberately not inferred from file structure.
-"""
 
 from __future__ import annotations
 
@@ -23,11 +19,7 @@ PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
 
 
 def parse_filename(name: str) -> dict:
-    """Parse a supplied basename without rewriting embedded tree identifiers.
 
-    Returns a dictionary with the complete capture suffix and review flags.
-    Raises ValueError when the filename does not follow the supported pattern.
-    """
     match = NAME_PATTERN.fullmatch(name)
     if match is None:
         raise ValueError(f"Unsupported image filename: {name}")
@@ -58,12 +50,7 @@ def inspect_png(path: Path) -> dict:
 
 
 def pair_records(records: list[dict]) -> tuple[list[dict], list[dict]]:
-    """Pair by folder, leading tree ID, season and complete capture suffix.
 
-    Returns observation rows and issues. Missing/duplicate modalities are
-    reported explicitly. GT absence is expected outside labelled summer data.
-    No physical identities or train/test groups are assigned here.
-    """
     groups = defaultdict(list)
     for record in records:
         groups[tuple(record[key] for key in ("dataset", "tree_id", "season", "capture"))].append(record)
@@ -109,12 +96,7 @@ def write_csv(path: Path, rows: list[dict], columns: list[str]) -> None:
 
 
 def audit_dataset(project_root: Path, output_dir: Path) -> dict:
-    """Inspect TreeID and write manifests/summary without changing raw inputs.
 
-    project_root is the repository root. output_dir must be outside TreeID.
-    Returns the JSON-compatible audit summary. Raises FileNotFoundError when
-    either required dataset folder is absent. Image errors are collected.
-    """
     project_root = project_root.resolve()
     data_root = project_root / "resources" / "TreeID"
     output_dir = output_dir.resolve()
