@@ -1,0 +1,26 @@
+{
+  "audit_date": "2026-10-13",
+  "method": "Filename pairing and complete PNG-header inspection; representative image review",
+  "observations": 2212,
+  "files": 4986,
+  "summer_gt_masks": 562,
+  "identity_review_observations": 52,
+  "seasons": [
+    "Summer",
+    "Winter"
+  ],
+  "headers": {
+    "Dataset|RGB|640x480|8|2": 1088,
+    "Dataset|D|640x480|8|2": 1088,
+    "Dataset (With Summer GT)|D|640x480|8|2": 1124,
+    "Dataset (With Summer GT)|GT|256x256|8|0": 562,
+    "Dataset (With Summer GT)|RGB|640x480|8|2": 1124
+  },
+  "unresolved": [
+    "Depth encoding and metric calibration",
+    "GT semantics and image transform",
+    "Physical tree identity and seasonal correspondence",
+    "Independent 3D reference",
+    "Dataset attribution and redistribution terms"
+  ]
+}

@@ -1,0 +1,47 @@
+# Python and notebook artifacts
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+*.egg-info/
+build/
+dist/
+
+# Local editor/system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Supplied data: access/redistribution terms must be established separately
+/resources/TreeID/
+
+# Large generated contents
+/data/processed/*
+/results/*
+!/results/figures/
+!/results/metrics/
+!/results/skeletons/
+!/results/models/
+!/results/test_reports/
+!/results/runs/
+/results/figures/*
+!/results/figures/.gitkeep
+/results/metrics/*
+!/results/metrics/.gitkeep
+/results/skeletons/*
+!/results/skeletons/.gitkeep
+/results/models/*
+!/results/models/.gitkeep
+/results/test_reports/*
+!/results/test_reports/.gitkeep
+/results/runs/*
+!/results/runs/.gitkeep
+
+# Local temporary files
+/tmp/
+
+# Local AI-generated Markdown documents
+/ai_docs/

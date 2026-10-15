@@ -1,0 +1,38 @@
+{
+  "project": "apple-tree-skeleton-reconstruction",
+  "status": "planning_template",
+  "data": {
+    "root": "resources/TreeID",
+    "labelled_directory": "Dataset (With Summer GT)",
+    "unlabelled_directory": "Dataset",
+    "manifest": "data/manifests/observations.csv",
+    "identity_mapping": null,
+    "split_manifest": null
+  },
+  "reconstruction": {
+    "mode": "2d_until_calibration_verified",
+    "depth_encoding": null,
+    "depth_units": null,
+    "depth_scale": null,
+    "depth_offset": null,
+    "invalid_depth_rule": null,
+    "intrinsics": null,
+    "rgb_depth_transform": null,
+    "gt_to_rgb_transform": null,
+    "gt_semantics": null
+  },
+  "experiment": {
+    "seed": 42,
+    "proposed_tree_split": {
+      "train": 0.7,
+      "validation": 0.15,
+      "test": 0.15
+    },
+    "method": "deterministic_baseline",
+    "spur_threshold": null,
+    "smoothing_strength": null
+  },
+  "output": {
+    "root": "results/runs"
+  }
+}

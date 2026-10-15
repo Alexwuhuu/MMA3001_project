@@ -1,0 +1,2 @@
+date,tool,task,approximate_contribution,verification_status,student_decisions,errors_or_limitations,learning_notes
+2026-10-13,Codex,Brief interpretation and initial dataset audit/project planning,Initial plan and scaffold drafted by AI,File counts and headers checked by AI; student review pending,Confirm scope and metadata; select and understand methods,Depth calibration and GT alignment unresolved; no algorithm or accuracy results yet,To be completed by student

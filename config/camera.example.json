@@ -1,0 +1,17 @@
+{
+  "status": "unverified_template",
+  "image_width": 640,
+  "image_height": 480,
+  "fx": null,
+  "fy": null,
+  "cx": null,
+  "cy": null,
+  "distortion": null,
+  "rectification_status": null,
+  "depth_encoding": null,
+  "depth_units": null,
+  "depth_scale": null,
+  "depth_offset": null,
+  "rgb_depth_registration": null,
+  "source_of_calibration": null
+}
