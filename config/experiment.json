@@ -1,0 +1,10 @@
+{
+  "data_root": "data/TreeID/TreeID",
+  "output_dir": "outputs/data_preparation",
+  "seed": 42,
+  "review_file": "config/pair_review.csv",
+  "review_pairs_per_row": 2,
+  "review_all_rows": ["R04"],
+  "contact_sheet_pairs_per_page": 8,
+  "require_human_review": false
+}

@@ -1,0 +1,14 @@
+# Private/original data and generated artifacts
+/data/
+/.venv/
+/.cache/
+/outputs/
+/res/generated/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.coverage
+htmlcov/
+*.egg-info/
+config/local.json
