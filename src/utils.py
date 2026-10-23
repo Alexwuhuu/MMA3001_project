@@ -6,6 +6,7 @@ D intensities have no established metric scale. No model training is performed.
 from __future__ import annotations
 
 import hashlib
+import io
 import json
 import re
 from pathlib import Path
@@ -35,6 +36,16 @@ def file_digest(path: Path) -> str:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
+
+
+def read_review_csv(path: str | Path) -> pd.DataFrame:
+    """Read Excel UTF-8/BOM or legacy GB18030 CSV without rewriting its bytes."""
+    raw = Path(path).read_bytes()
+    try:
+        content = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        content = raw.decode("gb18030")
+    return pd.read_csv(io.StringIO(content), keep_default_na=False)
 
 
 def parse_filename(name: str) -> dict | None:

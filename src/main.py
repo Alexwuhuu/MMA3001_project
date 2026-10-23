@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .utils import assign_splits, file_digest, index_dataset, matched_cases, read_rgb, write_json
+from .utils import assign_splits, file_digest, index_dataset, matched_cases, read_rgb, read_review_csv, write_json
 
 
 def get_runtime_versions() -> dict[str, str | None]:
@@ -85,8 +85,9 @@ def prepare_review(cases: pd.DataFrame, project_root: Path, config: dict) -> pd.
     review["human_status"] = "pending"
     review["human_notes"] = ""
     path = project_root / config["review_file"]
+    needs_write = not path.is_file()
     if path.is_file():
-        previous = pd.read_csv(path, keep_default_na=False)
+        previous = read_review_csv(path)
         necessary = {"tree_id", "human_status", "human_notes"}
         if not necessary.issubset(previous.columns) or previous["tree_id"].duplicated().any():
             raise ValueError(f"Invalid human review ledger: {path}")
@@ -99,8 +100,10 @@ def prepare_review(cases: pd.DataFrame, project_root: Path, config: dict) -> pd.
         old = previous.set_index("tree_id")
         for column in ["human_status", "human_notes"]:
             review[column] = review["tree_id"].map(old[column]).fillna(review[column])
+        needs_write = set(previous["tree_id"]) != set(review["tree_id"])
     path.parent.mkdir(parents=True, exist_ok=True)
-    portable_frame(review, project_root).to_csv(path, index=False)
+    if needs_write:
+        portable_frame(review, project_root).to_csv(path, index=False, encoding="utf-8-sig")
     return review
 
 
@@ -129,10 +132,17 @@ def validate_split(cases: pd.DataFrame, index: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def save_contact_sheets(review: pd.DataFrame, output: Path, per_page: int = 8) -> list[Path]:
-    """Save side-by-side RGB pairs for every mandatory review (no automatic approval)."""
-    selected = review[review["required_review"]].reset_index(drop=True)
-    folder = output / "review_sheets"
+def save_contact_sheets(review: pd.DataFrame, output: Path, per_page: int = 8,
+                        *, all_pairs: bool = False) -> list[Path]:
+    """Render mandatory checks, or all pairs, without changing review decisions.
+
+    The full atlas uses a separate folder so the original spot-check pages remain
+    available. Labels show a snapshot of the supplied human_status values.
+    """
+    if per_page < 1:
+        raise ValueError("per_page must be positive")
+    selected = (review if all_pairs else review[review["required_review"]]).reset_index(drop=True)
+    folder = output / ("review_sheets_all" if all_pairs else "review_sheets")
     folder.mkdir(parents=True, exist_ok=True)
     paths = []
     for start in range(0, len(selected), per_page):
@@ -143,7 +153,9 @@ def save_contact_sheets(review: pd.DataFrame, output: Path, per_page: int = 8) -
                 axes[i, j].imshow(read_rgb(record[f"{season}_rgb"]))
                 axes[i, j].set_title(f'{record["tree_id"]} | {season.title()} | {record["human_status"]}', fontsize=10)
                 axes[i, j].axis("off")
-        fig.suptitle("Filename-based candidate pairs — HUMAN REVIEW PENDING unless confirmed", fontsize=10)
+        fig.suptitle(
+            f"Summer–winter candidate pairs | {start + 1}–{start + len(page)} of {len(selected)}"
+            " | labels: human review snapshot", fontsize=10)
         fig.tight_layout(rect=(0, 0, 1, 0.985))
         path = folder / f"review_{start // per_page + 1:02d}.png"
         fig.savefig(path, dpi=110)
@@ -198,13 +210,17 @@ def run_data_preparation(project_root: str | Path, config: dict | None = None,
         if pairs.empty:
             raise ValueError("Configured matched subset has no valid N pairs")
     print(f"Part 2: {len(pairs)} proposed N pairs; U observations stay unlabelled.", flush=True)
+    # Freeze row membership before excluding any human-rejected identities.
+    assigned = assign_splits(pairs, seed=config["seed"])
     review = prepare_review(pairs, root, config)
     rejected = set(review.loc[review["human_status"].eq("rejected"), "tree_id"])
     if rejected:
         rejected_rows = pairs[pairs["tree_id"].isin(rejected)][["subset", "tree_id"]].assign(reason="human_rejected")
         exclusions = pd.concat([exclusions, rejected_rows], ignore_index=True)
-        pairs = pairs[~pairs["tree_id"].isin(rejected)].reset_index(drop=True)
-    cases = assign_splits(pairs, seed=config["seed"])
+    cases = assigned[~assigned["tree_id"].isin(rejected)].reset_index(drop=True)
+    cases = cases.merge(review[["tree_id", "human_status", "human_notes"]], on="tree_id", validate="one_to_one")
+    cases["human_verified"] = cases["human_status"].eq("confirmed")
+    cases["label_basis"] = np.where(cases["human_verified"], "human_confirmed", "filename_unverified")
     leakage = validate_split(cases, index)
     required = review[review["required_review"]]
     pending = int(required["human_status"].eq("pending").sum())
@@ -219,7 +235,10 @@ def run_data_preparation(project_root: str | Path, config: dict | None = None,
         "review_required": len(required), "review_pending": pending,
         "review_confirmed": int(required["human_status"].eq("confirmed").sum()),
         "review_rejected": int(review["human_status"].eq("rejected").sum()),
-        "label_status": "filename_based_pending_human_review" if pending else "required_review_completed",
+        "label_status": "filename_labels_with_partial_human_verification",
+        "eligible_human_verified": int(cases["human_verified"].sum()),
+        "eligible_filename_unverified": int((~cases["human_verified"]).sum()),
+        "review_policy": "targeted_review; no automatic approvals or score-based exclusions",
         "split_rows": cases.groupby("split")["row"].nunique().to_dict(),
         "split_trees": cases.groupby("split").size().to_dict(),
         "leakage_checks_passed": bool(leakage["passed"].all()),
@@ -237,7 +256,8 @@ def run_data_preparation(project_root: str | Path, config: dict | None = None,
     portable_frame(duplicate_rgb, root).to_csv(output / "duplicate_rgb_content.csv", index=False)
     for split, group in cases.groupby("split"):
         for season in ["summer", "winter"]:
-            manifest = group[["tree_id", "row", "number", f"{season}_rgb", f"{season}_depth"]].copy()
+            manifest = group[["tree_id", "row", "number", f"{season}_rgb", f"{season}_depth",
+                              "human_status", "human_verified", "label_basis"]].copy()
             name = "queries" if season == "summer" else "gallery"
             portable_frame(manifest, root).to_csv(output / f"{split}_{name}.csv", index=False)
     sheets = save_contact_sheets(review, output, config["contact_sheet_pairs_per_page"]) if render else []
@@ -246,7 +266,7 @@ def run_data_preparation(project_root: str | Path, config: dict | None = None,
     write_json(output / "summary.json", summary)
     print(json.dumps({k: v for k, v in summary.items() if k not in {"config", "versions"}}, indent=2), flush=True)
     if pending:
-        print(f"Human review remains pending for {pending} required pairs. No human approvals are fabricated.", flush=True)
+        print(f"{pending} early spot-check pairs remain unresolved; targeted review retains their filename labels.", flush=True)
     if config["require_human_review"] and pending:
         raise ValueError("Required manual review is incomplete; edit the review ledger before continuing")
     return {"index": index, "cases": cases, "review": review, "exclusions": exclusions,

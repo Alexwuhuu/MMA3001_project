@@ -1,0 +1,24 @@
+{
+  "created_at_utc": "2026-10-23T03:47:09.566785+00:00",
+  "sampling": "uniform_without_replacement_before_automated_scoring",
+  "seed": 42,
+  "query_count": 40,
+  "gallery_count": 132,
+  "test_rows": [
+    "R02",
+    "R09",
+    "R14",
+    "R18"
+  ],
+  "pool_signature": "a002ca4ab346841fcf2445fa64bacbe774a5617ab5c48b8afce87407482c3384",
+  "queries_sha256": "bfff9a36a54496877ba8aeea4988af65c98780cabf925f0fe744513db3486044",
+  "gallery_sha256": "22c674ab00cf0900fa4c8c51bfb9013300f3a8c95ea0a96249d54e21a257e180",
+  "same_queries_and_full_gallery_for": [
+    "LinearRegression",
+    "RBF-SVR"
+  ],
+  "selection_uses_scores": false,
+  "test_screening_enabled": false,
+  "uncertainty_plan": "Top-1/Top-5: 95% Wilson intervals; MRR: query bootstrap intervals",
+  "manual_policy": "Review original pairs before model results. Keep all sampled decisions; do not replace failures."
+}

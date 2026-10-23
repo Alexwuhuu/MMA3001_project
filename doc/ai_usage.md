@@ -1,19 +1,67 @@
-# AI 使用记录（代码阶段）
+# AI usage record: implementation stage
 
-日期：2026-10-22（Australia/Sydney）。
+Dates below use Australia/Sydney.
 
-Codex 协助规划并编写 Notebook、文件解析、质量审计、配对表、按果园行划分、
-泄漏检查、图册生成、可移植导出、合成数据测试及 GitHub CI 配置。
-用户指定文件组织、保留线性回归 baseline、以课内 SVR 为后续主要方法、移除 HOG，
-并将当前实现限定在第 1、2 部分，要求不 commit、不 push。
+## 2026-10-22: data preparation
 
-依据：用户提供的 PNG 数据和 R/N/U 解释、FANK_Sat.png 以及
-[来源论文](https://arxiv.org/pdf/2010.06879)。没有将论文中使用的深度网络当作本项目要求。
+Codex assisted with planning and implementing the notebook, filename parsing,
+image-quality audit, candidate pair ledger, orchard-row splits, leakage checks,
+review sheets, portable exports, synthetic tests, and GitHub CI configuration.
 
-验证：以合成图像测试特殊文件名、U 隔离、损坏输入、缺失 D、人工记录保留与拒绝、
-确定性划分及跨集合相同图像内容泄漏；执行完整 Notebook 检查。
-测试运行状态以实际命令结果和 Notebook 输出为准。
+The user specified the repository structure, Linear Regression baseline,
+course-taught SVR as the later main regression method, removal of HOG, and an
+initial implementation scope limited to stages 1–2. The user instructed Codex not
+to commit or push.
 
-人工配对审阅由实际审阅者在 config/pair_review.csv 中填写。
-AI 和程序不伪造人工核对结果；尚未核对的配对保持 pending。
-本轮没有训练模型、生成果园识别准确率，也没有提交或推送 Git 更改。
+Sources were the user-provided PNG data, the user's R/N/U definitions,
+`FANK_Sat.png`, and the [dataset paper](https://arxiv.org/pdf/2010.06879).
+The paper's deep networks were not treated as a project requirement.
+
+Synthetic checks cover special names, U isolation, corrupt inputs, missing D,
+preservation of human decisions, explicit rejection, deterministic splits, and
+identical RGB content crossing splits. The complete notebook was also executed.
+Validation status must follow actual command results and notebook outputs.
+
+Actual reviewers enter identity decisions in `config/pair_review.csv`. Neither
+AI nor automated checks fabricate approvals. Unverified records retain pending
+status. No regression model was trained and no orchard retrieval accuracy was
+claimed. Codex did not commit or push changes.
+
+## 2026-10-23: review atlases and targeted screening
+
+At the user's request, Codex added a reproducible full N-pair atlas, an HTML
+browser index, and a UTF-8 page lookup. Generation reads existing decisions and
+notes for display while preserving original images and review-ledger bytes.
+
+The user then chose targeted review instead of full manual verification. Codex
+implemented ORB/affine-RANSAC features, full-gallery comparisons within train and
+validation splits, candidate-comparison pages, and optional batches of up to 20.
+
+Before automated scoring, 40 independent test queries and the complete test
+gallery were fixed. Independent audit states start as pending and must be entered
+by a human. The program does not produce identity truth or delete cases because
+a final model predicts them incorrectly.
+
+Only the existing 13 human-rejected pairs were excluded. Retained identities
+explicitly distinguish filename labels from human confirmations. No additional
+trained prediction model or HOG was used; original images and human decisions
+were preserved.
+
+Additional checks cover known affine correspondences with outliers, missing and
+degenerate inputs, stable sampling, cache reuse, zero-evidence ties, and absence
+of automatic relabelling. Real-data validation establishes execution and
+diagnostic output, not identity accuracy.
+
+Default settings provided insufficient geometric evidence on the real
+train/validation data. Full tie ranges were preserved, weak descriptor ordering
+was not presented as reliable mismatch ranking, and review batches were not
+padded. A separate parameter diagnostic uses training data only and does not
+change defaults or inspect test scores.
+
+## 2026-10-24: English documentation
+
+At the user's request, Codex translated project Markdown, notebook explanations,
+and generated review-page instructions into English. English is the default for
+future explanatory content. Original human notes remain verbatim, and Chinese
+encoding-test strings remain test data. No human identity decisions or frozen
+query/gallery files are changed by translation.

@@ -1,0 +1,21 @@
+{
+  "output_dir": "outputs/targeted_review",
+  "cache_dir": ".cache/orb_screening",
+  "evaluation_dir": "config/evaluation",
+  "evaluation_queries": 40,
+  "evaluation_seed": 42,
+  "screen_splits": ["train", "validation"],
+  "image_size": 256,
+  "crop": "center",
+  "orb_nfeatures": 500,
+  "ratio_threshold": 0.75,
+  "ransac_threshold_px": 3.0,
+  "ransac_max_iters": 2000,
+  "ransac_confidence": 0.99,
+  "min_screen_inliers": 6,
+  "alternatives": 3,
+  "batch_size": 20,
+  "max_review_cases": 60,
+  "workers": 4,
+  "seed": 42
+}

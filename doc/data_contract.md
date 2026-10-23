@@ -1,32 +1,104 @@
-# 第 1、2 部分的数据约定
+# Data contract: preparation and targeted review
 
-输入根目录包含 `Dataset/`、`Dataset (With Summer GT)/` 和 `FANK_Sat.png`。
-解析文件名 `RxxNyy_Season_Modality-suffix.png` 或 `RxxUyy_...`；`Season` 为
-Summer/Winter，`Modality` 为 RGB/D/GT。R04 后缀可能保留旧文件名，身份只取前缀。
+## Original observations
 
-RGB：可读取 PNG，通常 640×480；审计保留实际尺寸和 SHA-256。
-D：与 RGB 同尺寸的 uint8 单通道，或三个完全相同的灰度通道；其他编码标记不可用。
-灰度范围 0–255，物理单位未知。零值比例是统计量，不能直接换算距离。
-GT：二维掩膜，记录实际尺寸和标签值；不用于同树身份评分或本轮划分。
+The dataset root contains `Dataset/`, `Dataset (With Summer GT)/`, and
+`FANK_Sat.png`. Supported names are `RxxNyy_Season_Modality-suffix.png` and
+`RxxUyy_Season_Modality-suffix.png`, where `Season` is Summer/Winter and `Modality`
+is RGB/D/GT. Some R04 suffixes contain an older filename; identity is parsed from
+the prefix only.
 
-缺失/损坏 RGB 保留在审计表，相应 N 配对记录排除原因；缺失/异常 D 保留有效 RGB 配对。
-同身份、季节、模态存在多个文件时报错，避免任意挑选。U 不参与 N 身份配对和划分。
+- **RGB:** readable PNG, typically 640×480. Record actual dimensions and SHA-256.
+- **D:** uint8 grayscale, or three identical grayscale channels, with the same
+  dimensions as RGB. Intensities are 0–255 and physical units are unknown. Zero
+  intensity fraction is a statistic, not a calibrated distance measurement.
+- **GT:** a 2D segmentation mask. Record dimensions and unique values. It does not
+  enter identity matching features or determine the row split.
 
-输出：
+Missing or corrupt RGB observations remain in the audit table; corresponding N
+pairs receive an exclusion reason. Missing or unsupported D does not exclude an
+otherwise valid RGB pair. Multiple files for the same identity/season/modality
+raise an error rather than selecting one arbitrarily. U observations do not enter
+labelled N pairs or their splits.
 
-| 文件 | 含义 |
+## Preparation outputs
+
+| File | Meaning |
 |---|---|
-| observation_index.csv | 每个子集/编号/季节一条观测，包含可读性、尺寸、哈希和 D/GT 状态 |
-| config/pair_review.csv | 全部 N 候选配对及人工核对状态；required_review 指示要求抽查的集合 |
-| split_manifest.csv | 每个有效 N 身份的 Summer/Winter 路径及行级 split |
-| *_queries.csv / *_gallery.csv | 每部分的夏季查询和冬季图库；编号为未来监督/评估信息 |
-| leakage_checks.csv | 三组集合两两之间的行、身份、路径、内容哈希交集检查 |
-| quality_issues.csv | 缺失、不可读或不支持的观测 |
-| special_filenames.csv | R04 等包含额外字母后缀的观测 |
-| duplicate_rgb_content.csv | 内容相同的 RGB，包括跨 N/U 子集重叠 |
-| excluded_n_pairs.csv | 自动质量排除和人工 rejected 的原因 |
-| summary.json | 配对数量、核对状态、行级划分、版本及清单哈希 |
-| review_sheets/ | 每个 required 配对的并排原始 RGB 图 |
+| observation_index.csv | One observation per subset/ID/season, with readability, dimensions, hashes, and D/GT status |
+| config/pair_review.csv | All N candidate pairs and human decisions; required_review marks the initial spot-check set |
+| split_manifest.csv | Eligible N identities, Summer/Winter paths, fixed split, and label provenance |
+| *_queries.csv / *_gallery.csv | Summer queries and winter galleries for each split; IDs are supervision/evaluation metadata |
+| leakage_checks.csv | Pairwise split intersections for rows, identities, paths, and RGB content hashes |
+| quality_issues.csv | Missing, unreadable, or unsupported observations |
+| special_filenames.csv | Names with additional letters in the suffix, including corrected R04 names |
+| duplicate_rgb_content.csv | Identical RGB content, including possible N/U overlap |
+| excluded_n_pairs.csv | Input-quality and human-rejection exclusions with reasons |
+| summary.json | Counts, review status, row split, versions, and split-manifest hash |
+| review_sheets/ | Side-by-side original RGB images for the initial spot-check set |
 
-路径相对项目根目录保存，随整个项目迁移。编号索引图的横轴 R、纵轴 N 不具有米制意义。
-人工记录只接受 pending/confirmed/rejected；程序不把自动检查当作人工确认。
+Paths are saved relative to the project root when possible. Moving the project
+with its data preserves those paths. R/N index plots have no metric coordinate
+meaning. The pair ledger accepts `pending`, `confirmed`, and `rejected` only;
+automated checks never become human confirmations.
+
+Existing ledgers support UTF-8 CSV with or without a BOM and legacy GB18030 CSV.
+Reading does not rewrite the original file. Filename identity remains the default;
+only explicitly human-rejected identities are excluded from labelled queries and
+galleries. `human_verified=True` comes only from `confirmed`. Other retained labels
+have `label_basis=filename_unverified`.
+
+Row membership is assigned before human exclusions. Removing an entire row must
+not reassign other rows to different splits.
+
+## ORB and geometric features
+
+Current screening uses RGB only. Center-square crop, then resize to 256×256.
+D and GT do not enter screening features. Filename, row, and tree number are
+used only for indexing, grouping, and comparison with the original identity label.
+
+ORB descriptors contain 32 bytes. Hamming distance is a bit count in 0–256.
+Geometric coordinates and errors use resized-image pixels; the default affine
+RANSAC threshold is 3 px. Fixed-order features include keypoint counts, accepted
+matches and ratio, descriptor distances, inlier count and ratio, reprojection
+RMSE, and missing/failed-estimation flags.
+
+Pairs with missing descriptors, insufficient matches, or degenerate geometry are
+retained. Unavailable distances and errors are NaN, not zero. Later regression
+imputation and scaling must be fitted on training data only.
+
+Caches depend on image content hashes, processing settings, implementation hash,
+and OpenCV version. Each train/validation query is compared against its complete
+split gallery. Independent test queries are not scored during screening.
+
+The evidence heuristic is `inlier_count × inlier_ratio`, set to zero below six
+inliers by default. It schedules review rather than establishing truth. When
+geometric evidence is absent, extra descriptor correspondences do not prove that
+an alternative candidate is correct. Zero geometric scores retain their full tie
+range, and unsupported cases do not fill review batches automatically.
+
+## Frozen independent evaluation
+
+`config/evaluation/` is created before automated scoring:
+
+| File | Meaning |
+|---|---|
+| queries.csv | Forty queries sampled uniformly from the original eligible test rows with seed 42; never replaced based on scores |
+| gallery.csv | Complete eligible winter test gallery shared by both future regression models |
+| independent_review.csv | Human decisions, reviewer, and notes after viewing original pairs only |
+| protocol.json | Sampling policy, fixed file hashes, image integrity signature, and future evaluation conventions |
+
+Independent audit states are `pending`, `confirmed`, `rejected`, and `uncertain`,
+stored separately from the original pair ledger. Audit entries do not inherit
+existing confirmations or automated screening results.
+
+Rejected and unresolved cases remain in the sampling audit. Do not replace them
+with easier queries to maintain a desired confirmed sample count. Fix human
+decisions before final evaluation; model errors cannot justify sample deletion.
+Report the sampled count, independently verifiable count, unresolved cases, and
+uncertainty. Unverified records are not independently established identity truth.
+
+## Documentation language
+
+Explanatory documentation and generated interface text are English. Human review
+notes and multilingual encoding-test fixtures remain verbatim source evidence.
