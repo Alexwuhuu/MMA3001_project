@@ -127,3 +127,14 @@ def test_complete_baseline_preserves_protocol_and_roundtrips_inference(tmp_path)
     cached = result["rankings"][1]
     cached = cached[cached.query_id.eq(query.tree_id)].set_index("candidate_id")
     np.testing.assert_allclose(inference.score, cached.loc[inference.candidate_id].score, atol=1e-10)
+    # The same image-level matching API must also support a persisted SVR bundle.
+    from src.svr import run_svr, load_svr_config
+    svr_cfg = load_svr_config(ROOT)
+    svr_cfg.update(C=[1.], gamma=["scale"], epsilon=[.1], timing_repeats=2)
+    svr_result = run_svr(root, result, svr_cfg, render=False)
+    svr_model = joblib.load(svr_result["output_dir"] / "models/rbf_svr.joblib")
+    svr_inference = match_tree({"rgb": query.summer_rgb, "depth": query.summer_depth}, gallery, svr_model, root)
+    val_rankings = pd.concat(svr_result["rankings"])
+    val_rankings = val_rankings[val_rankings.query_id.eq(query.tree_id)].set_index("candidate_id")
+    np.testing.assert_allclose(svr_inference.score, val_rankings.loc[svr_inference.candidate_id].score, atol=1e-10)
+    assert all(file_digest(p) == digest for p, digest in hashes.items())

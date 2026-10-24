@@ -1,0 +1,12 @@
+{
+  "output_dir": "outputs/svr_main",
+  "selection_file": "config/svr_selection.json",
+  "kernel": "rbf",
+  "C": [0.1, 1.0, 10.0],
+  "gamma": ["scale", 0.01, 0.1],
+  "epsilon": [0.01, 0.1],
+  "tol": 0.001,
+  "cache_size_mb": 256,
+  "max_iter": -1,
+  "timing_repeats": 5
+}

@@ -1,0 +1,60 @@
+{
+  "model": "RBF-SVR",
+  "selected_trial_id": 14,
+  "parameters": {
+    "C": 10.0,
+    "gamma": 0.01,
+    "epsilon": 0.01
+  },
+  "input_fingerprint": "0a1cbe56d3e79083307fd33cab6529909fb85cbd133c18b7e8bfed05247c2e54",
+  "selection_split": "validation",
+  "selection_order": [
+    "highest_top1",
+    "highest_mrr",
+    "lowest_median_query_ms",
+    "lowest_trial_id"
+  ],
+  "validation_top1": 0.026785714285714284,
+  "validation_mrr": 0.06690368437801375,
+  "selection_query_ms": 12.723342857238354,
+  "grid_trials": 18,
+  "training_pair_identity_hash": "cdf0dc23f287735b00089c621196f4ff773de629a3ab65f226db8cc5dbb1b6eb",
+  "feature_columns": [
+    "query_keypoints",
+    "candidate_keypoints",
+    "good_matches",
+    "good_match_ratio",
+    "hamming_mean",
+    "hamming_median",
+    "ransac_inliers",
+    "ransac_inlier_ratio",
+    "reprojection_rmse_px",
+    "missing_query_descriptors",
+    "missing_candidate_descriptors",
+    "geometry_failed",
+    "hsv_hellinger",
+    "depth_hellinger",
+    "depth_mean_difference",
+    "depth_std_difference",
+    "depth_zero_fraction_difference",
+    "missing_query_depth",
+    "missing_candidate_depth",
+    "query_depth_no_nonzero",
+    "candidate_depth_no_nonzero"
+  ],
+  "versions": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "joblib": "1.6.0",
+    "opencv-python-headless": "5.0.0.93"
+  },
+  "frozen_protocol_hashes": {
+    "queries.csv": "bfff9a36a54496877ba8aeea4988af65c98780cabf925f0fe744513db3486044",
+    "gallery.csv": "22c674ab00cf0900fa4c8c51bfb9013300f3a8c95ea0a96249d54e21a257e180",
+    "protocol.json": "506df84cc34357408f840d56910485168e2e8f91ebb5495c92dd728797f263ac"
+  },
+  "fit_split": "train_only",
+  "test_queries_scored": 0
+}

@@ -1,0 +1,11 @@
+# Optional frozen-ResNet experiment; install after config/requirements.txt.
+# CPU: pip install -r config/requirements-resnet.txt --index-url https://download.pytorch.org/whl/cpu
+# NVIDIA CUDA 12.8: use the corresponding cu128 index (see README).
+torch==2.11.0
+torchvision==0.26.0
+setuptools==78.1.0
+filelock==3.32.3
+fsspec==2026.7.0
+mpmath==1.3.0
+networkx==3.6.1
+sympy==1.14.0

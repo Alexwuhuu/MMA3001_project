@@ -145,3 +145,95 @@ to identify/confirm note maps pending to uncertain. Original source status is
 exported alongside the effective status and normalization reason. It is not
 written back. No rejected audit case is removed from the frozen sample/gallery.
 Stage 5 computes zero independent test scores.
+
+## RBF-SVR inputs, selection, and outputs
+
+`run_svr(root, baseline, settings)` accepts the unmodified in-memory result from
+`run_baseline` and `config/svr.json`. It rejects test feature tables, overlapping
+train/validation identities or orchard rows, partial galleries, metadata feature
+columns, changed sampled targets/weights, and disagreement between sampled and
+full-gallery training feature values. Existing NaNs are handled by the same
+training-fitted imputation as the baseline. Both models share all numeric inputs.
+
+The default grid enumerates 18 RBF configurations. C must be positive, gamma must
+be positive or `scale`, and epsilon must be nonnegative. C acts with the shared
+sample weights; epsilon has target-score units. Resolved gamma is exported after
+training preprocessing. Fit convergence is checked and failed configurations are
+ineligible for selection. Top-1, MRR, and median amortized cached-feature scoring
+time form the ordered selection criteria; trial ID is the final exact tie-break.
+Validation uses every candidate in the validation split, without row restriction.
+
+`search_results.csv` includes every configuration, fit status/time, Top-1/Top-5/MRR,
+class-specific sampled-training and full-validation MAE/RMSE, balanced-class MAE,
+resolved gamma, support-vector count, iterations, and repeated prediction times.
+Training and validation error aggregates have different class frequencies; their
+class-specific errors should accompany overall errors. No test metrics exist.
+
+`config/svr_selection.json` is the frozen small selection record. It contains a
+fingerprint of feature tables, shared training samples, code, settings, and
+versions. Repeated runs reuse the choice and check its best validation metrics;
+changed fingerprints raise an error before fitting or replacing that lock. A new
+intentional experiment requires a separate selection file. The lock is copied to
+`outputs/svr_main/selected_config.json`. Synthetic runs use temporary paths.
+
+`metrics.json`, full split rankings, `query_metrics.csv`, and
+`development_comparison.csv` follow the baseline's label and tie conventions.
+`support_vectors.csv` maps each support vector to a sampled training pair, target,
+weight, and dual coefficient. `run_summary.json` records convergence, timing,
+storage, selected settings, versions, fingerprints, and saved-model checksum.
+Support-vector array bytes exclude other process/solver memory. The configured
+kernel cache is a limit rather than a measured peak memory value.
+
+`models/rbf_svr.joblib` stores the train-only fitted pipeline with the exact feature
+order and extraction settings for `match_tree`. Validation rows are never merged
+into fitting after selection. All 40 audit records and the 132-candidate winter
+test gallery remain fixed and unscored until the final evaluation stage.
+
+## Frozen neural-feature extension
+
+`src.deep_features.embed_paths(paths, root, settings)` accepts explicit RGB image
+paths and returns 512-D L2-normalized ResNet18 feature vectors. The production
+path requires the verified official IMAGENET1K_V1 checkpoint. Missing/corrupt
+weights or RGB inputs raise rather than switching to random weights or deleting
+queries. Preprocessing is a center-square crop followed by official weight
+transforms (resize256, crop224, ImageNet normalization). Inference uses a frozen
+network in evaluation mode; no orchard CNN fitting or batch-normalization updates
+occur. Cache keys include source/weight/code hashes, software, device, batch size,
+and CPU thread settings. Numeric caches use `allow_pickle=False`.
+
+`fit_projection` learns a PCA basis from training images only, pooling Summer and
+Winter training images. The fixed default is 32 components; validation images are
+transformed without refitting. Pair features are 32 absolute PCA-coordinate
+differences, 32 PCA-coordinate products, and cosine distance (0–2) between original
+normalized embeddings. All are dimensionless, with no metric 3D interpretation.
+No D intensity, tree ID, row, path, note, season label, or GT mask enters this
+65-column numerical matrix. Seasons only identify query versus gallery images.
+
+`run_transfer` validates the original sample identity/label/weight hash, disjoint
+orchard rows, and complete galleries. Both regressors use identical features and
+training-only preprocessing; the original 18-setting SVR search is retained.
+Only train/validation RGB paths reach the encoder. No test images are embedded,
+scored, or used for PCA/selection. The selected SVR stays fitted on training pairs.
+A distinct selection file freezes the new representation's configuration.
+
+`outputs/resnet_matching/embedding_manifest.csv` records image metadata and hashes.
+`training_pairs.csv` freezes the exact original pairs/targets/weights and 65 new
+features. `search_results.csv` preserves all configurations and diagnostic errors.
+`linear/` and `svr/` contain complete train/validation rankings, query provenance,
+and class-specific metrics. `development_comparison.csv` retains original and new
+results. Original D features are omitted in this extension, so the comparison is
+not a controlled isolation of the CNN's effect. Synthetic execution reads only
+its own synthetic comparison, never real experiment results.
+
+`models/linear.joblib` and `models/svr.joblib` hold the fitted regressor pipeline,
+PCA, exact feature order, and verified encoder reference. The large checkpoint is
+cached separately; preserve it for offline inference. `match_resnet(query_rgb,
+gallery, bundle, root)` accepts candidate_id/rgb columns and returns every ranked
+candidate with score and numerical tie ranges. Labels are unnecessary at inference.
+Its known-query predictions are checked against the saved full-gallery scores.
+
+The extension-only notebook runner executes configuration and cells tagged
+`resnet_extension` in a fresh kernel, then updates those cells in the main notebook.
+It uses existing stage-5 inputs and preserves original experiment files. A normal
+Restart & Run All executes the entire workflow. Additional dependency versions and
+the explicit checkpoint download are documented in README and requirements-resnet.

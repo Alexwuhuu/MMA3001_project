@@ -3,8 +3,10 @@
 The main entry point is [`apple_tree_matching.ipynb`](apple_tree_matching.ipynb).
 It currently implements **1. configuration and data auditing, 2. label records and
 row-based splitting, 3. ORB/RANSAC features and targeted review,
-4. affine numerical verification, and 5. a weighted Linear Regression baseline**.
-**RBF-SVR is the main regression method planned for stage 6**. HOG is not used.
+4. affine numerical verification, 5. a weighted Linear Regression baseline, and
+6. validation-only RBF-SVR selection with a locked configuration**.
+**RBF-SVR is the main regression method**. A frozen ResNet18/PCA feature
+extension also compares Linear Regression and SVR. HOG is not used.
 
 Project documentation, notebook explanations, generated page instructions, and
 future explanatory material and annotation notes are maintained in **English**.
@@ -25,6 +27,11 @@ MMA3001_project/
 │   ├── experiment.json         # Dataset paths, seed, initial review settings
 │   ├── screening.json          # ORB/RANSAC, review batches, test sampling
 │   ├── baseline.json           # Negative sampling, histogram bins, timing
+│   ├── svr.json                # RBF-SVR grid and solver settings
+│   ├── svr_selection.json      # Original ORB selection and fingerprint
+│   ├── resnet.json             # Frozen encoder, cache, PCA and device settings
+│   ├── resnet_svr_selection.json # Separate neural-feature selection lock
+│   ├── requirements-resnet.txt # Optional pinned PyTorch dependencies
 │   ├── evaluation/             # Frozen queries, full gallery, independent audit
 │   ├── requirements.in         # Direct dependencies
 │   ├── requirements.txt        # Exact versions tested with Python 3.12
@@ -38,6 +45,9 @@ MMA3001_project/
 │   ├── appearance.py           # Cached color and grayscale-D features
 │   ├── numerical.py            # Least squares, RANSAC and known-transform tests
 │   ├── baseline.py             # Weighted linear regression and full ranking
+│   ├── svr.py                  # Validation search and locked train-only SVR
+│   ├── deep_features.py        # Frozen ResNet18, numeric cache, train-only PCA
+│   ├── transfer.py             # Shared-pair linear/SVR feature experiment
 │   ├── screening.py            # Freeze test queries, screen train/validation
 │   ├── review_assets.py        # Original pairs and alternative-candidate pages
 │   └── utils.py                # Parsing, validation, pairing, row splits
@@ -46,9 +56,12 @@ MMA3001_project/
 │   ├── conftest.py
 │   ├── test_main.py
 │   ├── test_screening.py
-│   └── test_baseline.py
+│   ├── test_baseline.py
+│   ├── test_svr.py
+│   └── test_transfer.py
 ├── tools/
-│   ├── run_notebook.py         # Execute with the selected interpreter
+│   ├── run_notebook.py         # Full execution or ResNet-only extension
+│   ├── download_resnet_weights.py # Pinned official checkpoint, verified hash
 │   ├── generate_all_review_sheets.py
 │   ├── check_orb_settings.py   # Training-only parameter diagnostic
 │   ├── translate_annotation_notes.py # Exact notes-only translations and backup
@@ -249,3 +262,138 @@ pending entries to uncertain. The exported normalization audit records original
 status and conversion reason without rewriting source status fields. All forty
 sampled records and the full winter test gallery remain frozen for later final
 evaluation, including rejected and unresolved audit cases.
+
+## Stage 6: RBF-SVR selection
+
+Continue through section 6 of `apple_tree_matching.ipynb`. No additional packages
+are needed beyond the pinned environment. The SVR method uses the exact sampled
+training pairs, feature values, order, and inverse-frequency weights from the
+Linear Regression baseline. Each pipeline fits the imputer/scaler on those
+training samples only; their learned statistics are checked against the baseline.
+
+The RBF grid has 18 configurations: C={0.1,1,10}, gamma={scale,0.01,0.1}, and
+epsilon={0.01,0.1}. Each configuration scores every validation query against all
+validation winter candidates. Select highest Top-1, then highest MRR, then lowest
+median amortized scoring time across five repetitions; trial ID resolves an exact
+remaining tie. Non-converged configurations cannot win. Scores remain continuous
+regression values, not probabilities. No independent test predictions are made.
+
+`config/svr_selection.json` records the locked choice, selection metrics, input
+fingerprint, shared sample hash, feature order, versions, and protocol hashes.
+It is a small reproducibility artifact suitable for Git. An unchanged rerun
+checks and reuses this choice, so timing noise cannot change the selected
+parameters. Changed data, implementation, versions, or grid cause a clear error;
+use a different `selection_file` for an intentional new experiment. Synthetic
+notebook execution uses a temporary selection file.
+
+`outputs/svr_main/` contains all 18 search results, the selected configuration,
+metrics, full training/validation rankings, per-query provenance, support-vector
+metadata, development comparison with Linear Regression, figures, and
+`models/rbf_svr.joblib`. The saved bundle works with the same `match_tree` API.
+Repeated fitting and cached-feature prediction timings exclude image extraction
+and ranking. Support-vector array bytes describe that array rather than peak RAM.
+
+The chosen SVR stays fitted on training samples only. Validation influenced
+selection, so its scores are development results, mostly against filename labels.
+Stage 7 retains the planned independent test comparison, uncertainty estimates,
+ablations, resolution/crop sensitivity, profiling, and performance optimisation.
+No test queries are scored during stage 6 and no test audit cases are replaced.
+
+Method reference: [scikit-learn SVR](https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html).
+
+The current real-data selection is C=10, gamma=0.01, epsilon=0.01 (all 18 trials
+converged). Validation Top-1 is 3/112 (2.68%), Top-5 is 7/112 (6.25%), and MRR
+is 0.06690; the linear baseline gives 2/112 (1.79%), 7/112 (6.25%), and 0.05803.
+These weak development results do not establish reliable independent improvement.
+The selected model has 3,336 support vectors out of 3,355 training pairs.
+
+All 35 tests passed, and the complete notebook executed on both real and
+synthetic data. Human records and frozen evaluation files were checked unchanged.
+Python source checkouts use LF (`.gitattributes`) so Git line-ending conversion
+does not change implementation fingerprints. No commit or push is automatic.
+
+## Frozen ResNet18 feature extension
+
+Notebook sections 6.4–6.7 use official ImageNet-1K ResNet18 V1 weights as a
+fixed RGB feature extractor. The CNN is frozen in evaluation/inference mode;
+no CNN weights or normalization statistics are learned from orchard images.
+The original ORB/HSV/D experiments, their model files, and selection lock remain
+available. This additional representation uses RGB only, so comparison with the
+original RGB/D representation does not isolate the causal effect of the CNN.
+
+The encoder center-square crops RGB, then applies the official resize256,
+center-crop224, and ImageNet normalization. It returns 512-dimensional vectors,
+which are L2-normalized. PCA32 fits on the 610 real training images only. Each
+image pair has 65 features: absolute PCA differences, PCA products, and original
+embedding cosine distance. Both regressors use exactly the original 3,355 sampled
+pair IDs, filename-derived targets, and inverse-frequency weights. The new SVR
+search uses the same 18 settings and validation selection order as before. No
+test images are embedded or scored.
+
+Install the additional pinned environment on this machine (NVIDIA CUDA 12.8):
+
+```powershell
+& 'D:\anacoda3\envs\MMA3001\python.exe' -m pip install -r config/requirements-resnet.txt --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple
+& 'D:\anacoda3\envs\MMA3001\python.exe' tools/download_resnet_weights.py
+```
+
+For CPU-only use, substitute `https://download.pytorch.org/whl/cpu` for the CUDA
+index. Core requirements remain in `config/requirements.txt`; install them first
+in a new Python 3.12 environment. This optional file pins PyTorch 2.11.0 and
+TorchVision 0.26.0; the package index supplies CPU/CUDA build suffixes. This
+machine uses `2.11.0+cu128` and `0.26.0+cu128`. GPU availability is checked at
+runtime, and `device=auto` supports CPU inference when CUDA is absent. The
+additional tests skip when the optional PyTorch stack is not installed.
+
+The 44.7 MB official checkpoint is stored under the ignored `.cache/pretrained/`.
+The explicit downloader validates the official hash prefix; its full SHA-256 is
+`f37072fd47e89c5e827621c5baffa7500819f7896bbacec160b1a16c560e07ec`.
+No download or random-weight fallback occurs inside image feature extraction.
+Keep the checkpoint for offline runs or fetch it again with the utility.
+
+Use Restart & Run All for the complete notebook. To execute the extension using
+existing stage-5 inputs while preserving original experiment files:
+
+```powershell
+& 'D:\anacoda3\envs\MMA3001\python.exe' tools/run_notebook.py --resnet-only --in-place
+```
+
+`python -m src.transfer` is another entry point after data preparation and the
+original baseline have produced their files. The new outputs are under
+`outputs/resnet_matching/`: input hashes, exact pair features/weights, all grid
+results, per-model rankings/errors, PCA and fitted model bundles, provenance,
+timing, comparison figures, and a separate `config/resnet_svr_selection.json`.
+Use `match_resnet` with a query RGB path and the complete candidate RGB gallery.
+The existing `match_tree` API remains available for the original ORB models.
+
+Image IDs, orchard rows, filenames, human notes, and GT masks are metadata only.
+PCA, imputation, and scaling are fitted on training data; validation is used for
+SVR selection. Both the small independent sample and full test gallery remain
+unchanged. Frozen neural features are an empirical alternative, with no assumed
+accuracy guarantee. Parameter changes require a separate experiment lock.
+
+Sources: [TorchVision ResNet18](https://docs.pytorch.org/vision/0.26/models/generated/torchvision.models.resnet18.html),
+[transfer learning tutorial](https://docs.pytorch.org/tutorials/beginner/transfer_learning_tutorial.html),
+[PCA](https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html).
+
+The extension has passed 40 tests and full synthetic notebook execution. The real
+feature extraction and model fitting completed, and the corrected extension then
+ran successfully in a fresh kernel, verifying cache and locked-selection reuse. All 31 protected original source/result/audit
+files remained byte-identical. Real validation results are:
+
+| Representation / regressor | Top-1 | Top-5 | MRR |
+|---|---:|---:|---:|
+| Original ORB/HSV/D + Linear Regression | 1.79% | 6.25% | 0.0580 |
+| Original ORB/HSV/D + SVR | 2.68% | 6.25% | 0.0669 |
+| Frozen ResNet18/PCA + Linear Regression | 1.79% | 11.61% | 0.0768 |
+| Frozen ResNet18/PCA + SVR | 3.57% | 7.14% | 0.0834 |
+
+The new SVR selection is C=0.1, gamma=scale, epsilon=0.1. It gains one Top-1
+success over the original SVR on 112 validation queries, while the new linear
+model has better Top-5. Overall ability remains weak. This development comparison
+does not establish independent accuracy; the test sample remains unscored.
+
+Exact selection fingerprints include hardware-dependent embeddings and software
+versions. When reproducing with a CPU stack instead of the recorded CUDA stack,
+use separate output and selection paths (for example `outputs/resnet_cpu/` and
+`config/resnet_svr_selection_cpu.json`) to preserve the existing experiment lock.

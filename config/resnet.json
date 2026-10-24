@@ -1,0 +1,16 @@
+{
+  "output_dir": "outputs/resnet_matching",
+  "cache_dir": ".cache/resnet18_embeddings",
+  "checkpoint": ".cache/pretrained/resnet18-f37072fd.pth",
+  "weights": "IMAGENET1K_V1",
+  "weights_url": "https://download.pytorch.org/models/resnet18-f37072fd.pth",
+  "weights_hash_prefix": "f37072fd",
+  "device": "auto",
+  "batch_size": 16,
+  "cpu_threads": 4,
+  "pca_components": 32,
+  "seed": 42,
+  "selection_file": "config/resnet_svr_selection.json",
+  "original_comparison_file": "outputs/svr_main/development_comparison.csv",
+  "timing_repeats": 5
+}
