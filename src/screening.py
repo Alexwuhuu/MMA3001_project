@@ -28,6 +28,32 @@ def load_screening_config(root: Path) -> dict:
     return settings
 
 
+def normalize_independent_review(review: pd.DataFrame) -> pd.DataFrame:
+    """Normalize explicit entry errors in memory while preserving source evidence.
+
+    `confrimed` is a spelling alias, not a new AI judgement. A pending entry with
+    an explicit inability-to-identify note is unresolved, never confirmed.
+    Original CSV bytes and notes are preserved; conversion reasons are exported.
+    """
+    result = review.copy(deep=True)
+    result["original_independent_status"] = result["independent_status"]
+    effective, reasons = [], []
+    inability_markers = ("\u65e0\u6cd5\u8bc6\u522b", "\u65e0\u6cd5\u786e\u8ba4", "cannot identify", "unable to identify", "cannot confirm", "unable to confirm")
+    for row in result.itertuples():
+        status = str(row.independent_status).strip().lower()
+        reason = ""
+        if status == "confrimed":
+            status, reason = "confirmed", "spelling_alias: confrimed -> confirmed"
+        note = str(row.human_notes).lower()
+        if status == "pending" and str(row.reviewer).strip() and any(marker in note for marker in inability_markers):
+            status, reason = "uncertain", "explicit_human_note: unable to identify/confirm"
+        effective.append(status)
+        reasons.append(reason)
+    result["independent_status"] = effective
+    result["normalization_note"] = reasons
+    return result
+
+
 def freeze_evaluation(cases: pd.DataFrame, root: Path, settings: dict) -> dict:
     """Uniformly sample test identities once, without looking at matching scores.
 
@@ -86,7 +112,7 @@ def freeze_evaluation(cases: pd.DataFrame, root: Path, settings: dict) -> dict:
             "manual_policy": "Review original pairs before model results. Keep all sampled decisions; do not replace failures.",
         }
         write_json(ppath, protocol)
-    independent = read_review_csv(rpath)
+    independent = normalize_independent_review(read_review_csv(rpath))
     allowed = {"pending", "confirmed", "rejected", "uncertain"}
     if (independent.tree_id.duplicated().any() or set(independent.tree_id) != set(queries.tree_id) or
             not set(independent.independent_status).issubset(allowed)):

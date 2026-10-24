@@ -2,7 +2,7 @@
 R01N01,R01,1,data/TreeID/TreeID/Dataset (With Summer GT)/R01N01_Summer_RGB-12-40-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N01_Winter_RGB-11-23-49.png,FALSE,pending,
 R01N02,R01,2,data/TreeID/TreeID/Dataset (With Summer GT)/R01N02_Summer_RGB-12-40-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N02_Winter_RGB-11-23-52.png,FALSE,pending,
 R01N03,R01,3,data/TreeID/TreeID/Dataset (With Summer GT)/R01N03_Summer_RGB-12-41-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N03_Winter_RGB-11-23-55.png,FALSE,pending,
-R01N04,R01,4,data/TreeID/TreeID/Dataset (With Summer GT)/R01N04_Summer_RGB-12-41-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N04_Winter_RGB-11-24-13.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R01N04,R01,4,data/TreeID/TreeID/Dataset (With Summer GT)/R01N04_Summer_RGB-12-41-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N04_Winter_RGB-11-24-13.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R01N05,R01,5,data/TreeID/TreeID/Dataset (With Summer GT)/R01N05_Summer_RGB-12-41-45.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N05_Winter_RGB-11-24-16.png,FALSE,pending,
 R01N06,R01,6,data/TreeID/TreeID/Dataset (With Summer GT)/R01N06_Summer_RGB-12-41-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N06_Winter_RGB-11-24-20.png,FALSE,pending,
 R01N07,R01,7,data/TreeID/TreeID/Dataset (With Summer GT)/R01N07_Summer_RGB-12-41-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N07_Winter_RGB-11-24-24.png,FALSE,pending,
@@ -33,7 +33,7 @@ R01N31,R01,31,data/TreeID/TreeID/Dataset (With Summer GT)/R01N31_Summer_RGB-12-4
 R01N32,R01,32,data/TreeID/TreeID/Dataset (With Summer GT)/R01N32_Summer_RGB-12-44-54.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N32_Winter_RGB-11-26-30.png,FALSE,pending,
 R01N33,R01,33,data/TreeID/TreeID/Dataset (With Summer GT)/R01N33_Summer_RGB-12-44-58.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N33_Winter_RGB-11-26-33.png,FALSE,pending,
 R01N34,R01,34,data/TreeID/TreeID/Dataset (With Summer GT)/R01N34_Summer_RGB-12-45-16.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N34_Winter_RGB-11-26-40.png,FALSE,pending,
-R01N35,R01,35,data/TreeID/TreeID/Dataset (With Summer GT)/R01N35_Summer_RGB-12-45-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N35_Winter_RGB-11-26-43.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R01N35,R01,35,data/TreeID/TreeID/Dataset (With Summer GT)/R01N35_Summer_RGB-12-45-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N35_Winter_RGB-11-26-43.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R01N36,R01,36,data/TreeID/TreeID/Dataset (With Summer GT)/R01N36_Summer_RGB-12-45-24.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N36_Winter_RGB-11-26-46.png,FALSE,pending,
 R01N37,R01,37,data/TreeID/TreeID/Dataset (With Summer GT)/R01N37_Summer_RGB-12-45-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N37_Winter_RGB-11-26-48.png,FALSE,pending,
 R01N38,R01,38,data/TreeID/TreeID/Dataset (With Summer GT)/R01N38_Summer_RGB-12-45-36.png,data/TreeID/TreeID/Dataset (With Summer GT)/R01N38_Winter_RGB-11-26-55.png,FALSE,pending,
@@ -61,7 +61,7 @@ R02N15,R02,15,data/TreeID/TreeID/Dataset (With Summer GT)/R02N15_Summer_RGB-12-5
 R02N16,R02,16,data/TreeID/TreeID/Dataset (With Summer GT)/R02N16_Summer_RGB-12-51-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N16_Winter_RGB-11-31-38.png,FALSE,pending,
 R02N17,R02,17,data/TreeID/TreeID/Dataset (With Summer GT)/R02N17_Summer_RGB-12-51-44.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N17_Winter_RGB-11-31-41.png,FALSE,pending,
 R02N18,R02,18,data/TreeID/TreeID/Dataset (With Summer GT)/R02N18_Summer_RGB-12-51-51.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N18_Winter_RGB-11-31-44.png,FALSE,pending,
-R02N19,R02,19,data/TreeID/TreeID/Dataset (With Summer GT)/R02N19_Summer_RGB-12-51-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N19_Winter_RGB-11-31-51.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R02N19,R02,19,data/TreeID/TreeID/Dataset (With Summer GT)/R02N19_Summer_RGB-12-51-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N19_Winter_RGB-11-31-51.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R02N20,R02,20,data/TreeID/TreeID/Dataset (With Summer GT)/R02N20_Summer_RGB-12-52-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N20_Winter_RGB-11-31-57.png,FALSE,pending,
 R02N21,R02,21,data/TreeID/TreeID/Dataset (With Summer GT)/R02N21_Summer_RGB-12-52-18.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N21_Winter_RGB-11-32-07.png,FALSE,pending,
 R02N22,R02,22,data/TreeID/TreeID/Dataset (With Summer GT)/R02N22_Summer_RGB-12-52-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N22_Winter_RGB-11-32-10.png,FALSE,pending,
@@ -85,10 +85,10 @@ R02N39,R02,39,data/TreeID/TreeID/Dataset (With Summer GT)/R02N39_Summer_RGB-12-5
 R02N40,R02,40,data/TreeID/TreeID/Dataset (With Summer GT)/R02N40_Summer_RGB-12-54-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N40_Winter_RGB-11-33-38.png,FALSE,pending,
 R02N41,R02,41,data/TreeID/TreeID/Dataset (With Summer GT)/R02N41_Summer_RGB-12-54-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N41_Winter_RGB-11-33-41.png,FALSE,pending,
 R02N42,R02,42,data/TreeID/TreeID/Dataset (With Summer GT)/R02N42_Summer_RGB-12-54-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N42_Winter_RGB-11-33-44.png,FALSE,pending,
-R02N43,R02,43,data/TreeID/TreeID/Dataset (With Summer GT)/R02N43_Summer_RGB-12-54-42.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N43_Winter_RGB-11-33-46.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R02N43,R02,43,data/TreeID/TreeID/Dataset (With Summer GT)/R02N43_Summer_RGB-12-54-42.png,data/TreeID/TreeID/Dataset (With Summer GT)/R02N43_Winter_RGB-11-33-46.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R03N01,R03,1,data/TreeID/TreeID/Dataset (With Summer GT)/R03N01_Summer_RGB-12-56-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N01_Winter_RGB-11-36-27.png,FALSE,pending,
 R03N02,R03,2,data/TreeID/TreeID/Dataset (With Summer GT)/R03N02_Summer_RGB-12-57-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N02_Winter_RGB-11-36-31.png,FALSE,pending,
-R03N03,R03,3,data/TreeID/TreeID/Dataset (With Summer GT)/R03N03_Summer_RGB-12-57-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N03_Winter_RGB-11-36-34.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R03N03,R03,3,data/TreeID/TreeID/Dataset (With Summer GT)/R03N03_Summer_RGB-12-57-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N03_Winter_RGB-11-36-34.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R03N04,R03,4,data/TreeID/TreeID/Dataset (With Summer GT)/R03N04_Summer_RGB-12-57-22.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N04_Winter_RGB-11-36-49.png,FALSE,pending,
 R03N05,R03,5,data/TreeID/TreeID/Dataset (With Summer GT)/R03N05_Summer_RGB-12-57-27.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N05_Winter_RGB-11-36-52.png,FALSE,pending,
 R03N06,R03,6,data/TreeID/TreeID/Dataset (With Summer GT)/R03N06_Summer_RGB-12-57-47.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N06_Winter_RGB-11-37-03.png,FALSE,pending,
@@ -109,7 +109,7 @@ R03N20,R03,20,data/TreeID/TreeID/Dataset (With Summer GT)/R03N20_Summer_RGB-12-5
 R03N21,R03,21,data/TreeID/TreeID/Dataset (With Summer GT)/R03N21_Summer_RGB-12-59-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N21_Winter_RGB-11-38-16.png,FALSE,pending,
 R03N22,R03,22,data/TreeID/TreeID/Dataset (With Summer GT)/R03N22_Summer_RGB-12-59-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N22_Winter_RGB-11-38-19.png,FALSE,pending,
 R03N23,R03,23,data/TreeID/TreeID/Dataset (With Summer GT)/R03N23_Summer_RGB-12-59-44.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N23_Winter_RGB-11-38-21.png,FALSE,pending,
-R03N24,R03,24,data/TreeID/TreeID/Dataset (With Summer GT)/R03N24_Summer_RGB-12-59-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N24_Winter_RGB-11-38-24.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R03N24,R03,24,data/TreeID/TreeID/Dataset (With Summer GT)/R03N24_Summer_RGB-12-59-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N24_Winter_RGB-11-38-24.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R03N25,R03,25,data/TreeID/TreeID/Dataset (With Summer GT)/R03N25_Summer_RGB-12-59-58.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N25_Winter_RGB-11-38-31.png,FALSE,pending,
 R03N26,R03,26,data/TreeID/TreeID/Dataset (With Summer GT)/R03N26_Summer_RGB-13-0-2.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N26_Winter_RGB-11-38-34.png,FALSE,pending,
 R03N27,R03,27,data/TreeID/TreeID/Dataset (With Summer GT)/R03N27_Summer_RGB-13-0-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N27_Winter_RGB-11-38-37.png,FALSE,pending,
@@ -120,27 +120,27 @@ R03N31,R03,31,data/TreeID/TreeID/Dataset (With Summer GT)/R03N31_Summer_RGB-13-0
 R03N32,R03,32,data/TreeID/TreeID/Dataset (With Summer GT)/R03N32_Summer_RGB-13-0-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N32_Winter_RGB-11-39-07.png,FALSE,pending,
 R03N33,R03,33,data/TreeID/TreeID/Dataset (With Summer GT)/R03N33_Summer_RGB-13-0-53.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N33_Winter_RGB-11-39-10.png,FALSE,pending,
 R03N34,R03,34,data/TreeID/TreeID/Dataset (With Summer GT)/R03N34_Summer_RGB-13-0-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R03N34_Winter_RGB-11-39-13.png,FALSE,pending,
-R04N01,R04,1,data/TreeID/TreeID/Dataset (With Summer GT)/R04N01_Summer_RGB-13-3-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N01_Winter_RGB-R04N05_RGB_12-17-20.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N02,R04,2,data/TreeID/TreeID/Dataset (With Summer GT)/R04N02_Summer_RGB-13-3-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N02_Winter_RGB-R04N06_RGB_12-17-23.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N03,R04,3,data/TreeID/TreeID/Dataset (With Summer GT)/R04N03_Summer_RGB-13-4-13.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N03_Winter_RGB-R04N12_RGB_12-17-49.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N04,R04,4,data/TreeID/TreeID/Dataset (With Summer GT)/R04N04_Summer_RGB-13-4-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N04_Winter_RGB-R04N15_RGB_12-17-58.png,FALSE,rejected,主干结节不同
-R04N05,R04,5,data/TreeID/TreeID/Dataset (With Summer GT)/R04N05_Summer_RGB-13-4-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N05_Winter_RGB-R04N17_RGB_12-18-04.png,FALSE,rejected,枝干不同
-R04N06,R04,6,data/TreeID/TreeID/Dataset (With Summer GT)/R04N06_Summer_RGB-13-4-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N06_Winter_RGB-R04N18_RGB_12-18-07.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N07,R04,7,data/TreeID/TreeID/Dataset (With Summer GT)/R04N07_Summer_RGB-13-4-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N07_Winter_RGB-R04N22_RGB_12-18-32.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N08,R04,8,data/TreeID/TreeID/Dataset (With Summer GT)/R04N08_Summer_RGB-13-5-3.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N08_Winter_RGB-R04N23_RGB_12-18-36.png,FALSE,rejected,主干结节不同
-R04N09,R04,9,data/TreeID/TreeID/Dataset (With Summer GT)/R04N09_Summer_RGB-13-5-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N09_Winter_RGB-R04N24_RGB_12-18-39.png,TRUE,pending,夏季主干被完全遮挡，无法确认
-R04N10,R04,10,data/TreeID/TreeID/Dataset (With Summer GT)/R04N10_Summer_RGB-13-5-12.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N10_Winter_RGB-R04N26_RGB_12-18-46.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N11,R04,11,data/TreeID/TreeID/Dataset (With Summer GT)/R04N11_Summer_RGB-13-5-18.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N11_Winter_RGB-R04N27_RGB_12-18-49.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N12,R04,12,data/TreeID/TreeID/Dataset (With Summer GT)/R04N12_Summer_RGB-13-6-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N12_Winter_RGB-R04N36_RGB_12-19-25.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N13,R04,13,data/TreeID/TreeID/Dataset (With Summer GT)/R04N13_Summer_RGB-13-6-19.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N13_Winter_RGB-R04N39_RGB_12-19-35.png,FALSE,rejected,主干弯曲不同
-R04N14,R04,14,data/TreeID/TreeID/Dataset (With Summer GT)/R04N14_Summer_RGB-13-6-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N14_Winter_RGB-R04N41_RGB_12-19-42.png,FALSE,rejected,主干弯曲不同
-R04N15,R04,15,data/TreeID/TreeID/Dataset (With Summer GT)/R04N15_Summer_RGB-13-6-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N15_Winter_RGB-R04N42_RGB_12-19-45.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N16,R04,16,data/TreeID/TreeID/Dataset (With Summer GT)/R04N16_Summer_RGB-13-6-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N16_Winter_RGB-R04N43_RGB_12-19-48.png,FALSE,rejected,主干结节不同
-R04N17,R04,17,data/TreeID/TreeID/Dataset (With Summer GT)/R04N17_Summer_RGB-13-6-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N17_Winter_RGB-R04N44_RGB_12-19-52.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N18,R04,18,data/TreeID/TreeID/Dataset (With Summer GT)/R04N18_Summer_RGB-13-7-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N18_Winter_RGB-R04N49_RGB_12-20-14.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N19,R04,19,data/TreeID/TreeID/Dataset (With Summer GT)/R04N19_Summer_RGB-13-7-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N19_Winter_RGB-R04N51_RGB_12-20-21.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N20,R04,20,data/TreeID/TreeID/Dataset (With Summer GT)/R04N20_Summer_RGB-13-7-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N20_Winter_RGB-R04N52_RGB_12-20-25.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R04N21,R04,21,data/TreeID/TreeID/Dataset (With Summer GT)/R04N21_Summer_RGB-13-7-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N21_Winter_RGB-R04N53_RGB_12-20-29.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R04N01,R04,1,data/TreeID/TreeID/Dataset (With Summer GT)/R04N01_Summer_RGB-13-3-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N01_Winter_RGB-R04N05_RGB_12-17-20.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N02,R04,2,data/TreeID/TreeID/Dataset (With Summer GT)/R04N02_Summer_RGB-13-3-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N02_Winter_RGB-R04N06_RGB_12-17-23.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N03,R04,3,data/TreeID/TreeID/Dataset (With Summer GT)/R04N03_Summer_RGB-13-4-13.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N03_Winter_RGB-R04N12_RGB_12-17-49.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N04,R04,4,data/TreeID/TreeID/Dataset (With Summer GT)/R04N04_Summer_RGB-13-4-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N04_Winter_RGB-R04N15_RGB_12-17-58.png,FALSE,rejected,Different trunk knots.
+R04N05,R04,5,data/TreeID/TreeID/Dataset (With Summer GT)/R04N05_Summer_RGB-13-4-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N05_Winter_RGB-R04N17_RGB_12-18-04.png,FALSE,rejected,Different branch structure.
+R04N06,R04,6,data/TreeID/TreeID/Dataset (With Summer GT)/R04N06_Summer_RGB-13-4-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N06_Winter_RGB-R04N18_RGB_12-18-07.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N07,R04,7,data/TreeID/TreeID/Dataset (With Summer GT)/R04N07_Summer_RGB-13-4-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N07_Winter_RGB-R04N22_RGB_12-18-32.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N08,R04,8,data/TreeID/TreeID/Dataset (With Summer GT)/R04N08_Summer_RGB-13-5-3.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N08_Winter_RGB-R04N23_RGB_12-18-36.png,FALSE,rejected,Different trunk knots.
+R04N09,R04,9,data/TreeID/TreeID/Dataset (With Summer GT)/R04N09_Summer_RGB-13-5-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N09_Winter_RGB-R04N24_RGB_12-18-39.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
+R04N10,R04,10,data/TreeID/TreeID/Dataset (With Summer GT)/R04N10_Summer_RGB-13-5-12.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N10_Winter_RGB-R04N26_RGB_12-18-46.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N11,R04,11,data/TreeID/TreeID/Dataset (With Summer GT)/R04N11_Summer_RGB-13-5-18.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N11_Winter_RGB-R04N27_RGB_12-18-49.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N12,R04,12,data/TreeID/TreeID/Dataset (With Summer GT)/R04N12_Summer_RGB-13-6-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N12_Winter_RGB-R04N36_RGB_12-19-25.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N13,R04,13,data/TreeID/TreeID/Dataset (With Summer GT)/R04N13_Summer_RGB-13-6-19.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N13_Winter_RGB-R04N39_RGB_12-19-35.png,FALSE,rejected,Different trunk curvature.
+R04N14,R04,14,data/TreeID/TreeID/Dataset (With Summer GT)/R04N14_Summer_RGB-13-6-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N14_Winter_RGB-R04N41_RGB_12-19-42.png,FALSE,rejected,Different trunk curvature.
+R04N15,R04,15,data/TreeID/TreeID/Dataset (With Summer GT)/R04N15_Summer_RGB-13-6-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N15_Winter_RGB-R04N42_RGB_12-19-45.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N16,R04,16,data/TreeID/TreeID/Dataset (With Summer GT)/R04N16_Summer_RGB-13-6-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N16_Winter_RGB-R04N43_RGB_12-19-48.png,FALSE,rejected,Different trunk knots.
+R04N17,R04,17,data/TreeID/TreeID/Dataset (With Summer GT)/R04N17_Summer_RGB-13-6-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N17_Winter_RGB-R04N44_RGB_12-19-52.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N18,R04,18,data/TreeID/TreeID/Dataset (With Summer GT)/R04N18_Summer_RGB-13-7-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N18_Winter_RGB-R04N49_RGB_12-20-14.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N19,R04,19,data/TreeID/TreeID/Dataset (With Summer GT)/R04N19_Summer_RGB-13-7-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N19_Winter_RGB-R04N51_RGB_12-20-21.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N20,R04,20,data/TreeID/TreeID/Dataset (With Summer GT)/R04N20_Summer_RGB-13-7-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N20_Winter_RGB-R04N52_RGB_12-20-25.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R04N21,R04,21,data/TreeID/TreeID/Dataset (With Summer GT)/R04N21_Summer_RGB-13-7-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R04N21_Winter_RGB-R04N53_RGB_12-20-29.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R05N01,R05,1,data/TreeID/TreeID/Dataset (With Summer GT)/R05N01_Summer_RGB-13-9-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N01_Winter_RGB-11-46-47.png,FALSE,pending,
 R05N02,R05,2,data/TreeID/TreeID/Dataset (With Summer GT)/R05N02_Summer_RGB-13-9-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N02_Winter_RGB-11-46-51.png,FALSE,pending,
 R05N03,R05,3,data/TreeID/TreeID/Dataset (With Summer GT)/R05N03_Summer_RGB-13-9-48.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N03_Winter_RGB-11-46-54.png,FALSE,pending,
@@ -165,8 +165,8 @@ R05N21,R05,21,data/TreeID/TreeID/Dataset (With Summer GT)/R05N21_Summer_RGB-13-1
 R05N22,R05,22,data/TreeID/TreeID/Dataset (With Summer GT)/R05N22_Summer_RGB-13-11-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N22_Winter_RGB-11-48-35.png,FALSE,pending,
 R05N23,R05,23,data/TreeID/TreeID/Dataset (With Summer GT)/R05N23_Summer_RGB-13-12-3.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N23_Winter_RGB-11-48-38.png,FALSE,pending,
 R05N24,R05,24,data/TreeID/TreeID/Dataset (With Summer GT)/R05N24_Summer_RGB-13-12-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N24_Winter_RGB-11-48-41.png,FALSE,pending,
-R05N25,R05,25,data/TreeID/TreeID/Dataset (With Summer GT)/R05N25_Summer_RGB-13-12-15.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N25_Winter_RGB-11-48-47.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
-R05N26,R05,26,data/TreeID/TreeID/Dataset (With Summer GT)/R05N26_Summer_RGB-13-12-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N26_Winter_RGB-11-48-50.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R05N25,R05,25,data/TreeID/TreeID/Dataset (With Summer GT)/R05N25_Summer_RGB-13-12-15.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N25_Winter_RGB-11-48-47.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
+R05N26,R05,26,data/TreeID/TreeID/Dataset (With Summer GT)/R05N26_Summer_RGB-13-12-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N26_Winter_RGB-11-48-50.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R05N27,R05,27,data/TreeID/TreeID/Dataset (With Summer GT)/R05N27_Summer_RGB-13-12-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N27_Winter_RGB-11-48-53.png,FALSE,pending,
 R05N28,R05,28,data/TreeID/TreeID/Dataset (With Summer GT)/R05N28_Summer_RGB-13-12-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N28_Winter_RGB-11-48-56.png,FALSE,pending,
 R05N29,R05,29,data/TreeID/TreeID/Dataset (With Summer GT)/R05N29_Summer_RGB-13-12-42.png,data/TreeID/TreeID/Dataset (With Summer GT)/R05N29_Winter_RGB-11-49-03.png,FALSE,pending,
@@ -191,7 +191,7 @@ R06N13,R06,13,data/TreeID/TreeID/Dataset (With Summer GT)/R06N13_Summer_RGB-13-1
 R06N14,R06,14,data/TreeID/TreeID/Dataset (With Summer GT)/R06N14_Summer_RGB-13-17-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N14_Winter_RGB-11-52-45.png,FALSE,pending,
 R06N15,R06,15,data/TreeID/TreeID/Dataset (With Summer GT)/R06N15_Summer_RGB-13-17-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N15_Winter_RGB-11-52-51.png,FALSE,pending,
 R06N16,R06,16,data/TreeID/TreeID/Dataset (With Summer GT)/R06N16_Summer_RGB-13-17-11.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N16_Winter_RGB-11-52-54.png,FALSE,pending,
-R06N17,R06,17,data/TreeID/TreeID/Dataset (With Summer GT)/R06N17_Summer_RGB-13-17-19.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N17_Winter_RGB-11-53-01.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R06N17,R06,17,data/TreeID/TreeID/Dataset (With Summer GT)/R06N17_Summer_RGB-13-17-19.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N17_Winter_RGB-11-53-01.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R06N18,R06,18,data/TreeID/TreeID/Dataset (With Summer GT)/R06N18_Summer_RGB-13-17-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N18_Winter_RGB-11-53-04.png,FALSE,pending,
 R06N19,R06,19,data/TreeID/TreeID/Dataset (With Summer GT)/R06N19_Summer_RGB-13-17-27.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N19_Winter_RGB-11-53-06.png,FALSE,pending,
 R06N20,R06,20,data/TreeID/TreeID/Dataset (With Summer GT)/R06N20_Summer_RGB-13-17-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N20_Winter_RGB-11-53-09.png,FALSE,pending,
@@ -199,7 +199,7 @@ R06N21,R06,21,data/TreeID/TreeID/Dataset (With Summer GT)/R06N21_Summer_RGB-13-1
 R06N22,R06,22,data/TreeID/TreeID/Dataset (With Summer GT)/R06N22_Summer_RGB-13-17-44.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N22_Winter_RGB-11-53-20.png,FALSE,pending,
 R06N23,R06,23,data/TreeID/TreeID/Dataset (With Summer GT)/R06N23_Summer_RGB-13-17-53.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N23_Winter_RGB-11-53-26.png,FALSE,pending,
 R06N24,R06,24,data/TreeID/TreeID/Dataset (With Summer GT)/R06N24_Summer_RGB-13-18-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N24_Winter_RGB-11-53-32.png,FALSE,pending,
-R06N25,R06,25,data/TreeID/TreeID/Dataset (With Summer GT)/R06N25_Summer_RGB-13-18-8.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N25_Winter_RGB-11-53-38.png,FALSE,rejected,主干结节不同
+R06N25,R06,25,data/TreeID/TreeID/Dataset (With Summer GT)/R06N25_Summer_RGB-13-18-8.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N25_Winter_RGB-11-53-38.png,FALSE,rejected,Different trunk knots.
 R06N26,R06,26,data/TreeID/TreeID/Dataset (With Summer GT)/R06N26_Summer_RGB-13-18-12.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N26_Winter_RGB-11-53-42.png,FALSE,pending,
 R06N27,R06,27,data/TreeID/TreeID/Dataset (With Summer GT)/R06N27_Summer_RGB-13-18-16.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N27_Winter_RGB-11-53-45.png,FALSE,pending,
 R06N28,R06,28,data/TreeID/TreeID/Dataset (With Summer GT)/R06N28_Summer_RGB-13-18-22.png,data/TreeID/TreeID/Dataset (With Summer GT)/R06N28_Winter_RGB-11-53-48.png,FALSE,pending,
@@ -221,7 +221,7 @@ R07N11,R07,11,data/TreeID/TreeID/Dataset (With Summer GT)/R07N11_Summer_RGB-13-2
 R07N12,R07,12,data/TreeID/TreeID/Dataset (With Summer GT)/R07N12_Summer_RGB-13-21-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N12_Winter_RGB-11-57-49.png,FALSE,pending,
 R07N13,R07,13,data/TreeID/TreeID/Dataset (With Summer GT)/R07N13_Summer_RGB-13-21-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N13_Winter_RGB-11-57-52.png,FALSE,pending,
 R07N14,R07,14,data/TreeID/TreeID/Dataset (With Summer GT)/R07N14_Summer_RGB-13-22-2.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N14_Winter_RGB-11-57-55.png,FALSE,pending,
-R07N15,R07,15,data/TreeID/TreeID/Dataset (With Summer GT)/R07N15_Summer_RGB-13-22-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N15_Winter_RGB-11-57-58.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R07N15,R07,15,data/TreeID/TreeID/Dataset (With Summer GT)/R07N15_Summer_RGB-13-22-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N15_Winter_RGB-11-57-58.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R07N16,R07,16,data/TreeID/TreeID/Dataset (With Summer GT)/R07N16_Summer_RGB-13-22-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N16_Winter_RGB-11-58-08.png,FALSE,pending,
 R07N17,R07,17,data/TreeID/TreeID/Dataset (With Summer GT)/R07N17_Summer_RGB-13-22-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N17_Winter_RGB-11-58-11.png,FALSE,pending,
 R07N18,R07,18,data/TreeID/TreeID/Dataset (With Summer GT)/R07N18_Summer_RGB-13-22-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N18_Winter_RGB-11-58-17.png,FALSE,pending,
@@ -233,7 +233,7 @@ R07N23,R07,23,data/TreeID/TreeID/Dataset (With Summer GT)/R07N23_Summer_RGB-13-2
 R07N24,R07,24,data/TreeID/TreeID/Dataset (With Summer GT)/R07N24_Summer_RGB-13-22-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N24_Winter_RGB-11-58-34.png,FALSE,pending,
 R07N25,R07,25,data/TreeID/TreeID/Dataset (With Summer GT)/R07N25_Summer_RGB-13-22-54.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N25_Winter_RGB-11-58-37.png,FALSE,pending,
 R07N26,R07,26,data/TreeID/TreeID/Dataset (With Summer GT)/R07N26_Summer_RGB-13-22-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N26_Winter_RGB-11-58-40.png,FALSE,pending,
-R07N27,R07,27,data/TreeID/TreeID/Dataset (With Summer GT)/R07N27_Summer_RGB-13-23-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N27_Winter_RGB-11-58-46.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R07N27,R07,27,data/TreeID/TreeID/Dataset (With Summer GT)/R07N27_Summer_RGB-13-23-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N27_Winter_RGB-11-58-46.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R07N28,R07,28,data/TreeID/TreeID/Dataset (With Summer GT)/R07N28_Summer_RGB-13-23-10.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N28_Winter_RGB-11-58-49.png,FALSE,pending,
 R07N29,R07,29,data/TreeID/TreeID/Dataset (With Summer GT)/R07N29_Summer_RGB-13-23-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N29_Winter_RGB-11-59-05.png,FALSE,pending,
 R07N30,R07,30,data/TreeID/TreeID/Dataset (With Summer GT)/R07N30_Summer_RGB-13-23-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R07N30_Winter_RGB-11-59-12.png,FALSE,pending,
@@ -243,10 +243,10 @@ R08N01,R08,1,data/TreeID/TreeID/Dataset (With Summer GT)/R08N01_Summer_RGB-13-25
 R08N02,R08,2,data/TreeID/TreeID/Dataset (With Summer GT)/R08N02_Summer_RGB-13-25-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N02_Winter_RGB-12-01-15.png,FALSE,pending,
 R08N03,R08,3,data/TreeID/TreeID/Dataset (With Summer GT)/R08N03_Summer_RGB-13-26-10.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N03_Winter_RGB-12-01-28.png,FALSE,pending,
 R08N04,R08,4,data/TreeID/TreeID/Dataset (With Summer GT)/R08N04_Summer_RGB-13-26-13.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N04_Winter_RGB-12-01-31.png,FALSE,pending,
-R08N05,R08,5,data/TreeID/TreeID/Dataset (With Summer GT)/R08N05_Summer_RGB-13-26-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N05_Winter_RGB-12-01-39.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R08N05,R08,5,data/TreeID/TreeID/Dataset (With Summer GT)/R08N05_Summer_RGB-13-26-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N05_Winter_RGB-12-01-39.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R08N06,R08,6,data/TreeID/TreeID/Dataset (With Summer GT)/R08N06_Summer_RGB-13-26-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N06_Winter_RGB-12-01-42.png,FALSE,pending,
 R08N07,R08,7,data/TreeID/TreeID/Dataset (With Summer GT)/R08N07_Summer_RGB-13-26-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N07_Winter_RGB-12-01-48.png,FALSE,pending,
-R08N08,R08,8,data/TreeID/TreeID/Dataset (With Summer GT)/R08N08_Summer_RGB-13-26-36.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N08_Winter_RGB-12-01-51.png,FALSE,rejected,"主干结节,弯曲不同"
+R08N08,R08,8,data/TreeID/TreeID/Dataset (With Summer GT)/R08N08_Summer_RGB-13-26-36.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N08_Winter_RGB-12-01-51.png,FALSE,rejected,Different trunk knots and curvature.
 R08N09,R08,9,data/TreeID/TreeID/Dataset (With Summer GT)/R08N09_Summer_RGB-13-26-45.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N09_Winter_RGB-12-01-59.png,FALSE,pending,
 R08N10,R08,10,data/TreeID/TreeID/Dataset (With Summer GT)/R08N10_Summer_RGB-13-27-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N10_Winter_RGB-12-02-18.png,FALSE,pending,
 R08N11,R08,11,data/TreeID/TreeID/Dataset (With Summer GT)/R08N11_Summer_RGB-13-27-9.png,data/TreeID/TreeID/Dataset (With Summer GT)/R08N11_Winter_RGB-12-02-21.png,FALSE,pending,
@@ -282,11 +282,11 @@ R09N18,R09,18,data/TreeID/TreeID/Dataset (With Summer GT)/R09N18_Summer_RGB-13-3
 R09N19,R09,19,data/TreeID/TreeID/Dataset (With Summer GT)/R09N19_Summer_RGB-13-32-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N19_Winter_RGB-12-06-48.png,FALSE,pending,
 R09N20,R09,20,data/TreeID/TreeID/Dataset (With Summer GT)/R09N20_Summer_RGB-13-32-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N20_Winter_RGB-12-06-51.png,FALSE,pending,
 R09N21,R09,21,data/TreeID/TreeID/Dataset (With Summer GT)/R09N21_Summer_RGB-13-32-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N21_Winter_RGB-12-06-54.png,FALSE,pending,
-R09N22,R09,22,data/TreeID/TreeID/Dataset (With Summer GT)/R09N22_Summer_RGB-13-32-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N22_Winter_RGB-12-06-57.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R09N22,R09,22,data/TreeID/TreeID/Dataset (With Summer GT)/R09N22_Summer_RGB-13-32-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N22_Winter_RGB-12-06-57.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R09N23,R09,23,data/TreeID/TreeID/Dataset (With Summer GT)/R09N23_Summer_RGB-13-32-53.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N23_Winter_RGB-12-07-01.png,FALSE,pending,
 R09N24,R09,24,data/TreeID/TreeID/Dataset (With Summer GT)/R09N24_Summer_RGB-13-32-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N24_Winter_RGB-12-07-04.png,FALSE,pending,
 R09N25,R09,25,data/TreeID/TreeID/Dataset (With Summer GT)/R09N25_Summer_RGB-13-33-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N25_Winter_RGB-12-07-07.png,FALSE,pending,
-R09N26,R09,26,data/TreeID/TreeID/Dataset (With Summer GT)/R09N26_Summer_RGB-13-33-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N26_Winter_RGB-12-07-10.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R09N26,R09,26,data/TreeID/TreeID/Dataset (With Summer GT)/R09N26_Summer_RGB-13-33-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N26_Winter_RGB-12-07-10.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R09N27,R09,27,data/TreeID/TreeID/Dataset (With Summer GT)/R09N27_Summer_RGB-13-33-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N27_Winter_RGB-12-07-17.png,FALSE,pending,
 R09N28,R09,28,data/TreeID/TreeID/Dataset (With Summer GT)/R09N28_Summer_RGB-13-33-12.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N28_Winter_RGB-12-07-22.png,FALSE,pending,
 R09N29,R09,29,data/TreeID/TreeID/Dataset (With Summer GT)/R09N29_Summer_RGB-13-33-16.png,data/TreeID/TreeID/Dataset (With Summer GT)/R09N29_Winter_RGB-12-07-26.png,FALSE,pending,
@@ -310,7 +310,7 @@ R10N12,R10,12,data/TreeID/TreeID/Dataset (With Summer GT)/R10N12_Summer_RGB-13-3
 R10N13,R10,13,data/TreeID/TreeID/Dataset (With Summer GT)/R10N13_Summer_RGB-13-37-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N13_Winter_RGB-12-10-42.png,FALSE,pending,
 R10N14,R10,14,data/TreeID/TreeID/Dataset (With Summer GT)/R10N14_Summer_RGB-13-37-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N14_Winter_RGB-12-10-45.png,FALSE,pending,
 R10N15,R10,15,data/TreeID/TreeID/Dataset (With Summer GT)/R10N15_Summer_RGB-13-37-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N15_Winter_RGB-12-10-49.png,FALSE,pending,
-R10N16,R10,16,data/TreeID/TreeID/Dataset (With Summer GT)/R10N16_Summer_RGB-13-37-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N16_Winter_RGB-12-10-52.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R10N16,R10,16,data/TreeID/TreeID/Dataset (With Summer GT)/R10N16_Summer_RGB-13-37-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N16_Winter_RGB-12-10-52.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R10N17,R10,17,data/TreeID/TreeID/Dataset (With Summer GT)/R10N17_Summer_RGB-13-37-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N17_Winter_RGB-12-10-55.png,FALSE,pending,
 R10N18,R10,18,data/TreeID/TreeID/Dataset (With Summer GT)/R10N18_Summer_RGB-13-37-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N18_Winter_RGB-12-10-58.png,FALSE,pending,
 R10N19,R10,19,data/TreeID/TreeID/Dataset (With Summer GT)/R10N19_Summer_RGB-13-37-41.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N19_Winter_RGB-12-11-01.png,FALSE,pending,
@@ -318,7 +318,7 @@ R10N20,R10,20,data/TreeID/TreeID/Dataset (With Summer GT)/R10N20_Summer_RGB-13-3
 R10N21,R10,21,data/TreeID/TreeID/Dataset (With Summer GT)/R10N21_Summer_RGB-13-37-58.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N21_Winter_RGB-12-11-14.png,FALSE,pending,
 R10N22,R10,22,data/TreeID/TreeID/Dataset (With Summer GT)/R10N22_Summer_RGB-13-38-2.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N22_Winter_RGB-12-11-17.png,FALSE,pending,
 R10N23,R10,23,data/TreeID/TreeID/Dataset (With Summer GT)/R10N23_Summer_RGB-13-38-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N23_Winter_RGB-12-11-20.png,FALSE,pending,
-R10N24,R10,24,data/TreeID/TreeID/Dataset (With Summer GT)/R10N24_Summer_RGB-13-38-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N24_Winter_RGB-12-11-34.png,FALSE,rejected,"主干结节,弯曲不同"
+R10N24,R10,24,data/TreeID/TreeID/Dataset (With Summer GT)/R10N24_Summer_RGB-13-38-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N24_Winter_RGB-12-11-34.png,FALSE,rejected,Different trunk knots and curvature.
 R10N25,R10,25,data/TreeID/TreeID/Dataset (With Summer GT)/R10N25_Summer_RGB-13-38-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N25_Winter_RGB-12-11-38.png,FALSE,pending,
 R10N26,R10,26,data/TreeID/TreeID/Dataset (With Summer GT)/R10N26_Summer_RGB-13-38-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N26_Winter_RGB-12-11-51.png,FALSE,pending,
 R10N27,R10,27,data/TreeID/TreeID/Dataset (With Summer GT)/R10N27_Summer_RGB-13-38-47.png,data/TreeID/TreeID/Dataset (With Summer GT)/R10N27_Winter_RGB-12-11-58.png,FALSE,pending,
@@ -328,12 +328,12 @@ R11N01,R11,1,data/TreeID/TreeID/Dataset (With Summer GT)/R11N01_Summer_RGB-13-41
 R11N02,R11,2,data/TreeID/TreeID/Dataset (With Summer GT)/R11N02_Summer_RGB-13-41-8.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N02_Winter_RGB-12-14-20.png,FALSE,pending,
 R11N03,R11,3,data/TreeID/TreeID/Dataset (With Summer GT)/R11N03_Summer_RGB-13-41-11.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N03_Winter_RGB-12-14-23.png,FALSE,pending,
 R11N04,R11,4,data/TreeID/TreeID/Dataset (With Summer GT)/R11N04_Summer_RGB-13-41-14.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N04_Winter_RGB-12-14-26.png,FALSE,pending,
-R11N05,R11,5,data/TreeID/TreeID/Dataset (With Summer GT)/R11N05_Summer_RGB-13-41-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N05_Winter_RGB-12-14-33.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R11N05,R11,5,data/TreeID/TreeID/Dataset (With Summer GT)/R11N05_Summer_RGB-13-41-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N05_Winter_RGB-12-14-33.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R11N06,R11,6,data/TreeID/TreeID/Dataset (With Summer GT)/R11N06_Summer_RGB-13-41-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N06_Winter_RGB-12-14-39.png,FALSE,pending,
 R11N07,R11,7,data/TreeID/TreeID/Dataset (With Summer GT)/R11N07_Summer_RGB-13-41-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N07_Winter_RGB-12-14-48.png,FALSE,pending,
 R11N08,R11,8,data/TreeID/TreeID/Dataset (With Summer GT)/R11N08_Summer_RGB-13-41-37.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N08_Winter_RGB-12-14-51.png,FALSE,pending,
 R11N09,R11,9,data/TreeID/TreeID/Dataset (With Summer GT)/R11N09_Summer_RGB-13-41-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N09_Winter_RGB-12-15-00.png,FALSE,pending,
-R11N10,R11,10,data/TreeID/TreeID/Dataset (With Summer GT)/R11N10_Summer_RGB-13-41-51.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N10_Winter_RGB-12-15-06.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R11N10,R11,10,data/TreeID/TreeID/Dataset (With Summer GT)/R11N10_Summer_RGB-13-41-51.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N10_Winter_RGB-12-15-06.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R11N11,R11,11,data/TreeID/TreeID/Dataset (With Summer GT)/R11N11_Summer_RGB-13-41-54.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N11_Winter_RGB-12-15-09.png,FALSE,pending,
 R11N12,R11,12,data/TreeID/TreeID/Dataset (With Summer GT)/R11N12_Summer_RGB-13-41-56.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N12_Winter_RGB-12-15-12.png,FALSE,pending,
 R11N13,R11,13,data/TreeID/TreeID/Dataset (With Summer GT)/R11N13_Summer_RGB-13-42-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R11N13_Winter_RGB-12-15-21.png,FALSE,pending,
@@ -364,7 +364,7 @@ R12N15,R12,15,data/TreeID/TreeID/Dataset (With Summer GT)/R12N15_Summer_RGB-13-4
 R12N16,R12,16,data/TreeID/TreeID/Dataset (With Summer GT)/R12N16_Summer_RGB-13-46-21.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N16_Winter_RGB-12-51-41.png,FALSE,pending,
 R12N17,R12,17,data/TreeID/TreeID/Dataset (With Summer GT)/R12N17_Summer_RGB-13-46-24.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N17_Winter_RGB-12-51-45.png,FALSE,pending,
 R12N18,R12,18,data/TreeID/TreeID/Dataset (With Summer GT)/R12N18_Summer_RGB-13-46-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N18_Winter_RGB-12-51-48.png,FALSE,pending,
-R12N19,R12,19,data/TreeID/TreeID/Dataset (With Summer GT)/R12N19_Summer_RGB-13-46-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N19_Winter_RGB-12-51-54.png,FALSE,rejected,"主干结节,弯曲不同"
+R12N19,R12,19,data/TreeID/TreeID/Dataset (With Summer GT)/R12N19_Summer_RGB-13-46-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N19_Winter_RGB-12-51-54.png,FALSE,rejected,Different trunk knots and curvature.
 R12N20,R12,20,data/TreeID/TreeID/Dataset (With Summer GT)/R12N20_Summer_RGB-13-46-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N20_Winter_RGB-12-51-57.png,FALSE,pending,
 R12N21,R12,21,data/TreeID/TreeID/Dataset (With Summer GT)/R12N21_Summer_RGB-13-46-44.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N21_Winter_RGB-12-52-06.png,FALSE,pending,
 R12N22,R12,22,data/TreeID/TreeID/Dataset (With Summer GT)/R12N22_Summer_RGB-13-46-47.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N22_Winter_RGB-12-52-10.png,FALSE,pending,
@@ -376,7 +376,7 @@ R12N27,R12,27,data/TreeID/TreeID/Dataset (With Summer GT)/R12N27_Summer_RGB-13-4
 R12N28,R12,28,data/TreeID/TreeID/Dataset (With Summer GT)/R12N28_Summer_RGB-13-47-9.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N28_Winter_RGB-12-52-32.png,FALSE,pending,
 R12N29,R12,29,data/TreeID/TreeID/Dataset (With Summer GT)/R12N29_Summer_RGB-13-47-18.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N29_Winter_RGB-12-52-40.png,FALSE,pending,
 R12N30,R12,30,data/TreeID/TreeID/Dataset (With Summer GT)/R12N30_Summer_RGB-13-47-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N30_Winter_RGB-12-52-46.png,FALSE,pending,
-R12N31,R12,31,data/TreeID/TreeID/Dataset (With Summer GT)/R12N31_Summer_RGB-13-47-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N31_Winter_RGB-12-52-53.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R12N31,R12,31,data/TreeID/TreeID/Dataset (With Summer GT)/R12N31_Summer_RGB-13-47-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N31_Winter_RGB-12-52-53.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R12N32,R12,32,data/TreeID/TreeID/Dataset (With Summer GT)/R12N32_Summer_RGB-13-47-31.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N32_Winter_RGB-12-52-56.png,FALSE,pending,
 R12N33,R12,33,data/TreeID/TreeID/Dataset (With Summer GT)/R12N33_Summer_RGB-13-47-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N33_Winter_RGB-12-53-03.png,FALSE,pending,
 R12N34,R12,34,data/TreeID/TreeID/Dataset (With Summer GT)/R12N34_Summer_RGB-13-47-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R12N34_Winter_RGB-12-53-07.png,FALSE,pending,
@@ -407,17 +407,17 @@ R13N24,R13,24,data/TreeID/TreeID/Dataset (With Summer GT)/R13N24_Summer_RGB-13-5
 R13N25,R13,25,data/TreeID/TreeID/Dataset (With Summer GT)/R13N25_Summer_RGB-13-51-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N25_Winter_RGB-12-56-59.png,FALSE,pending,
 R13N26,R13,26,data/TreeID/TreeID/Dataset (With Summer GT)/R13N26_Summer_RGB-13-51-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N26_Winter_RGB-12-57-05.png,FALSE,pending,
 R13N27,R13,27,data/TreeID/TreeID/Dataset (With Summer GT)/R13N27_Summer_RGB-13-51-43.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N27_Winter_RGB-12-57-09.png,FALSE,pending,
-R13N28,R13,28,data/TreeID/TreeID/Dataset (With Summer GT)/R13N28_Summer_RGB-13-51-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N28_Winter_RGB-12-57-11.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R13N28,R13,28,data/TreeID/TreeID/Dataset (With Summer GT)/R13N28_Summer_RGB-13-51-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N28_Winter_RGB-12-57-11.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R13N29,R13,29,data/TreeID/TreeID/Dataset (With Summer GT)/R13N29_Summer_RGB-13-51-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N29_Winter_RGB-12-57-14.png,FALSE,pending,
 R13N30,R13,30,data/TreeID/TreeID/Dataset (With Summer GT)/R13N30_Summer_RGB-13-51-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N30_Winter_RGB-12-57-20.png,FALSE,pending,
 R13N31,R13,31,data/TreeID/TreeID/Dataset (With Summer GT)/R13N31_Summer_RGB-13-52-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N31_Winter_RGB-12-57-26.png,FALSE,pending,
 R13N32,R13,32,data/TreeID/TreeID/Dataset (With Summer GT)/R13N32_Summer_RGB-13-52-7.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N32_Winter_RGB-12-57-31.png,FALSE,pending,
-R13N33,R13,33,data/TreeID/TreeID/Dataset (With Summer GT)/R13N33_Summer_RGB-13-52-10.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N33_Winter_RGB-12-57-32.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R13N33,R13,33,data/TreeID/TreeID/Dataset (With Summer GT)/R13N33_Summer_RGB-13-52-10.png,data/TreeID/TreeID/Dataset (With Summer GT)/R13N33_Winter_RGB-12-57-32.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R14N01,R14,1,data/TreeID/TreeID/Dataset (With Summer GT)/R14N01_Summer_RGB-13-58-29.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N01_Winter_RGB-12-59-43.png,FALSE,pending,
 R14N02,R14,2,data/TreeID/TreeID/Dataset (With Summer GT)/R14N02_Summer_RGB-13-58-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N02_Winter_RGB-12-59-46.png,FALSE,pending,
 R14N03,R14,3,data/TreeID/TreeID/Dataset (With Summer GT)/R14N03_Summer_RGB-13-58-35.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N03_Winter_RGB-12-59-49.png,FALSE,pending,
 R14N04,R14,4,data/TreeID/TreeID/Dataset (With Summer GT)/R14N04_Summer_RGB-13-58-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N04_Winter_RGB-12-59-52.png,FALSE,pending,
-R14N05,R14,5,data/TreeID/TreeID/Dataset (With Summer GT)/R14N05_Summer_RGB-13-58-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N05_Winter_RGB-12-59-55.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R14N05,R14,5,data/TreeID/TreeID/Dataset (With Summer GT)/R14N05_Summer_RGB-13-58-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N05_Winter_RGB-12-59-55.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R14N06,R14,6,data/TreeID/TreeID/Dataset (With Summer GT)/R14N06_Summer_RGB-13-58-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N06_Winter_RGB-13-00-01.png,FALSE,pending,
 R14N07,R14,7,data/TreeID/TreeID/Dataset (With Summer GT)/R14N07_Summer_RGB-13-58-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N07_Winter_RGB-13-00-04.png,FALSE,pending,
 R14N08,R14,8,data/TreeID/TreeID/Dataset (With Summer GT)/R14N08_Summer_RGB-13-58-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N08_Winter_RGB-13-00-07.png,FALSE,pending,
@@ -431,7 +431,7 @@ R14N15,R14,15,data/TreeID/TreeID/Dataset (With Summer GT)/R14N15_Summer_RGB-13-5
 R14N16,R14,16,data/TreeID/TreeID/Dataset (With Summer GT)/R14N16_Summer_RGB-13-59-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N16_Winter_RGB-13-00-46.png,FALSE,pending,
 R14N17,R14,17,data/TreeID/TreeID/Dataset (With Summer GT)/R14N17_Summer_RGB-13-59-35.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N17_Winter_RGB-13-00-49.png,FALSE,pending,
 R14N18,R14,18,data/TreeID/TreeID/Dataset (With Summer GT)/R14N18_Summer_RGB-13-59-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N18_Winter_RGB-13-01-06.png,FALSE,pending,
-R14N19,R14,19,data/TreeID/TreeID/Dataset (With Summer GT)/R14N19_Summer_RGB-13-59-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N19_Winter_RGB-13-01-10.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R14N19,R14,19,data/TreeID/TreeID/Dataset (With Summer GT)/R14N19_Summer_RGB-13-59-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N19_Winter_RGB-13-01-10.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R14N20,R14,20,data/TreeID/TreeID/Dataset (With Summer GT)/R14N20_Summer_RGB-13-59-59.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N20_Winter_RGB-13-01-13.png,FALSE,pending,
 R14N21,R14,21,data/TreeID/TreeID/Dataset (With Summer GT)/R14N21_Summer_RGB-14-0-2.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N21_Winter_RGB-13-01-16.png,FALSE,pending,
 R14N22,R14,22,data/TreeID/TreeID/Dataset (With Summer GT)/R14N22_Summer_RGB-14-0-6.png,data/TreeID/TreeID/Dataset (With Summer GT)/R14N22_Winter_RGB-13-01-19.png,FALSE,pending,
@@ -452,7 +452,7 @@ R15N06,R15,6,data/TreeID/TreeID/Dataset (With Summer GT)/R15N06_Summer_RGB-14-2-
 R15N07,R15,7,data/TreeID/TreeID/Dataset (With Summer GT)/R15N07_Summer_RGB-14-2-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N07_Winter_RGB-13-04-38.png,FALSE,pending,
 R15N08,R15,8,data/TreeID/TreeID/Dataset (With Summer GT)/R15N08_Summer_RGB-14-2-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N08_Winter_RGB-13-04-41.png,FALSE,pending,
 R15N09,R15,9,data/TreeID/TreeID/Dataset (With Summer GT)/R15N09_Summer_RGB-14-3-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N09_Winter_RGB-13-04-47.png,FALSE,pending,
-R15N10,R15,10,data/TreeID/TreeID/Dataset (With Summer GT)/R15N10_Summer_RGB-14-3-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N10_Winter_RGB-13-04-50.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R15N10,R15,10,data/TreeID/TreeID/Dataset (With Summer GT)/R15N10_Summer_RGB-14-3-4.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N10_Winter_RGB-13-04-50.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R15N11,R15,11,data/TreeID/TreeID/Dataset (With Summer GT)/R15N11_Summer_RGB-14-3-8.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N11_Winter_RGB-13-04-53.png,FALSE,pending,
 R15N12,R15,12,data/TreeID/TreeID/Dataset (With Summer GT)/R15N12_Summer_RGB-14-3-27.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N12_Winter_RGB-13-05-11.png,FALSE,pending,
 R15N13,R15,13,data/TreeID/TreeID/Dataset (With Summer GT)/R15N13_Summer_RGB-14-3-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N13_Winter_RGB-13-05-15.png,FALSE,pending,
@@ -461,7 +461,7 @@ R15N15,R15,15,data/TreeID/TreeID/Dataset (With Summer GT)/R15N15_Summer_RGB-14-3
 R15N16,R15,16,data/TreeID/TreeID/Dataset (With Summer GT)/R15N16_Summer_RGB-14-3-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N16_Winter_RGB-13-05-39.png,FALSE,pending,
 R15N17,R15,17,data/TreeID/TreeID/Dataset (With Summer GT)/R15N17_Summer_RGB-14-4-0.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N17_Winter_RGB-13-05-42.png,FALSE,pending,
 R15N18,R15,18,data/TreeID/TreeID/Dataset (With Summer GT)/R15N18_Summer_RGB-14-4-10.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N18_Winter_RGB-13-05-51.png,FALSE,pending,
-R15N19,R15,19,data/TreeID/TreeID/Dataset (With Summer GT)/R15N19_Summer_RGB-14-4-13.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N19_Winter_RGB-13-05-54.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R15N19,R15,19,data/TreeID/TreeID/Dataset (With Summer GT)/R15N19_Summer_RGB-14-4-13.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N19_Winter_RGB-13-05-54.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R15N20,R15,20,data/TreeID/TreeID/Dataset (With Summer GT)/R15N20_Summer_RGB-14-4-16.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N20_Winter_RGB-13-05-57.png,FALSE,pending,
 R15N21,R15,21,data/TreeID/TreeID/Dataset (With Summer GT)/R15N21_Summer_RGB-14-4-19.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N21_Winter_RGB-13-06-00.png,FALSE,pending,
 R15N22,R15,22,data/TreeID/TreeID/Dataset (With Summer GT)/R15N22_Summer_RGB-14-4-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R15N22_Winter_RGB-13-06-03.png,FALSE,pending,
@@ -481,7 +481,7 @@ R16N07,R16,7,data/TreeID/TreeID/Dataset (With Summer GT)/R16N07_Summer_RGB-14-6-
 R16N08,R16,8,data/TreeID/TreeID/Dataset (With Summer GT)/R16N08_Summer_RGB-14-6-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N08_Winter_RGB-13-10-01.png,FALSE,pending,
 R16N09,R16,9,data/TreeID/TreeID/Dataset (With Summer GT)/R16N09_Summer_RGB-14-6-56.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N09_Winter_RGB-13-10-04.png,FALSE,pending,
 R16N10,R16,10,data/TreeID/TreeID/Dataset (With Summer GT)/R16N10_Summer_RGB-14-7-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N10_Winter_RGB-13-10-07.png,FALSE,pending,
-R16N11,R16,11,data/TreeID/TreeID/Dataset (With Summer GT)/R16N11_Summer_RGB-14-7-11.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N11_Winter_RGB-13-10-17.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R16N11,R16,11,data/TreeID/TreeID/Dataset (With Summer GT)/R16N11_Summer_RGB-14-7-11.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N11_Winter_RGB-13-10-17.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R16N12,R16,12,data/TreeID/TreeID/Dataset (With Summer GT)/R16N12_Summer_RGB-14-7-22.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N12_Winter_RGB-13-10-30.png,FALSE,pending,
 R16N13,R16,13,data/TreeID/TreeID/Dataset (With Summer GT)/R16N13_Summer_RGB-14-7-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N13_Winter_RGB-13-10-33.png,FALSE,pending,
 R16N14,R16,14,data/TreeID/TreeID/Dataset (With Summer GT)/R16N14_Summer_RGB-14-7-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N14_Winter_RGB-13-10-42.png,FALSE,pending,
@@ -493,7 +493,7 @@ R16N19,R16,19,data/TreeID/TreeID/Dataset (With Summer GT)/R16N19_Summer_RGB-14-8
 R16N20,R16,20,data/TreeID/TreeID/Dataset (With Summer GT)/R16N20_Summer_RGB-14-8-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N20_Winter_RGB-13-11-30.png,FALSE,pending,
 R16N21,R16,21,data/TreeID/TreeID/Dataset (With Summer GT)/R16N21_Summer_RGB-14-8-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N21_Winter_RGB-13-11-33.png,FALSE,pending,
 R16N22,R16,22,data/TreeID/TreeID/Dataset (With Summer GT)/R16N22_Summer_RGB-14-8-28.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N22_Winter_RGB-13-11-41.png,FALSE,pending,
-R16N23,R16,23,data/TreeID/TreeID/Dataset (With Summer GT)/R16N23_Summer_RGB-14-8-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N23_Winter_RGB-13-11-44.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R16N23,R16,23,data/TreeID/TreeID/Dataset (With Summer GT)/R16N23_Summer_RGB-14-8-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N23_Winter_RGB-13-11-44.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R16N24,R16,24,data/TreeID/TreeID/Dataset (With Summer GT)/R16N24_Summer_RGB-14-8-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R16N24_Winter_RGB-13-11-47.png,FALSE,pending,
 R17N01,R17,1,data/TreeID/TreeID/Dataset (With Summer GT)/R17N01_Summer_RGB-14-10-15.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N01_Winter_RGB-13-14-48.png,FALSE,pending,
 R17N02,R17,2,data/TreeID/TreeID/Dataset (With Summer GT)/R17N02_Summer_RGB-14-10-26.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N02_Winter_RGB-13-15-02.png,FALSE,pending,
@@ -509,10 +509,10 @@ R17N11,R17,11,data/TreeID/TreeID/Dataset (With Summer GT)/R17N11_Summer_RGB-14-1
 R17N12,R17,12,data/TreeID/TreeID/Dataset (With Summer GT)/R17N12_Summer_RGB-14-11-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N12_Winter_RGB-13-15-58.png,FALSE,pending,
 R17N13,R17,13,data/TreeID/TreeID/Dataset (With Summer GT)/R17N13_Summer_RGB-14-11-31.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N13_Winter_RGB-13-16-05.png,FALSE,pending,
 R17N14,R17,14,data/TreeID/TreeID/Dataset (With Summer GT)/R17N14_Summer_RGB-14-11-34.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N14_Winter_RGB-13-16-07.png,FALSE,pending,
-R17N15,R17,15,data/TreeID/TreeID/Dataset (With Summer GT)/R17N15_Summer_RGB-14-11-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N15_Winter_RGB-13-16-11.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R17N15,R17,15,data/TreeID/TreeID/Dataset (With Summer GT)/R17N15_Summer_RGB-14-11-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N15_Winter_RGB-13-16-11.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R17N16,R17,16,data/TreeID/TreeID/Dataset (With Summer GT)/R17N16_Summer_RGB-14-11-44.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N16_Winter_RGB-13-16-16.png,FALSE,pending,
 R17N17,R17,17,data/TreeID/TreeID/Dataset (With Summer GT)/R17N17_Summer_RGB-14-11-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N17_Winter_RGB-13-16-22.png,FALSE,pending,
-R17N18,R17,18,data/TreeID/TreeID/Dataset (With Summer GT)/R17N18_Summer_RGB-14-11-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N18_Winter_RGB-13-16-24.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R17N18,R17,18,data/TreeID/TreeID/Dataset (With Summer GT)/R17N18_Summer_RGB-14-11-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N18_Winter_RGB-13-16-24.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R17N19,R17,19,data/TreeID/TreeID/Dataset (With Summer GT)/R17N19_Summer_RGB-14-11-56.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N19_Winter_RGB-13-16-29.png,FALSE,pending,
 R17N20,R17,20,data/TreeID/TreeID/Dataset (With Summer GT)/R17N20_Summer_RGB-14-11-58.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N20_Winter_RGB-13-16-32.png,FALSE,pending,
 R17N21,R17,21,data/TreeID/TreeID/Dataset (With Summer GT)/R17N21_Summer_RGB-14-12-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R17N21_Winter_RGB-13-16-34.png,FALSE,pending,
@@ -522,12 +522,12 @@ R18N01,R18,1,data/TreeID/TreeID/Dataset (With Summer GT)/R18N01_Summer_RGB-14-13
 R18N02,R18,2,data/TreeID/TreeID/Dataset (With Summer GT)/R18N02_Summer_RGB-14-13-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N02_Winter_RGB-13-18-59.png,FALSE,pending,
 R18N03,R18,3,data/TreeID/TreeID/Dataset (With Summer GT)/R18N03_Summer_RGB-14-13-57.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N03_Winter_RGB-13-19-17.png,FALSE,pending,
 R18N04,R18,4,data/TreeID/TreeID/Dataset (With Summer GT)/R18N04_Summer_RGB-14-14-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N04_Winter_RGB-13-19-25.png,FALSE,pending,
-R18N05,R18,5,data/TreeID/TreeID/Dataset (With Summer GT)/R18N05_Summer_RGB-14-14-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N05_Winter_RGB-13-19-36.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R18N05,R18,5,data/TreeID/TreeID/Dataset (With Summer GT)/R18N05_Summer_RGB-14-14-17.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N05_Winter_RGB-13-19-36.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R18N06,R18,6,data/TreeID/TreeID/Dataset (With Summer GT)/R18N06_Summer_RGB-14-14-20.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N06_Winter_RGB-13-19-39.png,FALSE,pending,
 R18N07,R18,7,data/TreeID/TreeID/Dataset (With Summer GT)/R18N07_Summer_RGB-14-14-27.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N07_Winter_RGB-13-19-45.png,FALSE,pending,
 R18N08,R18,8,data/TreeID/TreeID/Dataset (With Summer GT)/R18N08_Summer_RGB-14-14-30.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N08_Winter_RGB-13-19-49.png,FALSE,pending,
 R18N09,R18,9,data/TreeID/TreeID/Dataset (With Summer GT)/R18N09_Summer_RGB-14-14-33.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N09_Winter_RGB-13-19-52.png,FALSE,pending,
-R18N10,R18,10,data/TreeID/TreeID/Dataset (With Summer GT)/R18N10_Summer_RGB-14-14-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N10_Winter_RGB-13-19-58.png,FALSE,rejected,"主干结节,弯曲不同"
+R18N10,R18,10,data/TreeID/TreeID/Dataset (With Summer GT)/R18N10_Summer_RGB-14-14-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N10_Winter_RGB-13-19-58.png,FALSE,rejected,Different trunk knots and curvature.
 R18N11,R18,11,data/TreeID/TreeID/Dataset (With Summer GT)/R18N11_Summer_RGB-14-14-42.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N11_Winter_RGB-13-20-01.png,FALSE,pending,
 R18N12,R18,12,data/TreeID/TreeID/Dataset (With Summer GT)/R18N12_Summer_RGB-14-14-45.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N12_Winter_RGB-13-20-05.png,FALSE,pending,
 R18N13,R18,13,data/TreeID/TreeID/Dataset (With Summer GT)/R18N13_Summer_RGB-14-14-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N13_Winter_RGB-13-20-11.png,FALSE,pending,
@@ -544,20 +544,20 @@ R18N23,R18,23,data/TreeID/TreeID/Dataset (With Summer GT)/R18N23_Summer_RGB-14-1
 R18N24,R18,24,data/TreeID/TreeID/Dataset (With Summer GT)/R18N24_Summer_RGB-14-15-46.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N24_Winter_RGB-13-20-55.png,FALSE,pending,
 R18N25,R18,25,data/TreeID/TreeID/Dataset (With Summer GT)/R18N25_Summer_RGB-14-15-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N25_Winter_RGB-13-20-58.png,FALSE,pending,
 R18N26,R18,26,data/TreeID/TreeID/Dataset (With Summer GT)/R18N26_Summer_RGB-14-16-2.png,data/TreeID/TreeID/Dataset (With Summer GT)/R18N26_Winter_RGB-13-21-07.png,FALSE,pending,
-R19N01,R19,1,data/TreeID/TreeID/Dataset (With Summer GT)/R19N01_Summer_RGB-14-17-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N01_Winter_RGB-13-22-39.png,FALSE,confirmed,主干弯曲和低处分叉一致，确认同树
+R19N01,R19,1,data/TreeID/TreeID/Dataset (With Summer GT)/R19N01_Summer_RGB-14-17-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N01_Winter_RGB-13-22-39.png,FALSE,confirmed,Matching trunk curvature and lower branch junctions; same tree confirmed.
 R19N02,R19,2,data/TreeID/TreeID/Dataset (With Summer GT)/R19N02_Summer_RGB-14-17-38.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N02_Winter_RGB-13-22-46.png,FALSE,pending,
 R19N03,R19,3,data/TreeID/TreeID/Dataset (With Summer GT)/R19N03_Summer_RGB-14-17-50.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N03_Winter_RGB-13-22-58.png,FALSE,pending,
 R19N04,R19,4,data/TreeID/TreeID/Dataset (With Summer GT)/R19N04_Summer_RGB-14-18-14.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N04_Winter_RGB-13-23-22.png,FALSE,pending,
-R19N05,R19,5,data/TreeID/TreeID/Dataset (With Summer GT)/R19N05_Summer_RGB-14-18-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N05_Winter_RGB-13-23-32.png,TRUE,pending,夏季主干被完全遮挡，无法确认
+R19N05,R19,5,data/TreeID/TreeID/Dataset (With Summer GT)/R19N05_Summer_RGB-14-18-23.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N05_Winter_RGB-13-23-32.png,TRUE,pending,The summer trunk is fully occluded; cannot confirm the identity.
 R19N06,R19,6,data/TreeID/TreeID/Dataset (With Summer GT)/R19N06_Summer_RGB-14-18-32.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N06_Winter_RGB-13-23-42.png,FALSE,pending,
 R19N07,R19,7,data/TreeID/TreeID/Dataset (With Summer GT)/R19N07_Summer_RGB-14-19-3.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N07_Winter_RGB-13-24-13.png,FALSE,pending,
 R19N08,R19,8,data/TreeID/TreeID/Dataset (With Summer GT)/R19N08_Summer_RGB-14-19-25.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N08_Winter_RGB-13-24-36.png,FALSE,pending,
 R19N09,R19,9,data/TreeID/TreeID/Dataset (With Summer GT)/R19N09_Summer_RGB-14-19-27.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N09_Winter_RGB-13-24-39.png,FALSE,pending,
 R19N10,R19,10,data/TreeID/TreeID/Dataset (With Summer GT)/R19N10_Summer_RGB-14-19-36.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N10_Winter_RGB-13-24-47.png,FALSE,pending,
 R19N11,R19,11,data/TreeID/TreeID/Dataset (With Summer GT)/R19N11_Summer_RGB-14-19-39.png,data/TreeID/TreeID/Dataset (With Summer GT)/R19N11_Winter_RGB-13-24-50.png,FALSE,pending,
-R20N01,R20,1,data/TreeID/TreeID/Dataset (With Summer GT)/R20N01_Summer_RGB-14-21-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N01_Winter_RGB-13-26-31.png,FALSE,rejected,"主干结节,弯曲不同"
+R20N01,R20,1,data/TreeID/TreeID/Dataset (With Summer GT)/R20N01_Summer_RGB-14-21-40.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N01_Winter_RGB-13-26-31.png,FALSE,rejected,Different trunk knots and curvature.
 R20N02,R20,2,data/TreeID/TreeID/Dataset (With Summer GT)/R20N02_Summer_RGB-14-21-49.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N02_Winter_RGB-13-26-39.png,FALSE,pending,
 R20N03,R20,3,data/TreeID/TreeID/Dataset (With Summer GT)/R20N03_Summer_RGB-14-21-52.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N03_Winter_RGB-13-26-42.png,FALSE,pending,
 R20N04,R20,4,data/TreeID/TreeID/Dataset (With Summer GT)/R20N04_Summer_RGB-14-21-55.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N04_Winter_RGB-13-26-44.png,FALSE,pending,
-R20N05,R20,5,data/TreeID/TreeID/Dataset (With Summer GT)/R20N05_Summer_RGB-14-22-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N05_Winter_RGB-13-26-50.png,FALSE,rejected,支干不同
+R20N05,R20,5,data/TreeID/TreeID/Dataset (With Summer GT)/R20N05_Summer_RGB-14-22-1.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N05_Winter_RGB-13-26-50.png,FALSE,rejected,Different secondary-branch structure.
 R20N06,R20,6,data/TreeID/TreeID/Dataset (With Summer GT)/R20N06_Summer_RGB-14-22-5.png,data/TreeID/TreeID/Dataset (With Summer GT)/R20N06_Winter_RGB-13-26-52.png,FALSE,pending,

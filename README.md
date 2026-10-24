@@ -2,13 +2,14 @@
 
 The main entry point is [`apple_tree_matching.ipynb`](apple_tree_matching.ipynb).
 It currently implements **1. configuration and data auditing, 2. label records and
-row-based splitting, and 3. ORB/RANSAC features and targeted review**.
-Regression training is a later stage: **Linear Regression is the baseline and
-RBF-SVR is the main regression method**. HOG is not used.
+row-based splitting, 3. ORB/RANSAC features and targeted review,
+4. affine numerical verification, and 5. a weighted Linear Regression baseline**.
+**RBF-SVR is the main regression method planned for stage 6**. HOG is not used.
 
 Project documentation, notebook explanations, generated page instructions, and
-future explanatory material are maintained in **English**. Original human review
-notes remain in the language in which the reviewer recorded them.
+future explanatory material and annotation notes are maintained in **English**.
+Existing Chinese notes were translated without changing identity decisions;
+original files are backed up under the ignored `.cache/annotation_notes_original_*/`.
 
 ## Repository structure
 
@@ -23,16 +24,20 @@ MMA3001_project/
 ├── config/
 │   ├── experiment.json         # Dataset paths, seed, initial review settings
 │   ├── screening.json          # ORB/RANSAC, review batches, test sampling
+│   ├── baseline.json           # Negative sampling, histogram bins, timing
 │   ├── evaluation/             # Frozen queries, full gallery, independent audit
 │   ├── requirements.in         # Direct dependencies
 │   ├── requirements.txt        # Exact versions tested with Python 3.12
-│   └── pair_review.csv         # Existing human decisions and original notes
+│   └── pair_review.csv         # Existing human decisions and English notes
 ├── doc/                        # Data contract and AI usage; not a project report
 ├── res/                        # Static resource information
 ├── src/
 │   ├── __init__.py
 │   ├── main.py                 # Audit, review sheets, portable exports
 │   ├── features.py             # Reusable ORB/geometric features and caches
+│   ├── appearance.py           # Cached color and grayscale-D features
+│   ├── numerical.py            # Least squares, RANSAC and known-transform tests
+│   ├── baseline.py             # Weighted linear regression and full ranking
 │   ├── screening.py            # Freeze test queries, screen train/validation
 │   ├── review_assets.py        # Original pairs and alternative-candidate pages
 │   └── utils.py                # Parsing, validation, pairing, row splits
@@ -40,11 +45,13 @@ MMA3001_project/
 │   ├── __init__.py
 │   ├── conftest.py
 │   ├── test_main.py
-│   └── test_screening.py
+│   ├── test_screening.py
+│   └── test_baseline.py
 ├── tools/
 │   ├── run_notebook.py         # Execute with the selected interpreter
 │   ├── generate_all_review_sheets.py
 │   ├── check_orb_settings.py   # Training-only parameter diagnostic
+│   ├── translate_annotation_notes.py # Exact notes-only translations and backup
 │   └── synthetic_data.py       # CI fixtures, not agricultural validation data
 ├── data/TreeID/TreeID/          # Original dataset; ignored by Git
 └── outputs/                    # Generated tables and atlases; ignored by Git
@@ -197,3 +204,48 @@ or an orchard map in metres. The code license in `LICENSE` does not grant rights
 to the original dataset or paper.
 
 Changes are left in the working tree. No commit or push is performed automatically.
+
+## Numerical verification and linear baseline
+
+Stage 4 solves a six-parameter 2D affine least-squares problem with
+`numpy.linalg.lstsq`, checks rank and condition, and compares all-point fitting
+with RANSAC-selected inliers using the same fitting routine. A known transform,
+100 fitting points, and 200 independent probe points check noiseless recovery
+below 1e-6 px and sensitivity to Gaussian noise and incorrect correspondences.
+Outputs: `outputs/numerical_verification/`.
+
+Stage 5 samples one positive plus ten distinct negatives per training query,
+preferring five same-row negatives. The real data supplies 3,355 training pairs.
+Both future regression models reuse this sample table and inverse-frequency
+weights. HSV histogram difference and grayscale D distribution differences join
+the existing ORB/geometric features. D is never interpreted as metric distance.
+Missing-value imputation and standardization fit only the sampled training pairs.
+
+Linear Regression scores every training/validation query against the complete
+winter gallery for its split. Row and tree IDs never enter numerical features.
+Top-1, Top-5, MRR, and positive/negative MAE/RMSE are exported. Numerical ties get
+expected credit over tied positions; IDs only order displayed ties. Training
+scores describe resubstitution; validation scores mainly use filename labels.
+They do not establish independent test accuracy. No test scores or SVR fits are
+computed at this stage.
+
+Run through the notebook, or execute the baseline directly:
+
+```powershell
+& 'D:\anacoda3\envs\MMA3001\python.exe' -m src.baseline
+```
+
+`outputs/baseline_linear/` contains the exact training pairs/features/weights,
+full train and validation rankings, per-query metrics, regression errors,
+coefficients, plots, configuration, dependency versions, and five-repeat median
+fit/prediction timings. Batched scoring time excludes image processing and
+ranking. `models/linear_regression.joblib` stores the fitted pipeline and feature
+order; load only trusted local artifacts. `match_tree` accepts RGB/D paths and
+ranks every supplied gallery candidate without requiring a ground-truth mask.
+
+Independent audit entry spelling `confrimed` is normalized to `confirmed` in
+memory. Reviewer notes explicitly saying an identity cannot be established map
+pending entries to uncertain. The exported normalization audit records original
+status and conversion reason without rewriting source status fields. All forty
+sampled records and the full winter test gallery remain frozen for later final
+evaluation, including rejected and unresolved audit cases.

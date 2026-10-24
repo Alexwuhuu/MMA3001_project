@@ -1,0 +1,15 @@
+{
+  "output_dir": "outputs/baseline_linear",
+  "cache_dir": ".cache/baseline_appearance",
+  "numerical_output_dir": "outputs/numerical_verification",
+  "seed": 42,
+  "negatives_per_query": 10,
+  "same_row_negatives": 5,
+  "hue_bins": 16,
+  "saturation_bins": 8,
+  "depth_bins": 16,
+  "include_depth": true,
+  "timing_repeats": 5,
+  "score_tie_atol": 1e-12,
+  "score_tie_rtol": 1e-10
+}

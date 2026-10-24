@@ -100,5 +100,48 @@ uncertainty. Unverified records are not independently established identity truth
 
 ## Documentation language
 
-Explanatory documentation and generated interface text are English. Human review
-notes and multilingual encoding-test fixtures remain verbatim source evidence.
+Explanatory documentation, generated interface text, and annotation notes are
+English. Existing Chinese notes were translated with original files backed up
+under `.cache/annotation_notes_original_*/`; non-note fields and identity
+decisions were checked unchanged. Multilingual encoding-test fixtures remain
+test data, separate from annotations.
+
+## Affine verification and regression features
+
+`fit_affine_lstsq(source, target)` accepts matching finite N×2 float64 pixel
+coordinates, N>=3 with non-collinear source points. It returns a 2×3 affine
+matrix and rank/condition/residual diagnostics. Invalid shape, non-finite values,
+and rank deficiency raise `ValueError`. Numerical experiments test the fitted
+transform on separate probe points, never used for fitting or RANSAC selection.
+Synthetic coordinates and errors are in pixels, not orchard metres.
+
+`extract_appearance` accepts a valid RGB path and optional D path. HSV H16×S8
+histograms and nonzero D16-bin histograms are L1-normalized. Pair distances use
+Hellinger distance (0–1). D mean/std differences use uint8 grayscale units;
+zero-fraction differences are dimensionless. D uses the same center crop and
+nearest-neighbor resizing to avoid fabricating intermediate intensity values.
+Missing/unsupported D has missing flags and NaN statistics. All-zero D has
+zero fraction 1 and a no-nonzero flag; its nonzero distribution is unavailable.
+
+The fixed 21-feature baseline combines 12 ORB/geometric columns with 9 color/D
+columns. Identity, row, paths, filenames, dates, seasons, GT masks, review notes,
+and status fields are metadata only. All-missing feature columns are retained by
+the training-fitted imputer. Scores are unbounded continuous regression values,
+not probabilities. Targets and balanced sample weights come only from sampled
+training pairs; no validation/test values fit preprocessing.
+
+`training_pairs.csv` records exactly the samples, features, weights, and label
+provenance to reuse for SVR. `train_rankings.csv` and `validation_rankings.csv`
+record every gallery candidate and score, displayed rank, and numerical tie
+range. Per-query Top-k and MRR average over tied positions. `metrics.json` reports
+class-specific errors as well as overall values. The query-level export retains
+source label provenance. `run_summary.json` records settings, dependencies,
+protocol hashes, all-missing features, weighted design rank, feature-matrix bytes,
+and timing scope. Memory bytes cover the numeric matrix, not process peak RAM.
+
+The independent audit is read separately. A documented spelling alias
+`confrimed` maps to confirmed; an identified reviewer plus an explicit inability
+to identify/confirm note maps pending to uncertain. Original source status is
+exported alongside the effective status and normalization reason. It is not
+written back. No rejected audit case is removed from the frozen sample/gallery.
+Stage 5 computes zero independent test scores.

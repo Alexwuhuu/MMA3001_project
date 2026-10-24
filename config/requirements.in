@@ -8,3 +8,6 @@ ipykernel
 jupyterlab
 pytest
 opencv-python-headless
+scikit-learn
+scipy
+joblib

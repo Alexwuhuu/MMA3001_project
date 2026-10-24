@@ -19,7 +19,7 @@ from tools.synthetic_data import create_synthetic_dataset
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Execute data preparation and targeted ORB/RANSAC review")
+    parser = argparse.ArgumentParser(description="Execute data preparation, numerical checks, and the linear baseline")
     parser.add_argument("--synthetic", action="store_true", help="Use tiny synthetic CI data, never real data")
     parser.add_argument("--in-place", action="store_true", help="Save real-data outputs into the root notebook")
     parser.add_argument("--output", type=Path)
