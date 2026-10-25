@@ -19,11 +19,34 @@ FEATURE_COLUMNS = [
 
 
 def stable_digest(value) -> str:
+    """Hash a canonical JSON representation for deterministic cache keys.
+
+    Args:
+        value (object): JSON-serializable settings or records; dictionary keys are sorted.
+
+    Returns:
+        str: SHA-256 hexadecimal digest of compact, UTF-8 JSON.
+
+    Raises:
+        TypeError: The value is not JSON-serializable.
+    """
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def feature_signature(settings: dict) -> str:
-    """Invalidate cached descriptors/pair features on code, OpenCV or setting changes."""
+    """Namespace ORB caches by extraction settings, OpenCV version and source bytes.
+
+    Args:
+        settings (dict): image_size, crop, orb_nfeatures, ratio_threshold, RANSAC
+            threshold/iterations/confidence and seed.
+
+    Returns:
+        str: First 20 hexadecimal characters of the configuration digest.
+
+    Raises:
+        KeyError: A required extraction setting is absent.
+        OSError: This module cannot be read for hashing.
+    """
     keys = ["image_size", "crop", "orb_nfeatures", "ratio_threshold", "ransac_threshold_px",
             "ransac_max_iters", "ransac_confidence", "seed"]
     return stable_digest({"settings": {k: settings[k] for k in keys}, "opencv": cv2.__version__,
@@ -31,7 +54,20 @@ def feature_signature(settings: dict) -> str:
 
 
 def preprocess_rgb(rgb: np.ndarray, size: int = 256, crop: str = "center") -> np.ndarray:
-    """Center-square crop (480×480 for 640×480 RGB), then resize to size×size."""
+    """Crop and resize RGB consistently before descriptor or appearance extraction.
+
+    Args:
+        rgb (numpy.ndarray): Nonempty RGB image with shape (height, width, 3).
+        size (int): Output height and width in pixels; must be at least 32.
+        crop (str): "center" selects the largest centered square; "full" resizes the full frame.
+
+    Returns:
+        numpy.ndarray: Resized RGB image with shape (size, size, 3).
+
+    Raises:
+        ValueError: size is below 32 or crop is unsupported.
+        cv2.error: The supplied image cannot be resized.
+    """
     if size < 32 or crop not in {"center", "full"}:
         raise ValueError("size must be >= 32 and crop must be center/full")
     if crop == "center":
@@ -44,13 +80,39 @@ def preprocess_rgb(rgb: np.ndarray, size: int = 256, crop: str = "center") -> np
 
 @dataclass
 class ImageFeatures:
+    """Store numeric ORB observations without using identity metadata.
+
+    Attributes:
+        image_hash (str): Source-content digest, or extraction key for an optimized cache.
+        xy (numpy.ndarray): Float32 keypoint positions with shape (N, 2), in resized-image
+            pixels.
+        descriptors (numpy.ndarray): uint8 ORB descriptors with shape (N, 32); an empty array
+            represents no descriptors.
+    """
     image_hash: str
     xy: np.ndarray
     descriptors: np.ndarray
 
 
 def extract_image_features(path: str | Path, settings: dict, cache_dir: Path) -> ImageFeatures:
-    """Cache numeric arrays only (no pickle); identity metadata never enters descriptors."""
+    """Load or compute ORB features in a content-addressed numeric cache.
+
+    NPZ files are read with allow_pickle=False. Descriptor-free images remain valid
+    observations with empty coordinate and descriptor arrays.
+
+    Args:
+        path (str | Path): RGB image to decode.
+        settings (dict): Validated screening settings used by feature_signature.
+        cache_dir (Path): Writable descriptor-cache directory, created if necessary.
+
+    Returns:
+        ImageFeatures: Image hash, resized keypoints and ORB descriptors.
+
+    Raises:
+        ValueError: RGB is unreadable or preprocessing settings are invalid.
+        OSError: A source or cache file cannot be read or written.
+        KeyError: A required extraction setting is absent.
+    """
     digest = file_digest(Path(path))
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache = cache_dir / f"{feature_signature(settings)}_{digest}.npz"
@@ -68,11 +130,26 @@ def extract_image_features(path: str | Path, settings: dict, cache_dir: Path) ->
 
 
 def extract_pair_features(query: ImageFeatures, candidate: ImageFeatures, settings: dict) -> dict:
-    """Return fixed-order features, retaining missing descriptors/failed geometry.
+    """Measure descriptor and affine evidence while retaining failed geometry.
 
-    Hamming values are bit counts (0–256); coordinates/errors use resized pixels.
-    Matches pass the forward 2-neighbour ratio test and a unique-target filter.
-    NaN denotes unavailable distance/error, to be imputed on training data later.
+    Forward two-neighbour ratio filtering and unique-target matching avoid inflated
+    evidence. Hamming distances use bit counts (0 to 256); reprojection errors use
+    resized pixels. Unavailable distances/errors are NaN for later train-only filling.
+
+    Args:
+        query (ImageFeatures): Summer-query keypoints and descriptors.
+        candidate (ImageFeatures): Winter-candidate keypoints and descriptors.
+        settings (dict): Ratio threshold and affine-RANSAC threshold, maximum iterations and
+            confidence.
+
+    Returns:
+        dict: The twelve FEATURE_COLUMNS values, including missing-descriptor and
+        geometry_failed flags. Insufficient or degenerate correspondences return flags
+        rather than dropping the pair.
+
+    Raises:
+        KeyError: A required matching setting is absent.
+        cv2.error: Descriptors or RANSAC settings are incompatible with OpenCV.
     """
     nq, nc = len(query.descriptors), len(candidate.descriptors)
     result = dict.fromkeys(FEATURE_COLUMNS, 0.0)
@@ -117,10 +194,21 @@ def extract_pair_features(query: ImageFeatures, candidate: ImageFeatures, settin
 
 
 def evidence_scores(features, minimum_inliers: int = 6):
-    """Heuristic for review ordering: inliers × inlier ratio, with a six-inlier floor.
+    """Prioritize human review using inliers times inlier ratio above an evidence floor.
 
-    This is not a probability, identity label, regression model, or accuracy metric.
-    The floor limits minimal affine fits being presented as strong evidence.
+    The floor avoids presenting minimal affine fits as strong evidence. Scores
+    provide review ordering only; they do not establish identities or probabilities.
+
+    Args:
+        features (pandas.DataFrame): Pair features containing ransac_inliers and
+            ransac_inlier_ratio.
+        minimum_inliers (int): Minimum inlier count receiving a nonzero score; defaults to six.
+
+    Returns:
+        numpy.ndarray: One float evidence score per feature row.
+
+    Raises:
+        KeyError: Required RANSAC columns are absent.
     """
     return np.where(features["ransac_inliers"] >= minimum_inliers,
                     features["ransac_inliers"] * features["ransac_inlier_ratio"], 0.0)

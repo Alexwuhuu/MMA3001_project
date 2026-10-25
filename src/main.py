@@ -19,11 +19,14 @@ from .utils import assign_splits, file_digest, index_dataset, matched_cases, rea
 
 
 def get_runtime_versions() -> dict[str, str | None]:
-    """Report computational dependencies without requiring notebook automation tools.
+    """Record runtime dependency versions without requiring notebook controllers.
 
-    VS Code can run the notebook in an existing kernel without nbformat/nbclient.
-    A missing distribution record is provenance information, not a data error.
-    Actual missing runtime imports are still raised normally when importing code.
+    Missing distribution metadata is provenance information. Missing runtime imports
+    still fail normally when their modules are imported.
+
+    Returns:
+        dict[str, str | None]: Versions of numpy, pandas, Pillow and matplotlib, or None where
+        package metadata is unavailable.
     """
     versions = {}
     for name in ("numpy", "pandas", "Pillow", "matplotlib"):
@@ -35,7 +38,21 @@ def get_runtime_versions() -> dict[str, str | None]:
 
 
 def load_config(project_root: str | Path, config_path: str = "config/experiment.json") -> dict:
-    """Load tracked defaults, optional ignored local overrides, then data-root env."""
+    """Load defaults, then local overrides, then MMA3001_DATA_ROOT.
+
+    Args:
+        project_root (str | Path): Project directory used to resolve configuration paths.
+        config_path (str): Defaults JSON path relative to project_root.
+
+    Returns:
+        dict: Merged experiment settings; only seed and review/page counts are validated here.
+
+    Raises:
+        OSError: A configuration file cannot be read.
+        json.JSONDecodeError: A configuration file is malformed.
+        ValueError: Seed or review/page counts are invalid.
+        KeyError: A required configuration field is absent.
+    """
     root = Path(project_root).resolve()
     config = json.loads((root / config_path).read_text(encoding="utf-8"))
     local = root / "config/local.json"
@@ -51,7 +68,16 @@ def load_config(project_root: str | Path, config_path: str = "config/experiment.
 
 
 def portable_frame(frame: pd.DataFrame, project_root: Path) -> pd.DataFrame:
-    """Export project-relative image paths so the project can be moved intact."""
+    """Copy a table and make project-contained image paths portable.
+
+    Args:
+        frame (pandas.DataFrame): Table whose path columns end in _path, _rgb or _depth.
+        project_root (Path): Absolute base directory for project-relative paths.
+
+    Returns:
+        pandas.DataFrame: A copy using POSIX path separators. External paths remain absolute;
+        empty and non-string values are preserved.
+    """
     frame = frame.copy()
     for column in frame.columns:
         if column.endswith("_path") or column.endswith("_rgb") or column.endswith("_depth"):
@@ -67,11 +93,23 @@ def portable_frame(frame: pd.DataFrame, project_root: Path) -> pd.DataFrame:
 
 
 def prepare_review(cases: pd.DataFrame, project_root: Path, config: dict) -> pd.DataFrame:
-    """Create an editable review ledger, preserving all existing human decisions.
+    """Create or reconcile an editable ledger while preserving recorded human decisions.
 
-    Each row is a proposed filename-based N pair, not a verified human judgement.
-    Two pairs/row plus every R04 pair are selected for mandatory spot checks.
-    All 562 pairs remain editable. U observations are never added to this ledger.
+    Required spot checks use review_pairs_per_row plus every identity in review_all_rows.
+    Ledger rows propose filename-based N pairs, without automatically verifying them.
+
+    Args:
+        cases (pandas.DataFrame): Valid N pairs with identity and seasonal RGB metadata.
+        project_root (Path): Project directory for the ledger.
+        config (dict): Seed, review sampling settings and review_file destination.
+
+    Returns:
+        pandas.DataFrame: Review rows with required_review, human_status and human_notes. The
+        CSV is written only when absent or its identity coverage changes.
+
+    Raises:
+        ValueError: Existing IDs, required columns or review statuses are invalid.
+        OSError: The ledger cannot be read or written.
     """
     rng = np.random.default_rng(config["seed"])
     required = set()
@@ -108,7 +146,18 @@ def prepare_review(cases: pd.DataFrame, project_root: Path, config: dict) -> pd.
 
 
 def validate_split(cases: pd.DataFrame, index: pd.DataFrame) -> pd.DataFrame:
-    """Verify row, identity, image-path and exact RGB-content isolation."""
+    """Check row, identity, path and exact RGB-content isolation between splits.
+
+    Args:
+        cases (pandas.DataFrame): Assigned cases with tree_id, row and split.
+        index (pandas.DataFrame): Observation index with kind, RGB paths and content hashes.
+
+    Returns:
+        pandas.DataFrame: One overlap_count/passed record per split pair and isolation field.
+
+    Raises:
+        ValueError: Any isolation field overlaps between splits.
+    """
     checks = []
     observations = index[index["kind"].eq("N") & index["tree_id"].isin(cases["tree_id"])].copy()
     observations["split"] = observations["tree_id"].map(cases.set_index("tree_id")["split"])
@@ -134,10 +183,21 @@ def validate_split(cases: pd.DataFrame, index: pd.DataFrame) -> pd.DataFrame:
 
 def save_contact_sheets(review: pd.DataFrame, output: Path, per_page: int = 8,
                         *, all_pairs: bool = False) -> list[Path]:
-    """Render mandatory checks, or all pairs, without changing review decisions.
+    """Render original seasonal pairs with generation-time review statuses.
 
-    The full atlas uses a separate folder so the original spot-check pages remain
-    available. Labels show a snapshot of the supplied human_status values.
+    Args:
+        review (pandas.DataFrame): Review rows with readable summer_rgb/winter_rgb, tree_id,
+            human_status and, for spot checks, required_review.
+        output (Path): Parent output directory for review_sheets or review_sheets_all.
+        per_page (int): Maximum pairs per PNG page; must be positive.
+        all_pairs (bool): Whether to include all rows instead of only required spot checks.
+
+    Returns:
+        list[Path]: Written page paths in display order; empty when no rows are selected.
+
+    Raises:
+        ValueError: per_page is not positive or an RGB image is unreadable.
+        OSError: A figure cannot be written.
     """
     if per_page < 1:
         raise ValueError("per_page must be positive")
@@ -165,6 +225,19 @@ def save_contact_sheets(review: pd.DataFrame, output: Path, per_page: int = 8,
 
 
 def save_overview_figures(index: pd.DataFrame, cases: pd.DataFrame, output: Path) -> list[Path]:
+    """Plot observation counts, eligible pairs per row and assigned split sizes.
+
+    Args:
+        index (pandas.DataFrame): Audited observation table.
+        cases (pandas.DataFrame): Eligible cases with row and split assignments.
+        output (Path): Parent directory in which figures/ is created.
+
+    Returns:
+        list[Path]: A one-element list containing the combined overview PNG path.
+
+    Raises:
+        OSError: A figure cannot be written.
+    """
     folder = output / "figures"
     folder.mkdir(parents=True, exist_ok=True)
     fig, axes = plt.subplots(1, 3, figsize=(14, 4))
@@ -189,10 +262,26 @@ def save_overview_figures(index: pd.DataFrame, cases: pd.DataFrame, output: Path
 
 def run_data_preparation(project_root: str | Path, config: dict | None = None,
                          render: bool = True, index: pd.DataFrame | None = None) -> dict:
-    """Run only notebook stages 1–2. Original images are never modified.
+    """Audit data, preserve review provenance and export row-isolated manifests.
 
-    Returns dataframes plus output paths. Persisted paths are project-relative.
-    Human review decisions survive reruns; rejected pairs are explicitly excluded.
+    Row membership is assigned before human-rejected identities are removed. Source
+    images are read-only; generated CSV paths are portable relative to the project.
+
+    Args:
+        project_root (str | Path): Project containing configuration and output directories.
+        config (dict | None): Experiment settings, or None to load defaults and overrides.
+        render (bool): Whether to create contact sheets and overview figures.
+        index (pandas.DataFrame | None): Optional precomputed observation index; None scans the
+            configured dataset.
+
+    Returns:
+        dict: index, cases, review, exclusions, leakage, summary, output_dir, contact_sheets and
+        figures. cases includes split, human_verified and label_basis.
+
+    Raises:
+        ValueError: Dataset/review/split validation fails or required human review is
+            incomplete. The latter check occurs after audit exports are written.
+        OSError: Input data/configuration cannot be read or generated files cannot be written.
     """
     root = Path(project_root).resolve()
     config = dict(config or load_config(root))
@@ -275,6 +364,16 @@ def run_data_preparation(project_root: str | Path, config: dict | None = None,
 
 
 def main():
+    """Run the data-preparation CLI using --project-root, --config and --no-render.
+
+    Returns:
+        None: Audit artifacts are written to the configured output directory.
+
+    Raises:
+        SystemExit: Argument parsing fails or --help is requested.
+        ValueError: Preparation fails its dataset, review or leakage checks.
+        OSError: Inputs or output files are inaccessible.
+    """
     parser = argparse.ArgumentParser(description="Run notebook data preparation parts 1–2 only")
     parser.add_argument("--project-root", type=Path, default=Path(__file__).resolve().parents[1])
     parser.add_argument("--config", default="config/experiment.json")

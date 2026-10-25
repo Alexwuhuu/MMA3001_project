@@ -1,0 +1,3 @@
+# Documentation tooling is separate from the fingerprinted experiment environment.
+Sphinx==8.2.3
+myst-parser==4.0.1

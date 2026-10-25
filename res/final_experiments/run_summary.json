@@ -1,0 +1,89 @@
+{
+  "settings": {
+    "output_dir": "outputs/final_experiments",
+    "cache_dir": ".cache/final_experiments",
+    "lock_file": "config/final_experiments_lock.json",
+    "seed": 42,
+    "timing_repeats": 5,
+    "bootstrap_repeats": 5000,
+    "resolutions": [
+      128,
+      256,
+      384
+    ],
+    "reference_size": 256,
+    "reference_ransac_threshold_px": 3.0,
+    "include_resnet_test": true,
+    "export_dir": "outputs/reproducibility",
+    "small_results_dir": "res/final_experiments"
+  },
+  "main_models": [
+    "LinearRegression",
+    "RBF-SVR"
+  ],
+  "supplementary_models": [
+    "ResNet18+LinearRegression",
+    "ResNet18+RBF-SVR"
+  ],
+  "test_queries_scored_per_model": 40,
+  "test_gallery": 132,
+  "independent_review_counts": {
+    "confirmed": 28,
+    "rejected": 7,
+    "uncertain": 5
+  },
+  "verified_query_ids": [
+    "R02N09",
+    "R02N10",
+    "R02N12",
+    "R02N15",
+    "R02N21",
+    "R02N29",
+    "R02N37",
+    "R02N43",
+    "R09N05",
+    "R09N12",
+    "R09N13",
+    "R09N20",
+    "R09N23",
+    "R09N27",
+    "R09N33",
+    "R09N34",
+    "R14N07",
+    "R14N08",
+    "R14N15",
+    "R14N20",
+    "R14N22",
+    "R18N01",
+    "R18N04",
+    "R18N09",
+    "R18N14",
+    "R18N20",
+    "R18N22",
+    "R18N24"
+  ],
+  "test_extraction": {
+    "images": 172,
+    "pairs": 5280,
+    "image_seconds": 3.887210499990033,
+    "total_seconds": 6.147452300006989,
+    "namespace": "396d667e84c37edf30ed"
+  },
+  "protected_files_unchanged": true,
+  "protected_hashes": {
+    "config\\evaluation\\queries.csv": "bfff9a36a54496877ba8aeea4988af65c98780cabf925f0fe744513db3486044",
+    "config\\evaluation\\gallery.csv": "22c674ab00cf0900fa4c8c51bfb9013300f3a8c95ea0a96249d54e21a257e180",
+    "config\\evaluation\\protocol.json": "506df84cc34357408f840d56910485168e2e8f91ebb5495c92dd728797f263ac",
+    "config\\evaluation\\independent_review.csv": "2a23dcefbebfe13d3bfb1a8d6343ea543a183518654b25f8cb8fa9be616a50e2",
+    "config\\pair_review.csv": "0a9f5abe63c1cae244043705f42661dbd0f2ea3beb90142fd3b4122968ed125a",
+    "config\\svr_selection.json": "433f351d91148be785c2551a0aa2fb545d7ac283c1ddb208546ab3b4c28c024f"
+  },
+  "training_pair_identity_hash": "cdf0dc23f287735b00089c621196f4ff773de629a3ab65f226db8cc5dbb1b6eb",
+  "variants_use_test": false,
+  "variants_use_fixed_main_svr_parameters": true,
+  "variant_interpretation": "Controlled validation diagnostics at fixed hyperparameters, not separately optimized models; full frame is resized to square.",
+  "independent_accuracy_scope": "Verified subset only; rejected and uncertain queries retained without accuracy labels. Filename diagnostics do not validate the full sample.",
+  "model_selection_after_test": false,
+  "refitted_on_train_plus_validation": false,
+  "uncertainty": "Wilson Top-k (bootstrap if fractional ties); query-bootstrap MRR and paired differences; conditional on verified queries/fixed gallery, not independent orchard rows."
+}

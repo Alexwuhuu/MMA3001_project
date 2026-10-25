@@ -1,0 +1,18 @@
+body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 16px; line-height: 1.65; }
+div.body h1, div.body h2, div.body h3 { font-family: inherit; line-height: 1.25; }
+div.body h1 { font-size: 2rem; }
+div.document { width: 1180px; }
+div.body { max-width: 900px; padding: 0 30px 30px; }
+div.sphinxsidebar { width: 250px; }
+div.bodywrapper { margin: 0 0 0 250px; }
+pre { font-size: 0.82rem; line-height: 1.5; overflow-x: auto; }
+.sig { overflow-wrap: anywhere; }
+code { overflow-wrap: anywhere; }
+table.docutils { display: block; max-width: 100%; overflow-x: auto; }
+dl.field-list > dt { font-weight: 650; }
+@media screen and (max-width: 1000px) {
+  div.document { width: auto; }
+  div.bodywrapper { margin: 0; }
+  div.sphinxsidebar { width: auto; }
+  div.body { min-width: 0; padding: 15px; }
+}

@@ -22,7 +22,19 @@ from .utils import file_digest, read_rgb
 
 
 def download_weights(root: Path, settings: dict) -> Path:
-    """Download the explicitly pinned official checkpoint and verify its hash prefix."""
+    """Download and verify the explicitly pinned official ResNet18 checkpoint.
+
+    Args:
+        root (Path): Project base for the checkpoint path.
+        settings (dict): checkpoint, pinned weights_url, weights name and hash prefix.
+
+    Returns:
+        Path: Verified local checkpoint path; an existing valid file is reused.
+
+    Raises:
+        ValueError: The URL, weight name or digest differs from the pinned version.
+        OSError: Network download or local checkpoint access fails.
+    """
     if settings["weights_url"] != "https://download.pytorch.org/models/resnet18-f37072fd.pth":
         raise ValueError("Only the pinned official ResNet18 checkpoint is supported")
     path = Path(root) / settings["checkpoint"]
@@ -38,6 +50,20 @@ def download_weights(root: Path, settings: dict) -> Path:
 
 
 def verify_weights(path: Path, settings: dict) -> str:
+    """Check the required weight version and file digest before encoder loading.
+
+    Args:
+        path (Path): Checkpoint file to verify.
+        settings (dict): weights="IMAGENET1K_V1" and weights_hash_prefix="f37072fd".
+
+    Returns:
+        str: Complete SHA-256 digest whose prefix matches the official checkpoint.
+
+    Raises:
+        FileNotFoundError: The checkpoint is absent.
+        ValueError: Weight identifiers or checksum prefix do not match.
+        OSError: Checkpoint bytes cannot be read.
+    """
     if settings["weights"] != "IMAGENET1K_V1" or settings["weights_hash_prefix"] != "f37072fd":
         raise ValueError("Use the pinned IMAGENET1K_V1 weights")
     if not path.is_file():
@@ -49,16 +75,42 @@ def verify_weights(path: Path, settings: dict) -> str:
 
 
 def frozen_encoder(checkpoint: Path | None, device: str = "cpu"):
-    """Build a frozen, evaluation-mode 512-D encoder; None is for architecture tests only."""
+    """Construct a frozen, evaluation-mode ResNet18 with a 512-dimensional output.
+
+    Args:
+        checkpoint (Path | None): Verified state dictionary; None uses random weights for
+            architecture tests only.
+        device (str): PyTorch target device such as "cpu" or "cuda".
+
+    Returns:
+        torch.nn.Module: Encoder with its final classifier replaced by Identity and gradients
+        disabled.
+
+    Raises:
+        OSError: The checkpoint cannot be read.
+        RuntimeError: State-dictionary loading or device placement fails.
+    """
     model = resnet18(weights=None)
     if checkpoint is not None:
         model.load_state_dict(torch.load(checkpoint, map_location="cpu", weights_only=True), strict=True)
+    # Remove class logits so downstream PCA receives the frozen image representation.
     model.fc = torch.nn.Identity()
     model.requires_grad_(False)
     return model.to(device).eval()
 
 
 def _unit_vectors(values):
+    """Validate and L2-normalize a batch of nonzero image embeddings.
+
+    Args:
+        values (array-like): Finite embedding matrix with shape (N, 512).
+
+    Returns:
+        numpy.ndarray: Float64 matrix with unit row norms and shape (N, 512).
+
+    Raises:
+        ValueError: Shape, finiteness or a nonzero row-norm requirement fails.
+    """
     values = np.asarray(values, dtype=np.float64)
     if values.ndim != 2 or values.shape[1] != 512 or not np.isfinite(values).all():
         raise ValueError("Expected finite, nonzero N×512 image embeddings")
@@ -69,12 +121,29 @@ def _unit_vectors(values):
 
 
 def embed_paths(paths, root: Path, settings: dict) -> tuple[dict, dict]:
-    """Embed only the explicit RGB paths, with safe numeric caches and content keys.
+    """Embed explicit RGB paths using a verified frozen encoder and numeric content caches.
 
-    Preprocessing: center-square crop, then the official V1 resize256/crop224/
-    ImageNet normalization. Cache keys include image/weight/code hashes, versions,
-    device, batch size, and deterministic inference settings. Test paths are never
-    supplied by the development workflow. CPU is supported when CUDA is absent.
+    A centered square uses official V1 resize/crop/normalization. Keys include
+    image/weight/source hashes, software versions, device and deterministic runtime
+    settings. The caller controls which split paths reach this low-level function.
+
+    Args:
+        paths (iterable[str | Path]): RGB paths, absolute or relative to root; duplicates are
+            embedded once.
+        root (Path): Project base for images, checkpoint and caches.
+        settings (dict): Verified weight fields, checkpoint/cache paths, device, batch_size,
+            cpu_threads and seed.
+
+    Returns:
+        tuple[dict, dict]: Mapping from string paths to normalized 512-element vectors, and
+        encoder/cache/device/version/timing provenance.
+
+    Raises:
+        FileNotFoundError: The checkpoint or an RGB file is absent.
+        ValueError: Weights, RGB data, cached embeddings or device/batch/thread settings are
+            invalid.
+        RuntimeError: PyTorch inference or device allocation fails.
+        OSError: Image/checkpoint/cache access fails.
     """
     start = perf_counter()
     checkpoint = root / settings["checkpoint"]
@@ -142,7 +211,21 @@ def embed_paths(paths, root: Path, settings: dict) -> tuple[dict, dict]:
 
 
 def fit_projection(embeddings: pd.DataFrame, components=32) -> PCA:
-    """Fit PCA on both seasons of training images only, with no row/identity inputs."""
+    """Fit PCA using both seasons of training images only.
+
+    Args:
+        embeddings (pandas.DataFrame): Rows with split and finite nonzero 512-element embedding
+            arrays.
+        components (int): Positive PCA dimension, at most 512 and smaller than the number of
+            training images.
+
+    Returns:
+        sklearn.decomposition.PCA: Fitted full-SVD projection; validation rows never enter fit.
+
+    Raises:
+        ValueError: Component count or training embedding dimensions/values are invalid.
+    """
+    # Both training seasons may define PCA; held-out images may only be transformed.
     train = embeddings[embeddings.split.eq("train")]
     if not isinstance(components, int) or components < 1 or components >= min(len(train), 513):
         raise ValueError("PCA components must be positive and smaller than the number of training images")
@@ -152,12 +235,33 @@ def fit_projection(embeddings: pd.DataFrame, components=32) -> PCA:
 
 
 def pair_columns(components: int) -> list[str]:
+    """Name PCA-coordinate differences, products and original-vector cosine distance.
+
+    Args:
+        components (int): Number of fitted PCA coordinates.
+
+    Returns:
+        list[str]: Ordered 2 * components + 1 feature names.
+    """
     return ([f"pca_abs_{i:02d}" for i in range(components)] +
             [f"pca_product_{i:02d}" for i in range(components)] + ["deep_cosine_distance"])
 
 
 def pair_matrix(query_embeddings, candidate_embeddings, projection):
-    """Return |PCA(q)-PCA(c)|, PCA(q)*PCA(c), and original-embedding cosine distance."""
+    """Construct dimensionless PCA differences/products and embedding cosine distances.
+
+    Args:
+        query_embeddings (array-like): Nonzero finite query vectors with shape (N, 512).
+        candidate_embeddings (array-like): Aligned candidate vectors with the same shape.
+        projection (sklearn.decomposition.PCA): Projection fitted on training images only.
+
+    Returns:
+        numpy.ndarray: Shape (N, 2 * components + 1), ordered as absolute PCA differences, PCA
+        products, then cosine distance clipped to [0, 2].
+
+    Raises:
+        ValueError: Embedding shapes/values or fitted projection dimensions are incompatible.
+    """
     query, candidate = _unit_vectors(query_embeddings), _unit_vectors(candidate_embeddings)
     if query.shape != candidate.shape:
         raise ValueError("Pair arrays must have equal shapes")
@@ -167,7 +271,21 @@ def pair_matrix(query_embeddings, candidate_embeddings, projection):
 
 
 def build_pair_tables(embeddings: pd.DataFrame, projection) -> dict[str, pd.DataFrame]:
-    """Construct complete train/validation galleries, never test pairs."""
+    """Construct complete train/validation pair matrices from seasonal embeddings.
+
+    Args:
+        embeddings (pandas.DataFrame): Development tree_id/split/season/embedding rows with one
+            Summer and Winter image per identity.
+        projection (sklearn.decomposition.PCA): Training-fitted PCA projection.
+
+    Returns:
+        dict[str, pandas.DataFrame]: Complete split galleries with split/query_id/candidate_id
+        metadata and numeric columns from pair_columns.
+
+    Raises:
+        ValueError: Test observations, duplicated/missing seasons or invalid embeddings are
+            supplied.
+    """
     if not set(embeddings.split).issubset({"train", "validation"}):
         raise ValueError("Development embeddings must exclude test observations")
     columns = pair_columns(projection.n_components_)

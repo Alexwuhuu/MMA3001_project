@@ -25,12 +25,36 @@ FILE_PATTERN = re.compile(
 
 
 def write_json(path: Path, value: Any) -> None:
-    """Write UTF-8 JSON; callers must convert non-finite values to null."""
+    """Write strict UTF-8 JSON, creating parent directories as needed.
+
+    Args:
+        path (Path): Destination JSON file.
+        value (Any): JSON-serializable data; replace non-finite numbers with None.
+
+    Returns:
+        None: The destination is created or overwritten.
+
+    Raises:
+        ValueError: A value contains NaN or infinity.
+        TypeError: A value cannot be serialized as JSON.
+        OSError: The destination cannot be written.
+    """
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8")
 
 
 def file_digest(path: Path) -> str:
+    """Hash a file in blocks without loading its complete contents into memory.
+
+    Args:
+        path (Path): Existing file to read in binary mode.
+
+    Returns:
+        str: Lowercase, 64-character SHA-256 hexadecimal digest.
+
+    Raises:
+        OSError: The file is missing or cannot be read.
+    """
     digest = hashlib.sha256()
     with path.open("rb") as stream:
         for block in iter(lambda: stream.read(1024 * 1024), b""):
@@ -39,7 +63,19 @@ def file_digest(path: Path) -> str:
 
 
 def read_review_csv(path: str | Path) -> pd.DataFrame:
-    """Read Excel UTF-8/BOM or legacy GB18030 CSV without rewriting its bytes."""
+    """Read a review ledger without changing its original encoding or bytes.
+
+    Args:
+        path (str | Path): CSV encoded as UTF-8, UTF-8 with BOM, or legacy GB18030.
+
+    Returns:
+        pandas.DataFrame: Parsed records; empty fields remain empty strings.
+
+    Raises:
+        OSError: The source cannot be read.
+        UnicodeDecodeError: Neither supported encoding can decode the source.
+        pandas.errors.ParserError: The decoded CSV is malformed.
+    """
     raw = Path(path).read_bytes()
     try:
         content = raw.decode("utf-8-sig")
@@ -49,7 +85,21 @@ def read_review_csv(path: str | Path) -> pd.DataFrame:
 
 
 def parse_filename(name: str) -> dict | None:
-    """Parse the identity prefix; the suffix may contain an old name (R04)."""
+    """Parse the leading TreeID identity rather than an optional historical suffix.
+
+    Args:
+        name (str): PNG basename using row, N/U number, season, modality and suffix.
+
+    Returns:
+        dict | None: Normalized row/kind/season/modality, integer number and raw suffix, or None
+        for an unsupported name.
+
+    Examples:
+        >>> parse_filename("R04N01_Summer_RGB-old.png")["row"]
+        'R04'
+        >>> parse_filename("satellite.png") is None
+        True
+    """
     match = FILE_PATTERN.match(name)
     if match is None:
         return None
@@ -61,7 +111,18 @@ def parse_filename(name: str) -> dict | None:
 
 
 def read_rgb(path: str | Path) -> np.ndarray:
-    """Return H×W×3 uint8 RGB. Unreadable files raise a clear ValueError."""
+    """Decode an image to an independent RGB array.
+
+    Args:
+        path (str | Path): Image file supported by Pillow.
+
+    Returns:
+        numpy.ndarray: Shape (height, width, 3), dtype uint8, RGB channel order.
+
+    Raises:
+        ValueError: The image is missing, corrupt, unreadable, or smaller than two pixels in
+            either dimension.
+    """
     try:
         with Image.open(path) as image:
             image.load()
@@ -73,10 +134,18 @@ def read_rgb(path: str | Path) -> np.ndarray:
 
 
 def read_depth(path: str | Path | None, shape: tuple[int, int]) -> tuple[np.ndarray | None, str]:
-    """Accept only same-size 8-bit grayscale or three equal grayscale channels.
+    """Read a compatible D-intensity image and explain unavailable data.
 
-    Zero intensity is separately described; no physical depth scale is assumed.
-    Unsupported/missing D is represented as unavailable, not fabricated depth.
+    Zero intensity is retained; no conversion to physical distance is assumed.
+
+    Args:
+        path (str | Path | None): Optional D image; empty or missing paths are permitted.
+        shape (tuple[int, int]): Required (height, width) matching the original RGB image.
+
+    Returns:
+        tuple[numpy.ndarray | None, str]: A uint8 2D array and "ok", or None with missing_depth,
+        unsupported_depth_dtype, unsupported_coloured_depth, depth_shape_mismatch, or
+        corrupt_depth. Three identical grayscale channels are accepted.
     """
     if not path or not Path(path).is_file():
         return None, "missing_depth"
@@ -99,11 +168,23 @@ def read_depth(path: str | Path | None, shape: tuple[int, int]) -> tuple[np.ndar
 
 
 def index_dataset(root: str | Path) -> pd.DataFrame:
-    """Return one row per subset/identity/season, including invalid observations.
+    """Audit TreeID observations, retaining invalid images and unmatched U records.
 
-    Columns include RGB/D/GT paths, dimensions, SHA-256, depth status and valid_rgb.
-    U denotes unmatched observations and is never interpreted as paired identity.
-    Duplicate modalities raise instead of silently selecting an arbitrary image.
+    One record represents a subset/identity/season. GT masks are inspected only for
+    quality reporting and never establish a matched identity.
+
+    Args:
+        root (str | Path): Dataset directory recursively containing seasonal PNG files.
+
+    Returns:
+        pandas.DataFrame: Sorted observations with identity metadata, RGB/D/GT paths,
+        dimensions, content hashes, validity flags and quality statuses.
+
+    Raises:
+        FileNotFoundError: The dataset directory does not exist.
+        ValueError: No supported observations exist or a modality occurs twice for an
+            observation.
+        OSError: A source file cannot be read for hashing.
     """
     root = Path(root).resolve()
     if not root.is_dir():
@@ -111,7 +192,8 @@ def index_dataset(root: str | Path) -> pd.DataFrame:
     records: dict[tuple, dict] = {}
     for path in sorted(root.rglob("*.png")):
         info = parse_filename(path.name)
-        if info is None:  # satellite image / static resources
+        # Static resources such as satellite images do not represent seasonal observations.
+        if info is None:
             continue
         subset = path.parent.relative_to(root).as_posix()
         key = (subset, info["row"], info["kind"], info["number"], info["season"])
@@ -159,7 +241,19 @@ def index_dataset(root: str | Path) -> pd.DataFrame:
 
 
 def matched_cases(index: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Build N-only Summer/Winter pairs; explicitly export all exclusions."""
+    """Build filename-based N pairs and record missing or corrupt seasonal exclusions.
+
+    Args:
+        index (pandas.DataFrame): Observation table from index_dataset.
+
+    Returns:
+        tuple[pandas.DataFrame, pandas.DataFrame]: Eligible cases with tree_id, row, number and
+        seasonal RGB/D paths, plus exclusions with subset, tree_id and reason. U
+        observations do not enter either N-pair table.
+
+    Raises:
+        ValueError: No valid N pairs remain or an N identity occurs in multiple subsets.
+    """
     cases, excluded = [], []
     selected = index.loc[index["kind"].eq("N")]
     for (subset, tree_id), group in selected.groupby(["subset", "tree_id"], sort=True):
@@ -180,7 +274,20 @@ def matched_cases(index: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
 
 def assign_splits(cases: pd.DataFrame, seed: int = 42) -> pd.DataFrame:
-    """Split complete orchard rows 60/20/20 before constructing image pairs."""
+    """Assign whole orchard rows to deterministic 60/20/20 development and test splits.
+
+    Args:
+        cases (pandas.DataFrame): Eligible cases containing row, tree_id and summer_rgb.
+        seed (int): Seed for the permutation of sorted orchard rows.
+
+    Returns:
+        pandas.DataFrame: A copy with split values train, validation or test; row and identity
+        membership stays disjoint.
+
+    Raises:
+        ValueError: Fewer than five orchard rows are available.
+        AssertionError: An internal split-isolation invariant fails.
+    """
     rows = np.array(sorted(cases["row"].unique()))
     if len(rows) < 5:
         raise ValueError("At least five rows are needed for disjoint train/validation/test groups")

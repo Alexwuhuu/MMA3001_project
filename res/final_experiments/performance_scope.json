@@ -1,0 +1,8 @@
+{
+  "query_selection": "first validation ID, complete validation gallery",
+  "appearance": "precomputed and shared across modes",
+  "descriptor_cache": "in-memory numeric arrays; build cost reported separately",
+  "uncached": "decode/crop/ORB query and candidate anew for each pair; warm OS file cache",
+  "timing": "perf_counter, five runs, median; includes matching/RANSAC/scoring/ranking; excludes model loading and appearance",
+  "memory": "separate run, RSS sampled every 10ms, absolute shared process footprint"
+}

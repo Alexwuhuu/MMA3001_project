@@ -19,6 +19,18 @@ from .utils import file_digest, read_review_csv, write_json
 
 
 def load_screening_config(root: Path) -> dict:
+    """Read screening settings and reject test screening or invalid review batches.
+
+    Args:
+        root (Path): Project containing config/screening.json.
+
+    Returns:
+        dict: Validated split, batch, ratio and worker settings, plus extraction/output options.
+
+    Raises:
+        OSError: Configuration cannot be read.
+        ValueError: JSON, split, batch size, ratio or worker settings are invalid.
+    """
     settings = json.loads((Path(root) / "config/screening.json").read_text(encoding="utf-8"))
     if (not set(settings["screen_splits"]).issubset({"train", "validation"}) or
             not settings["screen_splits"] or settings["batch_size"] not in range(10, 21)):
@@ -29,11 +41,21 @@ def load_screening_config(root: Path) -> dict:
 
 
 def normalize_independent_review(review: pd.DataFrame) -> pd.DataFrame:
-    """Normalize explicit entry errors in memory while preserving source evidence.
+    """Normalize documented entry errors in memory while preserving source evidence.
 
-    `confrimed` is a spelling alias, not a new AI judgement. A pending entry with
-    an explicit inability-to-identify note is unresolved, never confirmed.
-    Original CSV bytes and notes are preserved; conversion reasons are exported.
+    The spelling alias "confrimed" becomes "confirmed". A named reviewer's explicit
+    inability-to-identify note converts pending to uncertain. No source CSV is written.
+
+    Args:
+        review (pandas.DataFrame): Independent ledger with independent_status, human_notes and
+            reviewer.
+
+    Returns:
+        pandas.DataFrame: Deep copy with effective independent_status,
+        original_independent_status and normalization_note; every input row is retained.
+
+    Raises:
+        KeyError: A required ledger column is absent.
     """
     result = review.copy(deep=True)
     result["original_independent_status"] = result["independent_status"]
@@ -55,12 +77,25 @@ def normalize_independent_review(review: pd.DataFrame) -> pd.DataFrame:
 
 
 def freeze_evaluation(cases: pd.DataFrame, root: Path, settings: dict) -> dict:
-    """Uniformly sample test identities once, without looking at matching scores.
+    """Freeze a uniform test-query sample before any feature extraction or scoring.
 
-    The entire eligible test gallery is fixed for both future regression models.
-    Reruns preserve query IDs and independent human decisions; changed test pools
-    raise rather than silently resampling. Rejected/uncertain audit cases must be
-    reported later, not replaced by easier cases after seeing model results.
+    The entire eligible test winter gallery and review ledger are preserved on reuse.
+    Rejected or unresolved audit queries must remain in the sample after evaluation.
+
+    Args:
+        cases (pandas.DataFrame): Eligible cases containing test identities and seasonal paths.
+        root (Path): Project base for images and protocol files.
+        settings (dict): evaluation_dir, evaluation_queries, evaluation_seed and screening
+            output_dir.
+
+    Returns:
+        dict: queries, gallery, normalized review, protocol and folder; newly created human
+        statuses are pending.
+
+    Raises:
+        ValueError: Sample size is invalid, frozen files are incomplete/changed, scoring
+            predates the sample, or the audit changes frozen identities/statuses.
+        OSError: An image or protocol/ledger file cannot be read or written.
     """
     folder = root / settings["evaluation_dir"]
     pool = portable_frame(cases[cases.split.eq("test")].sort_values("tree_id"), root)
@@ -122,12 +157,38 @@ def freeze_evaluation(cases: pd.DataFrame, root: Path, settings: dict) -> dict:
 
 
 def _worker_setup(seed: int):
+    """Set reproducible OpenCV state for each feature worker and limit nested threading.
+
+    Args:
+        seed (int): OpenCV random-generator seed.
+
+    Returns:
+        None: The current worker uses one OpenCV thread and the supplied seed.
+    """
     cv2.setNumThreads(1)
     cv2.setRNGSeed(seed)
 
 
 def build_pair_table(cases: pd.DataFrame, root: Path, settings: dict) -> tuple[pd.DataFrame, dict]:
-    """Evaluate each selected query against its entire split gallery, with resume caches."""
+    """Compare each selected development query with its complete split gallery.
+
+    Content/settings/source keyed image and per-query caches allow resuming. Test
+    splits are excluded before descriptors are extracted.
+
+    Args:
+        cases (pandas.DataFrame): Eligible cases with split, tree_id and seasonal RGB paths.
+        root (Path): Base for relative paths.
+        settings (dict): Screening splits, feature options, workers, seed, cache_dir and
+            min_screen_inliers.
+
+    Returns:
+        tuple[pandas.DataFrame, dict]: Full-gallery ORB/geometric rows with evidence_score, and
+        image/query/pair/cache/timing statistics.
+
+    Raises:
+        ValueError: No eligible development cases remain or RGB/preprocessing is invalid.
+        OSError: Images or cache files are inaccessible.
+    """
     start = perf_counter()
     selected = cases[cases.split.isin(settings["screen_splits"])].sort_values("tree_id").copy()
     if selected.empty or selected.split.eq("test").any():
@@ -163,6 +224,7 @@ def build_pair_table(cases: pd.DataFrame, root: Path, settings: dict) -> tuple[p
         frame = pd.DataFrame(records)
         temp = path.with_suffix(".tmp")
         frame.to_csv(temp, index=False)
+        # Publish a complete query table so interrupted runs cannot reuse a partial CSV.
         temp.replace(path)
         return frame, False
 
@@ -185,7 +247,25 @@ def build_pair_table(cases: pd.DataFrame, root: Path, settings: dict) -> tuple[p
 
 
 def rank_review_cases(pair_table: pd.DataFrame, cases: pd.DataFrame, settings: dict) -> pd.DataFrame:
-    """Describe label inconsistencies as review priorities, retaining all source labels."""
+    """Describe filename inconsistencies as review priorities without changing labels.
+
+    Geometry ties retain their complete range. Descriptor tie-breaks choose display
+    examples without converting all-zero geometry into confident alternatives.
+
+    Args:
+        pair_table (pandas.DataFrame): Complete development gallery features with
+            evidence_score.
+        cases (pandas.DataFrame): Unique identity metadata, review statuses/notes and seasonal
+            RGB paths.
+        settings (dict): alternatives count and min_screen_inliers evidence floor.
+
+    Returns:
+        pandas.DataFrame: One row per query with original rank range, issue tags,
+        supported-priority flag, provenance and alternative IDs/evidence.
+
+    Raises:
+        KeyError: A queried identity or required feature/provenance field is absent.
+    """
     identities = cases.set_index("tree_id")
     records = []
     for query_id, group in pair_table.groupby("query_id", sort=True):
@@ -234,7 +314,24 @@ def rank_review_cases(pair_table: pd.DataFrame, cases: pd.DataFrame, settings: d
 
 def run_targeted_review(root: str | Path, preparation: dict | None = None,
                         settings: dict | None = None, render: bool = True) -> dict:
-    """Freeze a blind audit, screen train/validation, and export human-review batches."""
+    """Freeze a blind audit, screen development pairs and export supported review batches.
+
+    Args:
+        root (str | Path): Project directory.
+        preparation (dict | None): Existing preparation result; None runs preparation without
+            figures.
+        settings (dict | None): Screening configuration; None loads config/screening.json.
+        render (bool): Whether to generate review HTML and original-image contact sheets.
+
+    Returns:
+        dict: cases, pair_features, rankings, queue, batches, evaluation, summary, links and
+        output_dir. No models are fitted and no test pairs are scored.
+
+    Raises:
+        ValueError: Test screening is requested or preparation/protocol validation fails.
+        RuntimeError: The human-review ledger changes during screening.
+        OSError: Inputs, caches or outputs are inaccessible.
+    """
     root = Path(root).resolve()
     settings = dict(settings or load_screening_config(root))
     if not set(settings["screen_splits"]).issubset({"train", "validation"}):

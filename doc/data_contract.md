@@ -167,7 +167,7 @@ Validation uses every candidate in the validation split, without row restriction
 class-specific sampled-training and full-validation MAE/RMSE, balanced-class MAE,
 resolved gamma, support-vector count, iterations, and repeated prediction times.
 Training and validation error aggregates have different class frequencies; their
-class-specific errors should accompany overall errors. No test metrics exist.
+class-specific errors should accompany overall errors. Stage 6 creates no test metrics.
 
 `config/svr_selection.json` is the frozen small selection record. It contains a
 fingerprint of feature tables, shared training samples, code, settings, and
@@ -237,3 +237,157 @@ The extension-only notebook runner executes configuration and cells tagged
 It uses existing stage-5 inputs and preserves original experiment files. A normal
 Restart & Run All executes the entire workflow. Additional dependency versions and
 the explicit checkpoint download are documented in README and requirements-resnet.
+
+## Stage 7: final evaluation contract
+
+`src.final_experiments.run_final` takes the completed preparation, screening,
+baseline and locked SVR results. Its preflight validates exact sampled features,
+weights, preprocessing, model parameters and original protocol hashes. The six
+controlled variants use training/validation only; the unchanged main SVR settings
+apply to every variant. The reference must reproduce saved validation scores.
+Feature caches key on image content, ORB/appearance settings and code. Missing D,
+descriptors and geometry remain represented, never silently deleting a pair.
+
+Before test feature extraction, `final_experiments_lock.json` records all choices
+and input hashes. Each frozen query uses the entire frozen gallery. The source
+human ledgers, query/gallery/protocol and selections remain byte-identical.
+The optional ResNet test branch uses its previously locked PCA/model without fit.
+
+`test_pair_features.csv` has split/query/candidate metadata and the 21 fixed
+numerical features. `supplementary_test_pair_features.csv` holds the 65 neural
+pair features when enabled. Metadata columns never reach pipeline.predict.
+Each `*_test_rankings.csv` retains all candidates for every sampled query with
+scores, display rank and tolerance-aware rank ranges. `*_test_queries.csv` keeps
+the independent human status for all sampled IDs. `verified_eligible` is true only
+for confirmed pairs; verified metric columns are null for all other statuses.
+Top-k and reciprocal-rank columns without the verified prefix describe filename
+positions, including unverified records, and are not independent truth.
+
+`test_metrics.json` separates confirmed-subset retrieval/regression/95% intervals
+from `all_sample_filename_diagnostic`. Rejected/uncertain/pending cases remain in
+sample counts and rankings. Primary regression errors use confirmed queries only;
+other gallery IDs are assumed distinct filenames. Wilson intervals require binary
+Top-k credit; fractional ties use bootstrap instead. MRR and paired differences
+bootstrap queries with seed 42. These are conditional on the verified subset and
+fixed gallery, not orchard-row population intervals. No model is tuned on test.
+
+`development_comparison.csv` reports reference, D/RANSAC ablations, crop and size
+controls, positive/negative errors, support counts and raw/median fit/score times.
+`svr_parameter_sensitivity.csv` preserves all original 18 development trials.
+`performance.csv`, `performance_scope.json`, and `memory_and_models.csv` distinguish
+cache build, warm query timing, sampled absolute RSS and array storage. `.prof`
+and text summaries profile cumulative calls in the cached batch query path.
+
+## Stage 8: export and verification contract
+
+`src.reproduce.export_run` copies source/configuration, a clean source notebook,
+all fitted models and explicit preprocessors, environment versions, human
+records, numeric test features/rankings and aggregate figures to an ignored
+portable directory. Raw data, example photographs, pretrained weights and large
+development caches are excluded. The source workspace notebook keeps outputs.
+`RUN.md` gives environment and execution instructions; `feature_schema.json`
+fixes feature order and preprocessing; `replay.json` maps each model to its feature
+and reference ranking tables. `manifest.json` lists SHA-256 and bytes for every
+packaged file except itself. Its own digest is in local `export_summary.json`.
+Unexpected old export files cause an error instead of silently retaining them.
+
+`verify_export` checks paths/hashes before loading trusted joblib files, replays
+all scores from numeric features, and checks rank ranges/display order. The
+original-image check separately reloads both main models and compares full-gallery
+validation predictions. A copied bundle can replay without data or CNN weights;
+image extraction needs the user-supplied original images and optional checkpoint.
+Small aggregate results under res/ are suitable for version control. A different
+software/feature/device environment needs separate selection/output paths.
+
+## Original-feature model-parameter revision (main notebook section 6.4)
+
+`tools/tune_svr_parameters.py` validates/reuses the baseline's exact numeric
+features, training pairs and inverse-frequency weights. It accepts complete
+train/validation galleries only. The revised 36-setting grid and MRR-first order
+are in `config/svr_tuning.json`, with a separate `config/svr_tuning_selection.json`
+lock and `outputs/svr_parameter_tuning/` artifacts. Imputation/scaling fit training
+samples only and are checked against the baseline. All trial errors distinguish
+positive/negative pairs; batch prediction and final fitting repeat five times.
+
+The main notebook stores the revised model as `svr_tuned`; its original `svr`
+continues to define historical sections 7-8. No test features or results enter
+this revision. The saved validation feature table, two model bundles, reference
+rankings and manifest support numeric replay with `src.reproduce.verify_export`.
+The optimization-copy notebook remains separate and is not edited by this run.
+
+## Validation-only optimization contract (section 9 in the separate copy)
+
+`apple_tree_matching_opt_attempt.ipynb` contains the validation-only revision and
+its saved outputs. `apple_tree_matching.ipynb` retains the original stages 1-8.
+Use `tools/run_notebook.py --notebook apple_tree_matching_opt_attempt.ipynb
+--optimization-only --in-place` to select this checkout's copy. The historical
+runner default and notebook-export wrapper still name the absent
+`apple_tree_matching_optimization.ipynb`; see the [first-run guide](quickstart.md).
+
+The original src/ executable implementation and its locked model/test artifacts
+are preserved. Comments/docstrings were expanded for the software reference;
+raw source hashes consequently change (see [maintenance](maintenance.md)).
+The opt-in revision is in tools/matching_diagnostics.py,
+tools/relative_features.py and tools/feature_optimization.py. Its plan is
+`doc/optimization_plan.md`, its settings `config/optimization.json`, and its
+selection `config/optimization_selection.json`. No test features/predictions are
+accepted by the new feature constructor or used in selection.
+
+Original validation diagnostics report finite-only AUC with class-specific
+coverage and missingness, train-imputed AUC and all-gallery single-feature MRR
+for both directions. Full rankings distribute expected Top-k credit over boundary
+ties; displayed ties still sort IDs solely for inspection. Hub counts and rank
+histograms/CDFs describe filename identities, not new human confirmations.
+
+Image features key on RGB/D content, settings, OpenCV and implementation hashes.
+Numeric NPZ caches are written atomically and loaded with allow_pickle=False.
+One Hamming kNN computation serves both 0.85/0.90 ratio filters, each retaining the
+original unique-target filter and affine-RANSAC definition. CLAHE affects ORB
+grayscale only. Masked settings also restrict appearance summaries to a central
+D-intensity-percentile band; zero/unavailable/poor masks fall back to full image
+and are audited. D intensity direction is unknown, and these masks have no
+verified segmentation/physical-distance interpretation.
+
+The five raw/screening representations are explicit. Eligible models remove
+`query_keypoints`, `missing_query_descriptors`, `missing_query_depth`, and
+`query_depth_no_nonzero`. The pair-only and relative representations additionally
+remove the four pure candidate columns. A pairwise foreground-fraction difference
+is added. Seasonal residual features use per-season means/scales fitted on the
+two seasons of training images only; percentile-D histograms use each image's
+nonzero distribution without a fitted depth scale.
+
+Missing fills fit the original sampled training pairs. The full-gallery context
+then appends direction-oriented percentile ranks/z-scores, and nonnegative match
+count/rate ratios to the maximum/second maximum (bounded at 10 for a near-zero
+second maximum). Constant columns have zero z-score and neutral percentile. The
+full training gallery is processed before selecting the original sampled pair
+rows. Inference context uses the entire intended candidate gallery, so adding or
+removing candidates can change scores. No candidate labels enter this transform.
+These global fills and the pipeline imputer/scaler are training-only fits.
+
+The screening pilot is C=1/gamma=scale/epsilon=0.2. Only eligible pilot SVR results
+select an image/representation by MRR first. A separate 36-fit grid selects
+C/gamma/epsilon on that representation using MRR, then Top-1, Top-5, scoring time
+and trial ID. The grid stores five raw timing repetitions and all class errors /
+support-vector fractions. Raw all-column controls are descriptive and cannot win
+final selection. This staged design is not an exhaustive joint search.
+
+The new selection fingerprint includes raw development image hashes, original
+pair IDs/targets/weights, source/versions and the complete predeclared settings.
+A changed fingerprint requires a separate lock/output. An unchanged run verifies
+artifact hashes and reuses saved fitted models, rather than repeating selection
+with noisy timing. Historical model, label and result hashes are checked around
+execution. No test image inference occurs in this new workflow.
+
+`match_tree_optimized` takes query RGB/D, a complete candidate_id/rgb/depth gallery,
+a trusted saved optimized bundle and a root. Bundles contain global fills,
+train-fitted season statistics, image settings, feature order and the fitted
+imputer/scaler/regressor. The legacy matching API remains for the old models.
+Every saved new model must reproduce complete validation image inference.
+
+The separate optimization export includes the new source/configuration/clean
+notebook, models, numerical validation features and rankings, metrics and aggregate
+figures. It excludes original images, foreground example photographs and large
+caches. The unchanged generic checksum/score/rank replay verifies both optimized
+models. Small results go under res/feature_optimization/. The historical export
+and test results are preserved; new validation scores are development evidence.

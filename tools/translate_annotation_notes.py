@@ -31,7 +31,24 @@ CJK = re.compile(r"[\u3400-\u9fff]")
 
 
 def translate_notes(root: Path = ROOT) -> dict:
-    """Update note columns and their displayed copies, with a pre-edit backup."""
+    """Translate only exact known annotation notes after backing up every changed file.
+
+    Non-note fields are checked unchanged. Displayed CSV/HTML/notebook copies are
+    updated too; this migration can change artifact bytes and should be run only
+    when intentionally migrating annotations, never as a documentation-build step.
+
+    Args:
+        root (Path): Project with config/outputs ledgers and displayed notebook/HTML copies.
+
+    Returns:
+        dict: Change/backup/protected-file evidence, or changed_files=0 when no migration is
+        needed.
+
+    Raises:
+        ValueError: An unknown Chinese note is encountered before writes.
+        AssertionError: A non-note CSV field changes.
+        OSError: Source/backup/output files are inaccessible.
+    """
     root = root.resolve()
     planned, evidence = [], []
     for folder in (root / "config", root / "outputs"):

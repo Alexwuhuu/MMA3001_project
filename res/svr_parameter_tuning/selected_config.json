@@ -1,0 +1,49 @@
+{
+  "model": "RBF-SVR (original-feature parameter refinement)",
+  "parameters": {
+    "C": 10.0,
+    "gamma": 0.01,
+    "epsilon": 0.01
+  },
+  "selected_trial_id": 28,
+  "selection_order": [
+    "highest_validation_mrr",
+    "highest_validation_top1",
+    "highest_validation_top5",
+    "lowest_median_query_ms",
+    "lowest_trial_id"
+  ],
+  "selection_split": "validation",
+  "input_fingerprint": "1b65558e3ab0e1dff0ab85de6ec2e6e9c6632d8f43dc2437fec8ca45b22f2770",
+  "feature_columns": [
+    "query_keypoints",
+    "candidate_keypoints",
+    "good_matches",
+    "good_match_ratio",
+    "hamming_mean",
+    "hamming_median",
+    "ransac_inliers",
+    "ransac_inlier_ratio",
+    "reprojection_rmse_px",
+    "missing_query_descriptors",
+    "missing_candidate_descriptors",
+    "geometry_failed",
+    "hsv_hellinger",
+    "depth_hellinger",
+    "depth_mean_difference",
+    "depth_std_difference",
+    "depth_zero_fraction_difference",
+    "missing_query_depth",
+    "missing_candidate_depth",
+    "query_depth_no_nonzero",
+    "candidate_depth_no_nonzero"
+  ],
+  "grid_trials": 36,
+  "training_pair_identity_hash": "cdf0dc23f287735b00089c621196f4ff773de629a3ab65f226db8cc5dbb1b6eb",
+  "validation_mrr": 0.06690368437801375,
+  "validation_top1": 0.026785714285714284,
+  "validation_top5": 0.0625,
+  "selection_query_ms": 12.720133035795048,
+  "fit_split": "train_only",
+  "test_queries_scored": 0
+}

@@ -1,0 +1,126 @@
+{
+  "settings": {
+    "output_dir": "outputs/feature_optimization",
+    "diagnostics_dir": "outputs/validation_diagnostics",
+    "cache_dir": ".cache/feature_optimization",
+    "selection_file": "config/optimization_selection.json",
+    "small_results_dir": "res/feature_optimization",
+    "export_dir": "outputs/optimization_reproducibility",
+    "seed": 42,
+    "image_size": 384,
+    "orb_nfeatures": 1000,
+    "crop": "center",
+    "ratios": [
+      0.85,
+      0.9
+    ],
+    "ransac_threshold_px": 4.5,
+    "ransac_max_iters": 2000,
+    "ransac_confidence": 0.99,
+    "workers": 4,
+    "hue_bins": 16,
+    "saturation_bins": 8,
+    "depth_bins": 16,
+    "clahe_clip_limit": 2.0,
+    "clahe_grid": [
+      8,
+      8
+    ],
+    "foreground_rank_band": 0.2,
+    "foreground_min_fraction": 0.02,
+    "foreground_max_fraction": 0.9,
+    "foreground_center_width": 0.8,
+    "preprocessing": [
+      "raw",
+      "clahe",
+      "clahe_depth"
+    ],
+    "representations": [
+      "raw_all",
+      "without_query",
+      "pair_only",
+      "query_relative",
+      "relative_season"
+    ],
+    "selection_eligible": [
+      "without_query",
+      "pair_only",
+      "query_relative",
+      "relative_season"
+    ],
+    "pilot_svr": {
+      "C": 1.0,
+      "gamma": "scale",
+      "epsilon": 0.2
+    },
+    "kernel": "rbf",
+    "C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "gamma": [
+      "scale",
+      0.01,
+      0.1
+    ],
+    "epsilon": [
+      0.01,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "tol": 0.001,
+    "cache_size_mb": 256,
+    "max_iter": -1,
+    "timing_repeats": 5,
+    "score_tie_atol": 1e-12,
+    "score_tie_rtol": 1e-10,
+    "selection_order": [
+      "highest_validation_mrr",
+      "highest_validation_top1",
+      "highest_validation_top5",
+      "lowest_median_query_ms",
+      "lowest_trial_id"
+    ]
+  },
+  "input_fingerprint": "f47bb912ba7f1f76e2b20cdddf34497f881b78aa237fed79171ec6419d971a12",
+  "selection_reused": false,
+  "selected_preprocessing": "raw",
+  "ratio": 0.85,
+  "representation": "without_query",
+  "parameters": {
+    "C": 1.0,
+    "gamma": "scale",
+    "epsilon": 0.2
+  },
+  "feature_count": 18,
+  "feature_screen_configurations": 30,
+  "grid_trials": 36,
+  "training_pairs": 3355,
+  "training_pair_identity_hash": "cdf0dc23f287735b00089c621196f4ff773de629a3ab65f226db8cc5dbb1b6eb",
+  "training_context_gallery": 305,
+  "validation_context_gallery": 112,
+  "support_vectors": 2619,
+  "support_vector_fraction": 0.7806259314456035,
+  "fit_seconds_repetitions": {
+    "LinearRegression": [
+      0.006069300026865676,
+      0.005653700005495921,
+      0.005643300013616681,
+      0.0055640000209677964,
+      0.005910400010179728
+    ],
+    "RBF-SVR": [
+      0.17784210000536405,
+      0.17212170001585037,
+      0.17051050000009127,
+      0.17172250000294298,
+      0.16820600000210106
+    ]
+  },
+  "historical_artifacts_unchanged": true,
+  "test_images_read": 0,
+  "test_queries_scored": 0,
+  "scope": "Repeated validation selection; development results only, no new independent accuracy claim"
+}

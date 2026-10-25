@@ -1,0 +1,124 @@
+{
+  "LinearRegression": {
+    "retrieval": {
+      "queries": 112,
+      "gallery_size": 112,
+      "top1": 0.0,
+      "top5": 0.044642857142857144,
+      "mrr": 0.044494252034526206,
+      "true_identity_tied_queries": 0,
+      "uniform_random_reference": {
+        "top1": 0.008928571428571428,
+        "top5": 0.044642857142857144,
+        "mrr": 0.047322965881085345
+      }
+    },
+    "regression": {
+      "all_pairs": {
+        "count": 12544,
+        "mae": 0.48861520814716847,
+        "rmse": 0.49038619794897187
+      },
+      "positive_pairs": {
+        "count": 112,
+        "mae": 0.5085901022763158,
+        "rmse": 0.5111939924528675
+      },
+      "negative_pairs": {
+        "count": 12432,
+        "mae": 0.4884352541460049,
+        "rmse": 0.49019472591205204
+      },
+      "balanced_class_mae": 0.4985126782111604
+    },
+    "train_sample_regression": {
+      "all_pairs": {
+        "count": 3355,
+        "mae": 0.4973669300062581,
+        "rmse": 0.4987748104071178
+      },
+      "positive_pairs": {
+        "count": 305,
+        "mae": 0.49736693000625837,
+        "rmse": 0.49856793514573794
+      },
+      "negative_pairs": {
+        "count": 3050,
+        "mae": 0.49736693000625803,
+        "rmse": 0.4987954932141764
+      },
+      "balanced_class_mae": 0.4973669300062582
+    },
+    "hubness": {
+      "queries": 112,
+      "candidates": 112,
+      "expected_top5_total": 560.0,
+      "max_top5_query_fraction": 0.42857142857142855,
+      "top10_candidate_share": 0.5267857142857143,
+      "top5_hhi": 0.037085459183673466,
+      "effective_candidates": 26.964746345657783,
+      "zero_top5_candidates": 37
+    }
+  },
+  "RBF-SVR": {
+    "retrieval": {
+      "queries": 112,
+      "gallery_size": 112,
+      "top1": 0.03571428571428571,
+      "top5": 0.0625,
+      "mrr": 0.07232182297896673,
+      "true_identity_tied_queries": 0,
+      "uniform_random_reference": {
+        "top1": 0.008928571428571428,
+        "top5": 0.044642857142857144,
+        "mrr": 0.047322965881085345
+      }
+    },
+    "regression": {
+      "all_pairs": {
+        "count": 12544,
+        "mae": 0.42381000972151717,
+        "rmse": 0.48963152535006504
+      },
+      "positive_pairs": {
+        "count": 112,
+        "mae": 0.5462422914642661,
+        "rmse": 0.6057833372818402
+      },
+      "negative_pairs": {
+        "count": 12432,
+        "mae": 0.42270701619230316,
+        "rmse": 0.4884595935904833
+      },
+      "balanced_class_mae": 0.4844746538282846
+    },
+    "train_sample_regression": {
+      "all_pairs": {
+        "count": 3355,
+        "mae": 0.36177706400700166,
+        "rmse": 0.4269916098664462
+      },
+      "positive_pairs": {
+        "count": 305,
+        "mae": 0.2696529337294737,
+        "rmse": 0.2961501370665835
+      },
+      "negative_pairs": {
+        "count": 3050,
+        "mae": 0.37098947703475443,
+        "rmse": 0.4379309626157047
+      },
+      "balanced_class_mae": 0.32032120538211406
+    },
+    "hubness": {
+      "queries": 112,
+      "candidates": 112,
+      "expected_top5_total": 560.0,
+      "max_top5_query_fraction": 0.15178571428571427,
+      "top10_candidate_share": 0.22142857142857142,
+      "top5_hhi": 0.013258928571428573,
+      "effective_candidates": 75.42087542087542,
+      "zero_top5_candidates": 4
+    }
+  }
+}

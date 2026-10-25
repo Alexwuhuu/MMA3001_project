@@ -6,6 +6,22 @@ from PIL import Image, ImageDraw
 
 
 def create_synthetic_dataset(root: Path, rows: int = 5, trees_per_row: int = 6) -> Path:
+    """Create deterministic tiny image fixtures for CI, without agricultural accuracy claims.
+
+    Args:
+        root (Path): New destination directory; an existing directory is rejected.
+        rows (int): Positive number of matched orchard rows; downstream splitting needs at least
+            five.
+        trees_per_row (int): Positive number of filename-matched identities per row.
+
+    Returns:
+        Path: Dataset root with seasonal RGB/D, Summer GT and two deliberately unpaired U
+        observations.
+
+    Raises:
+        FileExistsError: root already exists.
+        OSError: Fixture images or directories cannot be written.
+    """
     root = Path(root)
     root.mkdir(parents=True, exist_ok=False)
     folder = root / "Dataset (With Summer GT)"

@@ -1,2 +1,13 @@
 # Keep Python source hashes stable across Windows and Linux checkouts.
 *.py text eol=lf
+# Preserve the recorded byte hashes of frozen protocol/selection files on checkout.
+config/evaluation/queries.csv text eol=crlf
+config/evaluation/gallery.csv text eol=crlf
+config/evaluation/protocol.json text eol=crlf
+config/evaluation/independent_review.csv text eol=lf
+config/pair_review.csv text eol=lf
+config/svr_selection.json text eol=crlf
+config/resnet_svr_selection.json text eol=crlf
+config/optimization_selection.json text eol=crlf
+config/svr_tuning_selection.json text eol=crlf
+config/*_lock.json text eol=crlf

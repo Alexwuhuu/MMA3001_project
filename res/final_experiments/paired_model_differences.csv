@@ -1,0 +1,4 @@
+metric,verified_queries,svr_minus_linear,lower_95,upper_95,method
+top1,28,0.0,0.0,0.0,paired_query_bootstrap
+top5,28,0.0,0.0,0.0,paired_query_bootstrap
+reciprocal_rank,28,0.008602377330125035,0.0005297965997212366,0.017008564512524523,paired_query_bootstrap

@@ -1,0 +1,14 @@
+{
+  "output_dir": "outputs/svr_parameter_tuning",
+  "selection_file": "config/svr_tuning_selection.json",
+  "small_results_dir": "res/svr_parameter_tuning",
+  "kernel": "rbf",
+  "C": [0.1, 1.0, 10.0],
+  "gamma": ["scale", 0.01, 0.1],
+  "epsilon": [0.01, 0.1, 0.2, 0.3],
+  "tol": 0.001,
+  "cache_size_mb": 256,
+  "max_iter": -1,
+  "timing_repeats": 5,
+  "selection_order": ["highest_validation_mrr", "highest_validation_top1", "highest_validation_top5", "lowest_median_query_ms", "lowest_trial_id"]
+}

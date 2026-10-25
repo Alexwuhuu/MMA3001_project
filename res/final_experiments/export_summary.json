@@ -1,0 +1,45 @@
+{
+  "manifest_sha256": "0f335931b3105c1f70a129bbb3bfcdd2f9647f5a620a6b5fefb71f18db69a9db",
+  "checksummed_files": 105,
+  "model_replays": [
+    {
+      "model": "LinearRegression",
+      "pairs_replayed": 5280,
+      "scores_and_ranks_reproduced": true
+    },
+    {
+      "model": "RBF-SVR",
+      "pairs_replayed": 5280,
+      "scores_and_ranks_reproduced": true
+    },
+    {
+      "model": "ResNet18+LinearRegression",
+      "pairs_replayed": 5280,
+      "scores_and_ranks_reproduced": true
+    },
+    {
+      "model": "ResNet18+RBF-SVR",
+      "pairs_replayed": 5280,
+      "scores_and_ranks_reproduced": true
+    }
+  ],
+  "contains_original_images": false,
+  "contains_large_caches": false,
+  "total_export_bytes": 14094960,
+  "saved_image_inference_checks": [
+    {
+      "model": "LinearRegression",
+      "query": "R03N01",
+      "full_gallery": 112,
+      "passed": true
+    },
+    {
+      "model": "RBF-SVR",
+      "query": "R03N01",
+      "full_gallery": 112,
+      "passed": true
+    }
+  ],
+  "exact_environment_saved": true,
+  "original_data_packaged": false
+}

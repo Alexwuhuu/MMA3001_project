@@ -12,3 +12,6 @@ __pycache__/
 htmlcov/
 *.egg-info/
 config/local.json
+# Rebuild software reference pages from source docstrings.
+/doc/_build/
+/doc/_generated/

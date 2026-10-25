@@ -1,4 +1,4 @@
-# Tested with Python 3.12; data preparation and targeted ORB/RANSAC review.
+# Tested with Python 3.12; core stages 1-8. Optional CNN stack is pinned separately.
 anyio==4.15.1
 argon2-cffi==25.1.0
 argon2-cffi-bindings==26.1.0

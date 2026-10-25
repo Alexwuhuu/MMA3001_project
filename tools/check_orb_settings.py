@@ -15,11 +15,24 @@ from src.utils import write_json
 
 
 def run_pilot(root, cases, settings=None):
-    """Use up to 20 human-confirmed training pairs plus 10 filename controls each.
+    """Diagnose correspondences using up to 20 confirmed training pairs and filename controls.
 
-    Different N IDs are nominal negative controls, not independently established
-    pairwise truth. These counts diagnose matching availability; they are not
-    test accuracy, false-positive rates, or a fitted prediction model.
+    Different N IDs are nominal controls, not independent pairwise truth. Counts
+    describe correspondence availability rather than test accuracy or false positives.
+
+    Args:
+        root (str | Path): Base for source paths/caches/outputs.
+        cases (pandas.DataFrame): Split manifest with human_verified and seasonal RGB paths.
+        settings (dict | None): Screening settings; None loads config/screening.json.
+
+    Returns:
+        dict: Training-only diagnostic settings/counts/timings, or an explicit
+        no_human_confirmed_training_pairs status. Default extraction settings are not
+        changed.
+
+    Raises:
+        ValueError: RGB/preprocessing is invalid.
+        OSError: Images, caches or diagnostic files are inaccessible.
     """
     root = Path(root)
     settings = dict(settings or load_screening_config(root))

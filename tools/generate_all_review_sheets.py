@@ -21,11 +21,22 @@ from src.utils import file_digest
 
 
 def generate_atlas(root: Path, per_page: int | None = None) -> Path:
-    """Render all ledger pairs and write a page index, preserving ledger bytes.
+    """Render every ledger pair and a searchable page index while preserving ledger bytes.
 
-    Accept Excel CSV UTF-8 (with or without BOM), or legacy GB18030 exports.
-    Missing images, duplicate IDs and unsupported status values fail before
-    rendering. Output statuses and notes are snapshots, not new judgements.
+    Args:
+        root (Path): Project containing experiment settings and the review ledger.
+        per_page (int | None): Positive pairs-per-page count; None uses experiment
+            configuration.
+
+    Returns:
+        Path: review_sheets_all directory containing index.html, PNG pages, page_index.csv and
+        atlas_manifest.json. Displayed statuses/notes are generation-time snapshots.
+
+    Raises:
+        ValueError: Page size, ledger columns, identities or human statuses are invalid.
+        FileNotFoundError: A referenced seasonal image is absent.
+        RuntimeError: Ledger bytes change during rendering.
+        OSError: Ledger/assets cannot be read or written.
     """
     root = Path(root).resolve()
     config = load_config(root)

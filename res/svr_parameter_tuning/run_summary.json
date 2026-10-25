@@ -1,0 +1,61 @@
+{
+  "parameters": {
+    "C": 10.0,
+    "gamma": 0.01,
+    "epsilon": 0.01
+  },
+  "grid_trials": 36,
+  "converged_trials": 36,
+  "feature_count": 21,
+  "training_pair_count": 3355,
+  "support_vector_count": 3336,
+  "support_vector_fraction": 0.9943368107302534,
+  "median_fit_seconds": 0.24678010001662187,
+  "fit_seconds_repetitions": [
+    0.24948580001364462,
+    0.2412015000008978,
+    0.24505329999374226,
+    0.24710390000836924,
+    0.24678010001662187
+  ],
+  "median_query_ms": 12.720133035795048,
+  "input_fingerprint": "1b65558e3ab0e1dff0ab85de6ec2e6e9c6632d8f43dc2437fec8ca45b22f2770",
+  "same_training_pairs_features_weights_as_baseline": true,
+  "train_only_preprocessing": true,
+  "test_queries_scored": 0,
+  "refitted_on_train_plus_validation": false,
+  "settings": {
+    "output_dir": "outputs/svr_parameter_tuning",
+    "selection_file": "config/svr_tuning_selection.json",
+    "small_results_dir": "res/svr_parameter_tuning",
+    "kernel": "rbf",
+    "C": [
+      0.1,
+      1.0,
+      10.0
+    ],
+    "gamma": [
+      "scale",
+      0.01,
+      0.1
+    ],
+    "epsilon": [
+      0.01,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "tol": 0.001,
+    "cache_size_mb": 256,
+    "max_iter": -1,
+    "timing_repeats": 5,
+    "selection_order": [
+      "highest_validation_mrr",
+      "highest_validation_top1",
+      "highest_validation_top5",
+      "lowest_median_query_ms",
+      "lowest_trial_id"
+    ]
+  },
+  "validation_role": "repeated development selection; not independent test accuracy"
+}

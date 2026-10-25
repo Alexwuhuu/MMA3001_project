@@ -1,4 +1,4 @@
-name: Data preparation and regression checks
+name: Apple tree matching and validation optimization
 on: [push, pull_request, workflow_dispatch]
 jobs:
   test:
@@ -11,6 +11,7 @@ jobs:
           cache: pip
           cache-dependency-path: config/requirements.txt
       - run: python -m pip install -r config/requirements.txt
+      - run: python tools/run_notebook.py --notebook apple_tree_matching_optimization.ipynb --synthetic --skip-resnet --output outputs/synthetic_core_executed.ipynb
       - run: python -m pip install -r config/requirements-resnet.txt --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
       - run: python tools/download_resnet_weights.py
       - run: python -m pytest -q
@@ -19,4 +20,17 @@ jobs:
         if: always()
         with:
           name: synthetic-notebook
-          path: outputs/synthetic_executed.ipynb
+          path: outputs/synthetic*executed.ipynb
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r config/requirements-docs.txt
+      - run: python tools/build_docs.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: html-documentation
+          path: doc/_build/html/

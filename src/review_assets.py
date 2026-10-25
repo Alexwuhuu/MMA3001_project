@@ -15,13 +15,43 @@ table{border-collapse:collapse}td,th{border:1px solid #ccc;padding:6px;text-alig
 
 
 def _document(title, body):
+    """Wrap renderer-owned HTML with an escaped title and shared review-page styles.
+
+    Args:
+        title (str): Plain-text document title and heading.
+        body (str): HTML assembled by the renderer; user-provided text must already be escaped.
+
+    Returns:
+        str: UTF-8-ready HTML document with responsive viewport metadata.
+    """
     return (f'<!doctype html><html lang="en"><meta charset="utf-8">'
             f'<meta name="viewport" content="width=device-width,initial-scale=1">'
             f'<title>{html.escape(title)}</title><style>{STYLE}</style><h1>{html.escape(title)}</h1>{body}</html>')
 
 
 def render_targeted_assets(root, output, cases, selected, evaluation, settings):
-    """Review original RGB views; scores never populate any human judgement fields."""
+    """Render optional candidate suggestions and a separate blind test-review packet.
+
+    Only renderer-owned obsolete batch files are replaced. Scores never populate
+    human judgement fields; independent images omit scores and alternatives.
+
+    Args:
+        root (Path): Absolute project directory for image paths and output containment.
+        output (Path): Project-contained destination for review pages.
+        cases (pandas.DataFrame): Unique identity metadata with seasonal RGB paths.
+        selected (pandas.DataFrame): Supported review cases with batch, priority, issue and
+            alternative columns.
+        evaluation (dict): Frozen queries, full gallery and normalized independent review.
+        settings (dict): Number of alternative candidates to display.
+
+    Returns:
+        dict: Paths under index and independent_test, plus first_batch or None when no batches
+        exist.
+
+    Raises:
+        ValueError: Output paths escape the project or an RGB image is unreadable.
+        OSError: Assets cannot be read, removed or written.
+    """
     directory = output / "review_batches"
     images = directory / "images"
     images.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,342 @@
+{
+  "LinearRegression": {
+    "queries_sampled": 40,
+    "queries_verified": 28,
+    "gallery_size": 132,
+    "audit_counts": {
+      "confirmed": 28,
+      "rejected": 7,
+      "uncertain": 5
+    },
+    "verified_retrieval": {
+      "top1": 0.0,
+      "top5": 0.0,
+      "mrr": 0.016436909419068436
+    },
+    "intervals_95": {
+      "top1": {
+        "method": "Wilson_95",
+        "lower": 1.3877787807814457e-17,
+        "upper": 0.12064330476584563
+      },
+      "top5": {
+        "method": "Wilson_95",
+        "lower": 1.3877787807814457e-17,
+        "upper": 0.12064330476584563
+      },
+      "mrr": {
+        "method": "query_bootstrap_95",
+        "lower": 0.01253921291679183,
+        "upper": 0.022260585896483737
+      }
+    },
+    "verified_query_regression": {
+      "all_pairs": {
+        "count": 3696,
+        "mae": 0.48867733663690177,
+        "rmse": 0.4921407699757015
+      },
+      "positive_pairs": {
+        "count": 28,
+        "mae": 0.5236767758936526,
+        "rmse": 0.5255472676990901
+      },
+      "negative_pairs": {
+        "count": 3668,
+        "mae": 0.48841016534486553,
+        "rmse": 0.49187703279116307
+      },
+      "balanced_class_mae": 0.506043470619259
+    },
+    "all_sample_filename_diagnostic": {
+      "retrieval": {
+        "queries": 40,
+        "gallery_size": 132,
+        "top1": 0.0,
+        "top5": 0.0,
+        "mrr": 0.021173015983127524,
+        "true_identity_tied_queries": 0,
+        "uniform_random_reference": {
+          "top1": 0.007575757575757576,
+          "top5": 0.03787878787878788,
+          "mrr": 0.04139242942142419
+        }
+      },
+      "regression": {
+        "all_pairs": {
+          "count": 5280,
+          "mae": 0.49072310875599523,
+          "rmse": 0.49373122129268926
+        },
+        "positive_pairs": {
+          "count": 40,
+          "mae": 0.5140427752348954,
+          "rmse": 0.5158808490357487
+        },
+        "negative_pairs": {
+          "count": 5240,
+          "mae": 0.49054509603478236,
+          "rmse": 0.49355831725508303
+        },
+        "balanced_class_mae": 0.5022939356348388
+      }
+    },
+    "scope": "Confirmed query subset only; other gallery IDs assumed distinct. Rejected/unresolved queries have no verified truth.",
+    "uncertainty_limit": "Query intervals are conditional on this verified subset and fixed gallery; only four test rows, no orchard-population claim."
+  },
+  "RBF-SVR": {
+    "queries_sampled": 40,
+    "queries_verified": 28,
+    "gallery_size": 132,
+    "audit_counts": {
+      "confirmed": 28,
+      "rejected": 7,
+      "uncertain": 5
+    },
+    "verified_retrieval": {
+      "top1": 0.0,
+      "top5": 0.0,
+      "mrr": 0.02503928674919346
+    },
+    "intervals_95": {
+      "top1": {
+        "method": "Wilson_95",
+        "lower": 1.3877787807814457e-17,
+        "upper": 0.12064330476584563
+      },
+      "top5": {
+        "method": "Wilson_95",
+        "lower": 1.3877787807814457e-17,
+        "upper": 0.12064330476584563
+      },
+      "mrr": {
+        "method": "query_bootstrap_95",
+        "lower": 0.018195056288890937,
+        "upper": 0.03288282274459846
+      }
+    },
+    "verified_query_regression": {
+      "all_pairs": {
+        "count": 3696,
+        "mae": 0.5037589028885056,
+        "rmse": 0.5736371890925425
+      },
+      "positive_pairs": {
+        "count": 28,
+        "mae": 0.5428015133780766,
+        "rmse": 0.6601634619209197
+      },
+      "negative_pairs": {
+        "count": 3668,
+        "mae": 0.5034608676939287,
+        "rmse": 0.5729264281749007
+      },
+      "balanced_class_mae": 0.5231311905360027
+    },
+    "all_sample_filename_diagnostic": {
+      "retrieval": {
+        "queries": 40,
+        "gallery_size": 132,
+        "top1": 0.025,
+        "top5": 0.025,
+        "mrr": 0.049003303795140604,
+        "true_identity_tied_queries": 0,
+        "uniform_random_reference": {
+          "top1": 0.007575757575757576,
+          "top5": 0.03787878787878788,
+          "mrr": 0.04139242942142419
+        }
+      },
+      "regression": {
+        "all_pairs": {
+          "count": 5280,
+          "mae": 0.5204718106465127,
+          "rmse": 0.586418368906694
+        },
+        "positive_pairs": {
+          "count": 40,
+          "mae": 0.5088875701398321,
+          "rmse": 0.6222613870075078
+        },
+        "negative_pairs": {
+          "count": 5240,
+          "mae": 0.5205602399633575,
+          "rmse": 0.5861363284473781
+        },
+        "balanced_class_mae": 0.5147239050515948
+      }
+    },
+    "scope": "Confirmed query subset only; other gallery IDs assumed distinct. Rejected/unresolved queries have no verified truth.",
+    "uncertainty_limit": "Query intervals are conditional on this verified subset and fixed gallery; only four test rows, no orchard-population claim."
+  },
+  "ResNet18+LinearRegression": {
+    "queries_sampled": 40,
+    "queries_verified": 28,
+    "gallery_size": 132,
+    "audit_counts": {
+      "confirmed": 28,
+      "rejected": 7,
+      "uncertain": 5
+    },
+    "verified_retrieval": {
+      "top1": 0.0,
+      "top5": 0.03571428571428571,
+      "mrr": 0.03789993701157563
+    },
+    "intervals_95": {
+      "top1": {
+        "method": "Wilson_95",
+        "lower": 1.3877787807814457e-17,
+        "upper": 0.12064330476584563
+      },
+      "top5": {
+        "method": "Wilson_95",
+        "lower": 0.0063325198490377516,
+        "upper": 0.1771219774335332
+      },
+      "mrr": {
+        "method": "query_bootstrap_95",
+        "lower": 0.019219435182203908,
+        "upper": 0.06439691559456553
+      }
+    },
+    "verified_query_regression": {
+      "all_pairs": {
+        "count": 3696,
+        "mae": 0.4622767905842879,
+        "rmse": 0.48409327411841585
+      },
+      "positive_pairs": {
+        "count": 28,
+        "mae": 0.5304019554936706,
+        "rmse": 0.5558411597187463
+      },
+      "negative_pairs": {
+        "count": 3668,
+        "mae": 0.46175675115749876,
+        "rmse": 0.48350463536798743
+      },
+      "balanced_class_mae": 0.4960793533255847
+    },
+    "all_sample_filename_diagnostic": {
+      "retrieval": {
+        "queries": 40,
+        "gallery_size": 132,
+        "top1": 0.0,
+        "top5": 0.05,
+        "mrr": 0.03780807219144713,
+        "true_identity_tied_queries": 0,
+        "uniform_random_reference": {
+          "top1": 0.007575757575757576,
+          "top5": 0.03787878787878788,
+          "mrr": 0.04139242942142419
+        }
+      },
+      "regression": {
+        "all_pairs": {
+          "count": 5280,
+          "mae": 0.45930255818455373,
+          "rmse": 0.48161875913770286
+        },
+        "positive_pairs": {
+          "count": 40,
+          "mae": 0.5376381774672293,
+          "rmse": 0.5626402598443643
+        },
+        "negative_pairs": {
+          "count": 5240,
+          "mae": 0.45870457635796846,
+          "rmse": 0.4809477839509742
+        },
+        "balanced_class_mae": 0.4981713769125989
+      }
+    },
+    "scope": "Confirmed query subset only; other gallery IDs assumed distinct. Rejected/unresolved queries have no verified truth.",
+    "uncertainty_limit": "Query intervals are conditional on this verified subset and fixed gallery; only four test rows, no orchard-population claim."
+  },
+  "ResNet18+RBF-SVR": {
+    "queries_sampled": 40,
+    "queries_verified": 28,
+    "gallery_size": 132,
+    "audit_counts": {
+      "confirmed": 28,
+      "rejected": 7,
+      "uncertain": 5
+    },
+    "verified_retrieval": {
+      "top1": 0.03571428571428571,
+      "top5": 0.03571428571428571,
+      "mrr": 0.057619872439804334
+    },
+    "intervals_95": {
+      "top1": {
+        "method": "Wilson_95",
+        "lower": 0.0063325198490377516,
+        "upper": 0.1771219774335332
+      },
+      "top5": {
+        "method": "Wilson_95",
+        "lower": 0.0063325198490377516,
+        "upper": 0.1771219774335332
+      },
+      "mrr": {
+        "method": "query_bootstrap_95",
+        "lower": 0.017522738571054623,
+        "upper": 0.1305083881355197
+      }
+    },
+    "verified_query_regression": {
+      "all_pairs": {
+        "count": 3696,
+        "mae": 0.4203620066067203,
+        "rmse": 0.4683896785072512
+      },
+      "positive_pairs": {
+        "count": 28,
+        "mae": 0.5620610926682341,
+        "rmse": 0.5933500589152919
+      },
+      "negative_pairs": {
+        "count": 3668,
+        "mae": 0.419280334194037,
+        "rmse": 0.46730728820320255
+      },
+      "balanced_class_mae": 0.49067071343113555
+    },
+    "all_sample_filename_diagnostic": {
+      "retrieval": {
+        "queries": 40,
+        "gallery_size": 132,
+        "top1": 0.025,
+        "top5": 0.025,
+        "mrr": 0.04992126920776872,
+        "true_identity_tied_queries": 0,
+        "uniform_random_reference": {
+          "top1": 0.007575757575757576,
+          "top5": 0.03787878787878788,
+          "mrr": 0.04139242942142419
+        }
+      },
+      "regression": {
+        "all_pairs": {
+          "count": 5280,
+          "mae": 0.4115519176909763,
+          "rmse": 0.4592519334429431
+        },
+        "positive_pairs": {
+          "count": 40,
+          "mae": 0.5725485659544034,
+          "rmse": 0.6054794510137474
+        },
+        "negative_pairs": {
+          "count": 5240,
+          "mae": 0.410322935643164,
+          "rmse": 0.4579561572683806
+        },
+        "balanced_class_mae": 0.4914357507987837
+      }
+    },
+    "scope": "Confirmed query subset only; other gallery IDs assumed distinct. Rejected/unresolved queries have no verified truth.",
+    "uncertainty_limit": "Query intervals are conditional on this verified subset and fixed gallery; only four test rows, no orchard-population claim."
+  }
+}

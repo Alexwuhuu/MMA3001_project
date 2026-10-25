@@ -1,0 +1,14 @@
+{
+  "output_dir": "outputs/final_experiments",
+  "cache_dir": ".cache/final_experiments",
+  "lock_file": "config/final_experiments_lock.json",
+  "seed": 42,
+  "timing_repeats": 5,
+  "bootstrap_repeats": 5000,
+  "resolutions": [128, 256, 384],
+  "reference_size": 256,
+  "reference_ransac_threshold_px": 3.0,
+  "include_resnet_test": true,
+  "export_dir": "outputs/reproducibility",
+  "small_results_dir": "res/final_experiments"
+}

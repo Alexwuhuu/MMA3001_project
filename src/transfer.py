@@ -27,7 +27,20 @@ SAMPLE_KEYS = [*PAIR_KEYS, "target", "label_basis", "sample_weight"]
 
 
 def load_reference(root: Path) -> tuple[pd.DataFrame, dict]:
-    """Read existing stage-5 artifacts without retraining or overwriting the original run."""
+    """Read saved stage-5 inputs without fitting or overwriting the historical run.
+
+    Args:
+        root (Path): Project containing preparation and baseline outputs.
+
+    Returns:
+        tuple[pandas.DataFrame, dict]: Case manifest and reference
+        training_pairs/summary/metrics. The manifest includes all splits;
+        validate_development filters it before image access.
+
+    Raises:
+        OSError: A required saved artifact cannot be read.
+        ValueError: A saved JSON/CSV is malformed.
+    """
     folder = root / "outputs/baseline_linear"
     cases = pd.read_csv(root / "outputs/data_preparation/split_manifest.csv", keep_default_na=False)
     reference = {"training_pairs": pd.read_csv(folder / "training_pairs.csv", float_precision="round_trip"),
@@ -37,6 +50,20 @@ def load_reference(root: Path) -> tuple[pd.DataFrame, dict]:
 
 
 def validate_development(cases, reference):
+    """Select disjoint development rows and verify the original sampled labels/weights.
+
+    Args:
+        cases (pandas.DataFrame): Preparation cases; test rows are filtered out.
+        reference (dict): Original training_pairs and summary with training_pair_identity_hash.
+
+    Returns:
+        tuple[pandas.DataFrame, pandas.DataFrame]: Sorted development cases and copied original
+        sample identity/target/provenance/weight columns.
+
+    Raises:
+        ValueError: Identities/rows overlap, a season split is missing, or original
+            samples/weights changed.
+    """
     cases = cases[cases.split.isin(["train", "validation"])].copy()
     if (cases.empty or cases.tree_id.duplicated().any() or not cases.tree_id.str.fullmatch(r"R\d+N\d+").all() or
             set(cases.split) != {"train", "validation"}):
@@ -57,6 +84,24 @@ def validate_development(cases, reference):
 
 
 def evaluate_pipeline(pipeline, frames, columns, cases, metric_settings, output, model_name):
+    """Score complete development galleries and export provenance-aware retrieval metrics.
+
+    Args:
+        pipeline (sklearn.pipeline.Pipeline): Train-fitted regressor pipeline.
+        frames (dict): Complete train/validation pair feature tables keyed by split.
+        columns (list[str]): Ordered numerical model features.
+        cases (pandas.DataFrame): Identity, row and human-verification provenance.
+        metric_settings (dict): Absolute/relative score tie tolerances.
+        output (Path): Parent results directory.
+        model_name (str): Subdirectory for this model's metrics and rankings.
+
+    Returns:
+        dict: metrics by split, concatenated query_metrics and a list of full rankings.
+
+    Raises:
+        ValueError: Predictions or closed-set gallery identities are invalid.
+        OSError: Metric/ranking files cannot be written.
+    """
     metrics, queries, rankings = {}, [], []
     folder = output / model_name
     folder.mkdir(parents=True, exist_ok=True)
@@ -78,7 +123,29 @@ def evaluate_pipeline(pipeline, frames, columns, cases, metric_settings, output,
 
 def run_transfer(root: Path, cases: pd.DataFrame, reference: dict, settings: dict,
                  svr_settings: dict | None = None, render=True) -> dict:
-    """Train and select only on development data; no test-image inference is performed."""
+    """Compare Linear Regression and validation-selected SVR on frozen ResNet/PCA features.
+
+    Original sampled pair IDs/labels/weights are reused exactly. PCA and both model
+    preprocessors fit training only. Test paths never reach the encoder in this run.
+
+    Args:
+        root (Path): Project base for data/configuration/artifacts.
+        cases (pandas.DataFrame): Preparation manifest; only development cases are used.
+        reference (dict): Original stage-5 samples, summary and metrics.
+        settings (dict): ResNet/PCA, timing, cache, output and selection-lock settings.
+        svr_settings (dict | None): Optional original RBF grid; None loads config/svr.json.
+        render (bool): Whether to write validation comparison figures.
+
+    Returns:
+        dict: summary, bundles for linear/svr, linear and svr evaluations, trials, comparison,
+        output_dir and selection.
+
+    Raises:
+        ValueError: Development inputs, checkpoint, PCA, convergence or selection lock is
+            invalid.
+        AssertionError: Shared preprocessing or repeated-fit predictions differ.
+        OSError: Inputs, caches or saved results are inaccessible.
+    """
     root = Path(root).resolve()
     settings = dict(settings)
     cases, sample = validate_development(portable_frame(cases, root), reference)
@@ -226,7 +293,23 @@ def run_transfer(root: Path, cases: pd.DataFrame, reference: dict, settings: dic
 
 
 def match_resnet(query_rgb, gallery: pd.DataFrame, bundle: dict, root: Path) -> pd.DataFrame:
-    """Rank an RGB query against candidate_id/rgb gallery columns with the saved model."""
+    """Rank an RGB query using a trusted saved encoder/PCA/regression bundle.
+
+    Args:
+        query_rgb (str | Path): Query image path relative to root or absolute.
+        gallery (pandas.DataFrame): Nonempty unique candidate_id/rgb rows covering all intended
+            candidates.
+        bundle (dict): Saved pipeline, projection, feature_columns, settings, encoder_info and
+            metric_settings.
+        root (Path): Base for relative images/checkpoint/cache paths.
+
+    Returns:
+        pandas.DataFrame: Every candidate with score and one-based display/tie rank columns.
+
+    Raises:
+        ValueError: Gallery IDs, images or checkpoint identity are invalid.
+        OSError: Image, checkpoint or cache access fails.
+    """
     if gallery.empty or gallery.candidate_id.duplicated().any():
         raise ValueError("Gallery must contain non-empty, unique candidate IDs")
     vectors, info = embed_paths([str(query_rgb), *gallery.rgb.tolist()], root, bundle["settings"])
@@ -241,6 +324,18 @@ def match_resnet(query_rgb, gallery: pd.DataFrame, bundle: dict, root: Path) -> 
 
 
 def render_comparison(comparison, output):
+    """Plot complete-gallery validation metrics for original and neural representations.
+
+    Args:
+        comparison (pandas.DataFrame): Representation/model/split rows with top1, top5 and mrr.
+        output (Path): Existing output directory receiving figures/.
+
+    Returns:
+        None: The comparison PNG is written and its figure closed.
+
+    Raises:
+        OSError: The figure cannot be written.
+    """
     val = comparison[comparison.split.eq("validation")]
     fig, ax = plt.subplots(figsize=(10, 4.5))
     width = .8/len(val)

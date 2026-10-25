@@ -1,0 +1,68 @@
+{
+  "train": {
+    "retrieval": {
+      "queries": 305,
+      "gallery_size": 305,
+      "top1": 0.006557377049180328,
+      "top5": 0.04918032786885246,
+      "mrr": 0.04721493229104831,
+      "true_identity_tied_queries": 0,
+      "uniform_random_reference": {
+        "top1": 0.003278688524590164,
+        "top5": 0.01639344262295082,
+        "mrr": 0.020653002917887426
+      }
+    },
+    "regression": {
+      "all_pairs": {
+        "count": 93025,
+        "mae": 0.5509775808447844,
+        "rmse": 0.6131573086353659
+      },
+      "positive_pairs": {
+        "count": 305,
+        "mae": 0.26869840685972585,
+        "rmse": 0.35192279792614284
+      },
+      "negative_pairs": {
+        "count": 92720,
+        "mae": 0.5519061307592089,
+        "rmse": 0.6138332034658537
+      },
+      "balanced_class_mae": 0.4103022688094674
+    }
+  },
+  "validation": {
+    "retrieval": {
+      "queries": 112,
+      "gallery_size": 112,
+      "top1": 0.026785714285714284,
+      "top5": 0.0625,
+      "mrr": 0.06690368437801375,
+      "true_identity_tied_queries": 0,
+      "uniform_random_reference": {
+        "top1": 0.008928571428571428,
+        "top5": 0.044642857142857144,
+        "mrr": 0.047322965881085345
+      }
+    },
+    "regression": {
+      "all_pairs": {
+        "count": 12544,
+        "mae": 0.5542470555102079,
+        "rmse": 0.6135820529611467
+      },
+      "positive_pairs": {
+        "count": 112,
+        "mae": 0.4490618657857127,
+        "rmse": 0.5811744619380245
+      },
+      "negative_pairs": {
+        "count": 12432,
+        "mae": 0.5551946698320503,
+        "rmse": 0.6138662371901756
+      },
+      "balanced_class_mae": 0.5021282678088815
+    }
+  }
+}

@@ -13,10 +13,27 @@ from .utils import write_json
 
 
 def fit_affine_lstsq(source: np.ndarray, target: np.ndarray) -> tuple[np.ndarray, dict]:
-    """Solve [x,y,1] B = [u,v] using float64 least squares, with rank checks.
+    """Solve a six-parameter affine model in float64 with a full-rank source design.
 
-    Inputs: finite N×2 pixel coordinates, N>=3, non-collinear source points.
-    Outputs: 2×3 affine matrix and rank/condition/residual diagnostics.
+    Args:
+        source (array-like): Finite source pixel coordinates, shape (N, 2), N >= 3.
+        target (array-like): Matching finite destination coordinates with the same shape.
+
+    Returns:
+        tuple[numpy.ndarray, dict]: A (2, 3) affine matrix and rank, condition_number and
+        fit_rmse_px diagnostics.
+
+    Raises:
+        ValueError: Shapes disagree, values are non-finite, or source points are
+            collinear/repeated.
+        numpy.linalg.LinAlgError: The least-squares decomposition fails.
+
+    Examples:
+        >>> import numpy as np
+        >>> points = np.array([[0., 0.], [1., 0.], [0., 1.]])
+        >>> matrix, diagnostics = fit_affine_lstsq(points, points + [2., 3.])
+        >>> np.allclose(transform_points(points, matrix), points + [2., 3.])
+        True
     """
     source, target = np.asarray(source, dtype=np.float64), np.asarray(target, dtype=np.float64)
     if source.ndim != 2 or source.shape[1] != 2 or target.shape != source.shape or len(source) < 3:
@@ -33,12 +50,40 @@ def fit_affine_lstsq(source: np.ndarray, target: np.ndarray) -> tuple[np.ndarray
 
 
 def transform_points(source: np.ndarray, matrix: np.ndarray) -> np.ndarray:
+    """Apply an affine matrix using homogeneous source coordinates.
+
+    Args:
+        source (array-like): Pixel coordinates with shape (N, 2).
+        matrix (array-like): Affine transform with shape (2, 3).
+
+    Returns:
+        numpy.ndarray: Transformed pixel coordinates with shape (N, 2).
+
+    Raises:
+        ValueError: Coordinates or matrix dimensions are incompatible.
+    """
     return np.c_[source, np.ones(len(source))] @ np.asarray(matrix).T
 
 
 def fit_affine_ransac(source, target, threshold=3.0, seed=42):
-    """Use affine RANSAC to select inliers, then refit with the same lstsq model."""
-    fit_affine_lstsq(source, target)  # Validate input and affine rank first.
+    """Select affine inliers with RANSAC and refit them using the shared least-squares solver.
+
+    Args:
+        source (array-like): Finite source coordinates with shape (N, 2), N >= 3.
+        target (array-like): Matching destination coordinates.
+        threshold (float): Positive RANSAC reprojection threshold in pixels.
+        seed (int): Seed assigned to the OpenCV random generator.
+
+    Returns:
+        tuple[numpy.ndarray, numpy.ndarray, dict]: Refit (2, 3) matrix, Boolean inlier mask of
+        length N, and least-squares rank/condition/RMSE diagnostics.
+
+    Raises:
+        ValueError: Input validation fails or RANSAC cannot produce three usable inliers.
+        cv2.error: RANSAC options are invalid.
+    """
+    # Reject degenerate inputs before OpenCV can choose an arbitrary affine model.
+    fit_affine_lstsq(source, target)
     cv2.setRNGSeed(seed)
     matrix, mask = cv2.estimateAffine2D(np.asarray(source, dtype=np.float64), np.asarray(target, dtype=np.float64),
                                       method=cv2.RANSAC, ransacReprojThreshold=threshold,
@@ -51,10 +96,23 @@ def fit_affine_ransac(source, target, threshold=3.0, seed=42):
 
 
 def run_numerical_verification(output: str | Path, seed: int = 42, render: bool = True) -> dict:
-    """Verify exact recovery and compare fits on new points under noise/outliers.
+    """Verify recovery on independent probe points under controlled noise and outliers.
 
-    The probe points are never used for fitting or inlier selection. These tests
-    verify numerical implementation, not seasonal tree identity or 3D accuracy.
+    Probe points never influence fitting or inlier selection. These checks establish
+    synthetic pixel-coordinate behavior, without validating seasonal identities.
+
+    Args:
+        output (str | Path): Directory for experiment CSVs, summary JSON and optional figure.
+        seed (int): Seed for synthetic coordinates, noise and RANSAC repetitions.
+        render (bool): Whether to write affine_verification.png.
+
+    Returns:
+        dict: summary, experiments, summary_table and output_dir for the completed verification.
+
+    Raises:
+        AssertionError: Noiseless probe RMSE is at least 1e-6 pixels.
+        ValueError: A synthetic affine fit fails validation.
+        OSError: Verification artifacts cannot be written.
     """
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)

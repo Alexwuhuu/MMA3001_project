@@ -1,0 +1,14 @@
+[
+  {
+    "model": "LinearRegression",
+    "query": "R03N01",
+    "candidates": 112,
+    "passed": true
+  },
+  {
+    "model": "RBF-SVR",
+    "query": "R03N01",
+    "candidates": 112,
+    "passed": true
+  }
+]

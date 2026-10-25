@@ -28,10 +28,22 @@ from .utils import file_digest, read_rgb, write_json
 
 
 def training_pairs(cases: pd.DataFrame, settings: dict) -> pd.DataFrame:
-    """Sample one filename-positive and distinct train-only negatives per query.
+    """Sample one filename-positive and distinct training negatives per query.
 
-    Prefer five same-row negatives; fill from other rows, then remaining trees.
-    Labels describe filename identities, not independent pairwise human truth.
+    Prefer the configured number of same-row controls, then other rows, then any
+    remaining training identities. Filename differences supply nominal negatives.
+
+    Args:
+        cases (pandas.DataFrame): Cases with split, tree_id, row and label_basis.
+        settings (dict): seed, negatives_per_query and same_row_negatives.
+
+    Returns:
+        pandas.DataFrame: split/query_id/candidate_id, binary target, label_basis and
+        inverse-class-frequency sample_weight; both classes have equal total weight.
+
+    Raises:
+        ValueError: Training identities are empty/duplicated or the gallery cannot supply the
+            requested negatives.
     """
     train = cases[cases.split.eq("train")].sort_values("tree_id")
     if train.empty or train.tree_id.duplicated().any():
@@ -54,18 +66,42 @@ def training_pairs(cases: pd.DataFrame, settings: dict) -> pd.DataFrame:
                         "target": 0, "label_basis": "different_filename_identity"} for candidate in negatives)
     result = pd.DataFrame(records)
     frequency = result.target.value_counts()
+    # Equal class weight prevents the larger negative sample from dominating the fit.
     result["sample_weight"] = result.target.map({label: len(result) / (2 * n) for label, n in frequency.items()})
     return result
 
 
 def make_pipeline() -> Pipeline:
-    """Preserve all-missing features; median imputation and scaling fit on train only."""
+    """Construct the shared median-imputation, scaling and linear-regression pipeline.
+
+    All-missing columns are preserved. Fitting is the caller's responsibility and
+    must use the sampled training pairs only.
+
+    Returns:
+        sklearn.pipeline.Pipeline: Unfitted imputer, scaler and regressor steps.
+    """
     return Pipeline([("imputer", SimpleImputer(strategy="median", keep_empty_features=True)),
                      ("scaler", StandardScaler()), ("regressor", LinearRegression())])
 
 
 def add_appearance(cases: pd.DataFrame, pairs: pd.DataFrame, root: Path, settings: dict) -> pd.DataFrame:
-    """Combine cached ORB/geometric features with per-image color/D summaries."""
+    """Append cached per-image color/D differences to development ORB pair rows.
+
+    Args:
+        cases (pandas.DataFrame): Case metadata with seasonal RGB/D paths and split.
+        pairs (pandas.DataFrame): ORB feature rows with split/query_id/candidate_id.
+        root (Path): Base directory for relative image/cache paths.
+        settings (dict): Baseline image/histogram settings and cache_dir.
+
+    Returns:
+        pandas.DataFrame: Reset-index pair table followed by nine appearance columns; pair order
+        is retained.
+
+    Raises:
+        ValueError: Test pairs are supplied or an RGB image is unreadable.
+        KeyError: A pair refers to an absent identity or setting.
+        OSError: Source images or caches are inaccessible.
+    """
     if not set(pairs.split).issubset({"train", "validation"}):
         raise ValueError("Baseline construction must not include test pairs")
     identities = cases[cases.split.isin(pairs.split.unique())].set_index("tree_id")
@@ -83,9 +119,23 @@ def add_appearance(cases: pd.DataFrame, pairs: pd.DataFrame, root: Path, setting
 
 
 def rank_candidates(frame: pd.DataFrame, atol=1e-12, rtol=1e-10) -> pd.DataFrame:
-    """Sort by continuous score and preserve tolerance-based rank ranges.
+    """Rank continuous scores and retain tolerance-based tie ranges.
 
-    IDs break display ties only. Metric functions average over tied positions.
+    Candidate IDs resolve display order only. Retrieval metrics average credit over
+    all positions in each numerical tie group.
+
+    Args:
+        frame (pandas.DataFrame): One query's candidate_id and finite score columns, plus
+            optional metadata.
+        atol (float): Absolute tolerance used by numpy.isclose against each tie-group leader.
+        rtol (float): Relative tolerance used by numpy.isclose.
+
+    Returns:
+        pandas.DataFrame: Sorted copy with one-based rank_min, rank_max and display_rank; the
+        original index is retained.
+
+    Raises:
+        ValueError: Any model score is NaN or infinite.
     """
     ordered = frame.sort_values(["score", "candidate_id"], ascending=[False, True], kind="stable").copy()
     scores = ordered.score.to_numpy()
@@ -95,6 +145,7 @@ def rank_candidates(frame: pd.DataFrame, atol=1e-12, rtol=1e-10) -> pd.DataFrame
     start = 0
     while start < len(scores):
         stop = start + 1
+        # Anchor each tie to its leader so tolerance does not chain across distinct scores.
         while stop < len(scores) and np.isclose(scores[stop], scores[start], atol=atol, rtol=rtol):
             stop += 1
         lower[start:stop], upper[start:stop] = start + 1, stop
@@ -105,7 +156,22 @@ def rank_candidates(frame: pd.DataFrame, atol=1e-12, rtol=1e-10) -> pd.DataFrame
 
 
 def retrieval_results(frame: pd.DataFrame, settings: dict) -> tuple[pd.DataFrame, pd.DataFrame, dict]:
-    """Closed-set retrieval against the complete split gallery; ties get expected credit."""
+    """Evaluate closed-set filename retrieval with expected credit over tied positions.
+
+    Args:
+        frame (pandas.DataFrame): Nonempty query_id/candidate_id/score rows covering the
+            intended complete gallery for each query.
+        settings (dict): score_tie_atol and score_tie_rtol.
+
+    Returns:
+        tuple[pandas.DataFrame, pandas.DataFrame, dict]: All ranked pairs, per-query
+        Top-1/Top-5/reciprocal-rank and tie ranges, and aggregate retrieval/random-reference
+        metrics. MRR is the mean reciprocal_rank.
+
+    Raises:
+        ValueError: A query has duplicate candidates, lacks exactly one matching filename ID, or
+            has non-finite scores.
+    """
     rankings, queries = [], []
     for query_id, group in frame.groupby("query_id", sort=True):
         ordered = rank_candidates(group, settings["score_tie_atol"], settings["score_tie_rtol"])
@@ -113,6 +179,7 @@ def retrieval_results(frame: pd.DataFrame, settings: dict) -> tuple[pd.DataFrame
         if len(correct) != 1 or ordered.candidate_id.duplicated().any():
             raise ValueError("Each closed-set query needs one true filename identity and unique candidates")
         row = correct.iloc[0]
+        # Average over every tied position to avoid granting credit through ID order.
         positions = np.arange(row.rank_min, row.rank_max + 1)
         queries.append({"query_id": query_id, "gallery_size": len(group),
                         "rank_min": int(row.rank_min), "rank_max": int(row.rank_max),
@@ -132,6 +199,16 @@ def retrieval_results(frame: pd.DataFrame, settings: dict) -> tuple[pd.DataFrame
 
 
 def regression_errors(frame: pd.DataFrame) -> dict:
+    """Report continuous-score errors against filename-equality targets.
+
+    Args:
+        frame (pandas.DataFrame): query_id, candidate_id and score rows; positive targets mean
+            equal IDs.
+
+    Returns:
+        dict: Counts, MAE and RMSE for all_pairs, positive_pairs and negative_pairs, plus
+        balanced_class_mae. An empty class yields NaN errors.
+    """
     labels = frame.query_id.eq(frame.candidate_id).astype(int).to_numpy()
     errors = frame.score.to_numpy() - labels
     result = {}
@@ -145,7 +222,27 @@ def regression_errors(frame: pd.DataFrame) -> dict:
 
 
 def run_baseline(root: Path, preparation: dict, screening: dict, settings: dict, render=True) -> dict:
-    """Fit the linear baseline and export training/validation results only."""
+    """Fit weighted Linear Regression on sampled training pairs and export development results.
+
+    Imputation and scaling use training samples only. Validation scores use the full
+    winter gallery; frozen independent test queries are retained without scoring.
+
+    Args:
+        root (Path): Project directory.
+        preparation (dict): run_data_preparation result with eligible cases and provenance.
+        screening (dict): run_targeted_review result with pair_features, evaluation and summary.
+        settings (dict): Baseline extraction, sampling, tie, timing, cache and output settings.
+        render (bool): Whether to write development plots.
+
+    Returns:
+        dict: bundle, metrics, summary, query_metrics, rankings, output_dir and training_pairs.
+        Rankings contain complete train/validation numeric feature tables.
+
+    Raises:
+        ValueError: Train/validation features, sampled-pair coverage or image inputs are
+            invalid.
+        OSError: Input/cache/model/result files are inaccessible.
+    """
     root = Path(root).resolve()
     settings = dict(settings)
     output = root / settings["output_dir"]
@@ -195,6 +292,7 @@ def run_baseline(root: Path, preparation: dict, screening: dict, settings: dict,
     query_metrics = pd.concat(all_queries, ignore_index=True)
     query_metrics.to_csv(output / "query_metrics.csv", index=False)
     sampled.to_csv(output / "training_pairs.csv", index=False)
+    # Diagnose the weighted design used for fitting, without adding validation rows.
     scaled = fitted[:-1].transform(X)
     weighted_design = np.c_[scaled, np.ones(len(X))] * np.sqrt(weights.to_numpy())[:, None]
     rank = int(np.linalg.matrix_rank(weighted_design))
@@ -238,6 +336,23 @@ def run_baseline(root: Path, preparation: dict, screening: dict, settings: dict,
 
 
 def render_results(cases, validation, query_metrics, metrics, root, output):
+    """Write validation comparisons, rank diagnostics and original-image examples.
+
+    Args:
+        cases (pandas.DataFrame): Eligible identity metadata with seasonal paths.
+        validation (pandas.DataFrame): Ranked validation pairs.
+        query_metrics (pandas.DataFrame): Per-query train/validation metrics.
+        metrics (dict): Split retrieval and regression summaries.
+        root (Path): Base for seasonal RGB paths.
+        output (Path): Existing output directory receiving figures/.
+
+    Returns:
+        None: Figures are written and matplotlib figures are closed.
+
+    Raises:
+        ValueError: An example RGB image is unreadable.
+        OSError: Figures cannot be written.
+    """
     folder = output / "figures"
     folder.mkdir(exist_ok=True)
     fig, axes = plt.subplots(1, 2, figsize=(11, 4))
@@ -272,12 +387,32 @@ def render_results(cases, validation, query_metrics, metrics, root, output):
 
 
 def match_tree(query: dict, gallery: pd.DataFrame, model: dict, root: Path) -> pd.DataFrame:
-    """Rank one RGB/D query against every supplied winter candidate, without labels.
+    """Rank an RGB/D query against every supplied winter candidate without truth labels.
 
-    query: rgb/depth paths; gallery: candidate_id, rgb, optional depth columns.
-    model: trusted local bundle returned by run_baseline/joblib; root: path base.
-    Returns every continuous score and rank range, with display ranks for top-five
-    inspection. Corrupt RGB raises; missing/unsupported D is retained with flags.
+    Args:
+        query (dict): Required rgb and optional depth paths, absolute or relative to root.
+        gallery (pandas.DataFrame): Nonempty unique candidate_id/rgb rows with optional depth
+            paths.
+        model (dict): Trusted fitted baseline/SVR bundle with pipeline, feature_columns,
+            settings and screen_settings.
+        root (Path): Base for relative image and cache paths.
+
+    Returns:
+        pandas.DataFrame: Every candidate with continuous score and one-based
+        rank_min/rank_max/display_rank. Scores are unbounded regression values, not
+        probabilities.
+
+    Raises:
+        ValueError: Gallery IDs are empty/duplicated or RGB is unreadable. Missing/unsupported D
+            remains flagged.
+        KeyError: The query, gallery or bundle is missing a required field.
+        OSError: An image/cache file is inaccessible.
+
+    Examples:
+        With a fitted bundle and a complete gallery, inspect the five displayed leaders::
+
+            ranked = match_tree({"rgb": "query.png", "depth": ""}, gallery, bundle, root)
+            print(ranked.head(5))
     """
     root = Path(root)
     settings, screen = model["settings"], model["screen_settings"]

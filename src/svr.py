@@ -26,13 +26,38 @@ from .utils import file_digest, write_json
 
 
 def load_svr_config(root: Path) -> dict:
+    """Read and validate the original RBF-SVR grid configuration.
+
+    Args:
+        root (Path): Project containing config/svr.json.
+
+    Returns:
+        dict: Settings accepted by parameter_grid.
+
+    Raises:
+        OSError: The configuration cannot be read.
+        ValueError: JSON or grid/solver settings are invalid.
+    """
     settings = json.loads((Path(root) / "config/svr.json").read_text(encoding="utf-8"))
     parameter_grid(settings)
     return settings
 
 
 def parameter_grid(settings: dict) -> list[dict]:
-    """Validate the small, explicit grid before any training or output writes."""
+    """Validate and enumerate the explicit Cartesian RBF-SVR grid before fitting.
+
+    Args:
+        settings (dict): RBF kernel, distinct nonempty C/gamma/epsilon lists, positive
+            tolerance/cache/repeats and valid max_iter. C/gamma are positive; gamma also accepts
+            "scale"; epsilon is nonnegative.
+
+    Returns:
+        list[dict]: C/gamma/epsilon dictionaries in deterministic Cartesian-product order.
+
+    Raises:
+        ValueError: The grid, kernel or solver/timing settings are invalid.
+        KeyError: A required setting is absent.
+    """
     if settings["kernel"] != "rbf":
         raise ValueError("Stage 6 uses the agreed RBF kernel")
     for name in ("C", "gamma", "epsilon"):
@@ -54,7 +79,19 @@ def parameter_grid(settings: dict) -> list[dict]:
 
 
 def select_trial(trials: pd.DataFrame) -> pd.Series:
-    """Prefer Top-1, then MRR, then median scoring time; trial ID resolves exact ties."""
+    """Select by Top-1, MRR, median scoring time and finally trial ID.
+
+    Args:
+        trials (pandas.DataFrame): Search rows with status, validation_top1, validation_mrr,
+            median_query_ms and trial_id.
+
+    Returns:
+        pandas.Series: Winning converged trial; larger retrieval metrics and smaller times/IDs
+        are preferred.
+
+    Raises:
+        ValueError: No trial has status "ok".
+    """
     valid = trials[trials.status.eq("ok")]
     if valid.empty:
         raise ValueError("No converged SVR configuration is available for selection")
@@ -63,11 +100,33 @@ def select_trial(trials: pd.DataFrame) -> pd.Series:
 
 
 def _frame_hash(frame: pd.DataFrame) -> str:
+    """Fingerprint table values, row order and column order through canonical CSV.
+
+    Args:
+        frame (pandas.DataFrame): Table to serialize without its index, using LF newlines.
+
+    Returns:
+        str: SHA-256 hexadecimal digest of the CSV bytes.
+    """
     return hashlib.sha256(frame.to_csv(index=False, lineterminator="\n").encode()).hexdigest()
 
 
 def _inputs(baseline: dict) -> tuple[list[str], pd.DataFrame, dict]:
-    """Reject split leakage, incomplete galleries, changed samples, and metadata features."""
+    """Validate shared numeric inputs before allowing an SVR fit.
+
+    Args:
+        baseline (dict): Unmodified run_baseline result with complete rankings, sampled pairs,
+            provenance and bundle.
+
+    Returns:
+        tuple[list[str], pandas.DataFrame, dict]: Allowed feature order, copied training samples
+        and copied complete train/validation feature tables.
+
+    Raises:
+        ValueError: Metadata features, test/leaking/incomplete galleries, changed
+            labels/weights, infinite values or mismatched sampled features are detected.
+        KeyError: Required baseline fields are absent.
+    """
     columns = list(baseline["bundle"]["feature_columns"])
     if not columns or len(columns) != len(set(columns)) or not set(columns).issubset(FEATURE_COLUMNS + APPEARANCE_COLUMNS):
         raise ValueError("Use the baseline's numerical feature allowlist; metadata is forbidden")
@@ -108,11 +167,39 @@ def _inputs(baseline: dict) -> tuple[list[str], pd.DataFrame, dict]:
 
 
 def _pipeline(params, settings):
+    """Replace the shared linear regressor with an unfitted RBF-SVR.
+
+    Args:
+        params (dict): One C/gamma/epsilon combination.
+        settings (dict): Solver tol, cache_size_mb and max_iter.
+
+    Returns:
+        sklearn.pipeline.Pipeline: Unfitted imputer/scaler/SVR pipeline.
+
+    Raises:
+        KeyError: A required solver setting is absent.
+    """
     return make_pipeline().set_params(regressor=SVR(kernel="rbf", **params, tol=settings["tol"],
                                                     cache_size=settings["cache_size_mb"], max_iter=settings["max_iter"]))
 
 
 def _fit(params, settings, X, y, weights):
+    """Fit a weighted SVR and record solver convergence without discarding warnings.
+
+    Args:
+        params (dict): One C/gamma/epsilon combination.
+        settings (dict): Solver tolerance/cache/iteration settings.
+        X (pandas.DataFrame): Sampled training feature matrix.
+        y (array-like): One training target per row.
+        weights (array-like): Positive sample weights aligned with X and y.
+
+    Returns:
+        tuple[sklearn.pipeline.Pipeline, float, bool]: Fitted pipeline, elapsed fit seconds and
+        convergence flag accounting for ``fit_status_`` and ConvergenceWarning.
+
+    Raises:
+        ValueError: Training shapes, values or estimator parameters are invalid.
+    """
     with warnings.catch_warnings(record=True) as caught:
         warnings.simplefilter("always", ConvergenceWarning)
         started = perf_counter()
@@ -124,6 +211,19 @@ def _fit(params, settings, X, y, weights):
 
 
 def _time_prediction(pipeline, X, repeats):
+    """Repeat cached-matrix prediction without including extraction or ranking time.
+
+    Args:
+        pipeline (sklearn.pipeline.Pipeline): Fitted regression pipeline.
+        X (pandas.DataFrame): Feature matrix in fitted column order.
+        repeats (int): Positive number of prediction runs.
+
+    Returns:
+        tuple[numpy.ndarray, list[float]]: Last predictions and elapsed seconds for each run.
+
+    Raises:
+        ValueError: The feature matrix is incompatible with the fitted pipeline.
+    """
     durations = []
     prediction = None
     for _ in range(repeats):
@@ -134,12 +234,28 @@ def _time_prediction(pipeline, X, repeats):
 
 
 def run_svr(root: Path, baseline: dict, settings: dict | None = None, render=True) -> dict:
-    """Search validation-only parameters, freeze a configuration, and save its train-only model.
+    """Select on validation, freeze the choice and save a model fitted on training only.
 
-    baseline is the unmodified run_baseline result, with full feature tables and
-    exact sampled training pairs. Test data is neither required nor accepted.
-    A matching existing lock is reused so timing jitter cannot change its choice;
-    a changed input/grid fingerprint raises rather than silently overwriting it.
+    Existing matching locks fix the selected trial so timing jitter cannot change
+    its choice. Source-byte fingerprints include documentation edits; changed inputs
+    require a separate selection_file rather than overwriting a historical lock.
+
+    Args:
+        root (Path): Project directory.
+        baseline (dict): Unmodified run_baseline result with complete development features.
+        settings (dict | None): SVR grid/solver/output settings, or None to load
+            config/svr.json.
+        render (bool): Whether to write parameter-search and comparison figures.
+
+    Returns:
+        dict: bundle, summary, metrics, trials, comparison, rankings, query_metrics, selection
+        and output_dir; no test scores are produced.
+
+    Raises:
+        ValueError: Shared inputs/grid/lock are invalid, no trial converges, or locked metrics
+            no longer reproduce.
+        AssertionError: Repeated fitting or shared preprocessing differs from its reference.
+        OSError: Configuration, lock, model or output files are inaccessible.
     """
     root = Path(root).resolve()
     settings = dict(settings or load_svr_config(root))
@@ -159,6 +275,7 @@ def run_svr(root: Path, baseline: dict, settings: dict | None = None, render=Tru
     lock_path = root / settings["selection_file"]
     lock = json.loads(lock_path.read_text(encoding="utf-8")) if lock_path.exists() else None
     selection_reused = lock is not None
+    # Source bytes are part of provenance, so even documentation edits invalidate this lock.
     if lock is not None and lock["input_fingerprint"] != fingerprint:
         raise ValueError("Locked SVR inputs/grid changed; use a separate selection_file for a new experiment")
     output = root / settings["output_dir"]
@@ -199,6 +316,7 @@ def run_svr(root: Path, baseline: dict, settings: dict | None = None, render=Tru
     best = select_trial(table)
     selected_id = int(best.trial_id)
     if lock is not None:
+        # Preserve the recorded choice when repeated prediction timings jitter.
         selected_id = lock["selected_trial_id"]
         selected = table[table.trial_id.eq(selected_id)].iloc[0]
         if (selected.status != "ok" or
@@ -305,6 +423,20 @@ def run_svr(root: Path, baseline: dict, settings: dict | None = None, render=Tru
 
 
 def render_search(trials, comparison, output):
+    """Plot converged validation trials and the development model comparison.
+
+    Args:
+        trials (pandas.DataFrame): SVR search results including convergence and validation
+            metrics.
+        comparison (pandas.DataFrame): Linear/SVR metrics indexed by model and split.
+        output (Path): Existing directory receiving figures/.
+
+    Returns:
+        None: Two PNG figures are written and closed.
+
+    Raises:
+        OSError: A figure cannot be written.
+    """
     folder = output / "figures"
     folder.mkdir(exist_ok=True)
     fig, axes = plt.subplots(1, 2, figsize=(13, 5))

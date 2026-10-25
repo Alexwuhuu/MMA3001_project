@@ -11,4 +11,5 @@ opencv-python-headless
 scikit-learn
 scipy
 joblib
+psutil
 # Optional pretrained image features: config/requirements-resnet.txt

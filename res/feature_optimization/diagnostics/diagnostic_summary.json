@@ -1,0 +1,60 @@
+{
+  "split": "validation",
+  "queries": 112,
+  "candidate_count": 112,
+  "pair_count": 12544,
+  "models": {
+    "LinearRegression": {
+      "queries": 112,
+      "candidates": 112,
+      "expected_top5_total": 560.0,
+      "max_top5_query_fraction": 0.375,
+      "top10_candidate_share": 0.45178571428571423,
+      "top5_hhi": 0.028883928571428574,
+      "effective_candidates": 34.62132921174652,
+      "zero_top5_candidates": 27,
+      "candidate_attribute_spearman": {
+        "candidate_keypoints": -0.13816683282890685,
+        "missing_candidate_descriptors": null,
+        "missing_candidate_depth": null,
+        "candidate_depth_no_nonzero": null
+      },
+      "rank_quantiles": {
+        "0.25": 26.0,
+        "0.5": 51.5,
+        "0.75": 81.0,
+        "0.9": 102.0
+      },
+      "true_pairs_below_gallery_midpoint": 53
+    },
+    "RBF-SVR": {
+      "queries": 112,
+      "candidates": 112,
+      "expected_top5_total": 560.0,
+      "max_top5_query_fraction": 0.125,
+      "top10_candidate_share": 0.19821428571428568,
+      "top5_hhi": 0.01236607142857143,
+      "effective_candidates": 80.86642599277978,
+      "zero_top5_candidates": 6,
+      "candidate_attribute_spearman": {
+        "candidate_keypoints": -0.058947732877616364,
+        "missing_candidate_descriptors": null,
+        "missing_candidate_depth": null,
+        "candidate_depth_no_nonzero": null
+      },
+      "rank_quantiles": {
+        "0.25": 24.75,
+        "0.5": 49.5,
+        "0.75": 74.0,
+        "0.9": 94.9
+      },
+      "true_pairs_below_gallery_midpoint": 46
+    }
+  },
+  "test_images_read": 0,
+  "test_predictions": 0,
+  "label_basis": "filename identities; not new human confirmations",
+  "missing_policy": "Finite-only AUC with coverage; all-gallery MRR uses train-median fills and expected tie credit",
+  "direction_policy": "Both directions are descriptive validation diagnostics, not an independent evaluation",
+  "query_constants": "No within-query signal alone; RBF may condition on them, so removal needs an ablation"
+}

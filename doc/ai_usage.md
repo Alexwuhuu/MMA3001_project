@@ -1,5 +1,29 @@
 # AI usage record: implementation stage
 
+## 2026-10-25: inline comments, docstrings and HTML reference
+
+Codex revised production-module and tool docstrings to a consistent Google style,
+including parameter meanings/shapes/units, return structures, principal validation
+and I/O exceptions, and representative usage. Inline comments explain intent at
+split, tie, missing-data, cache-publication and experiment-lock boundaries.
+
+Sphinx now builds the first-run/workflow/data-contract/maintenance guides and an
+API reference derived from source ASTs and docstrings. It does not import or run
+the experiment stack. The documentation command checks signature/docstring
+coverage, fails on Sphinx warnings and verifies generated relative links, assets
+and fragments. A separate CI job uploads the HTML site. Documentation dependencies
+are isolated from the pinned experiment requirements.
+
+Verification: all 56 project tests passed; six doctest examples passed; the HTML
+build completed without warnings and 63 generated pages passed local link checks.
+Parsed ASTs, after removing docstrings, matched the pre-edit production/tool
+snapshot. Existing configuration/result/notebook bytes remained unchanged.
+Raw source hashes still change for comments/docstrings, so existing experiment
+locks are preserved and the maintenance guide explains separate intentional reruns.
+The currently supplied optimization notebook filename is documented explicitly;
+historical entries below retain their original chronology. No real-data fitting,
+test rescoring, annotation migration, commit, push or upload was performed.
+
 Dates below use Australia/Sydney.
 
 ## 2026-10-22: data preparation
@@ -215,3 +239,179 @@ All 31 protected original source/result/audit files remained byte-identical,
 including original model bundles and frozen evaluation records. Test images
 embedded/scored remained zero. No commit or push was performed. CI was updated
 for optional CPU dependencies and explicit weight download but not run remotely.
+
+## 2026-10-25: final experiments and reproducible exports
+
+The user authorized stages 7 and 8 of the agreed Linear Regression baseline /
+RBF-SVR main-method plan. Codex added controlled validation ablations for D and
+RANSAC, crop and 128/256/384 sensitivity, parameter/error plots, fixed-model
+independent evaluation, conditional uncertainty and paired comparisons, a
+qualitative U example, cProfile, five-repeat perf_counter timings and separately
+sampled RSS/model storage measurements. The existing frozen-ResNet extension is
+retained as a separately labelled supplementary test comparison.
+
+All original sampled training IDs/weights are reused. Variants keep main SVR
+hyperparameters fixed and never score test data. Main models remain train-only;
+no post-test selection occurs. A final source/configuration/development lock is
+written before test feature extraction. All 40 frozen queries and 132 candidates
+are preserved. Confirmed queries alone define verified accuracy; rejected and
+unresolved records have no inferred identity. Whole-sample filename positions
+are diagnostic only. Query intervals condition on the confirmed subset/fixed
+gallery and do not infer wider accuracy from four orchard rows.
+
+The portable export contains source, configuration, clean notebook, fitted
+pipelines and explicit preprocessors/PCA, versions, human records, numeric test
+features/ranks, aggregate results and checksums. It excludes raw images, example
+photographs, checkpoint and large caches. Exported predictions/ranks and saved
+image inference are checked. Small aggregate results are prepared under res/;
+no report is written. AI does not create human identity confirmations.
+
+Initial verification: the previous 40 checks and five new substantive checks
+passed. The full core eight-stage synthetic notebook and the optional-ResNet
+synthetic notebook executed successfully. Real-data execution and final results
+are recorded below after their actual completion. No commit or push is performed.
+
+Real execution completed in a fresh kernel: all 28 code cells of the 59-cell
+notebook ran without errors. All 46 tests passed. The complete core and optional
+synthetic executions succeeded; the core was rerun after final preflight checks
+were added. Aggregate and error figures were visually inspected.
+
+The frozen sample has 28 confirmed, 7 rejected and 5 uncertain pairs. The main
+linear/SVR Top-1 and Top-5 are both 0/28; MRR is 0.01644/0.02504. Supplementary
+ResNet linear/SVR Top-1 is 0/28 and 1/28, Top-5 both 1/28, MRR 0.03790/0.05762.
+Results remain weak; a higher conditional MRR does not establish useful matching.
+Wilson zero-success upper bounds and all paired/individual intervals are retained.
+Conditional query intervals are not orchard-row population confidence intervals.
+
+At fixed main SVR settings, D removal lowers validation Top-1 from 3/112 to 1/112;
+RANSAC removal preserves 3/112. Full-frame and resolution effects vary by method,
+and no test result changes the selected original models. The fixed main SVR query
+benchmark improves from about 2.001 s to 0.184 s, excluding shared appearance
+extraction and reporting 0.836 s cache build separately. OpenCV descriptor matching
+is the cached-batch profile bottleneck. The main SVR uses 3,336 support vectors.
+
+The standalone exported source verifier replayed 5,280 scores/ranks for each of
+four model bundles. Both saved main models also reproduced complete validation
+image inference. All seven protected source ledgers/protocol/selection files
+matched their pre-stage hashes. No report, commit, push or data upload occurred.
+
+Post-execution export fix: a standalone replay creates Python __pycache__ files
+in the copied source directory. The exporter originally treated those generated
+runtime files as unexpected on a subsequent export. Codex excluded bytecode and
+notebook checkpoint folders from the inventory comparison; numerical code,
+features, models, sampling, metric rules and rankings did not change. The original
+pre-test lock and ranking hashes are preserved in the final output as
+initial_evaluation_lock.json and export_revision.json. Only the export-module
+checksum was revised in the current lock, with the reason recorded. The revised
+export is replayed again and checked against the original ranking hashes.
+
+## 2026-10-25: validation diagnostics and feature revision
+
+The user authorized validation-only single-feature AUC/MRR, candidate hubness and
+true-pair rank diagnosis, stronger ORB parameters, query-relative features,
+foreground/seasonal appearance controls and a revised MRR-first selection with
+larger epsilon values. Codex wrote doc/optimization_plan.md and separate config,
+source tools, notebook section 9 and selection/output/export paths. Original src
+modules and all historical model-selection/test artifacts are preserved.
+
+Each training query uses the full training gallery for relative context before
+the original positive/ten-negative samples are selected. Training/validation
+remain row-disjoint. Global missing fills, appearance season statistics and
+standardization fit training only. Validation candidate distributions are
+label-free inference context. Query-constant attributes are excluded from eligible
+new models, but a raw-column control measures their removal. Candidate-only
+features receive separate ablation/hubness checks. No HOG or additional learned
+prediction algorithm is introduced.
+
+The D mask deliberately avoids assuming an unknown grayscale near/far encoding.
+It is a central-seed percentile band, with fallback flags/audits and training-only
+illustrations. It is not verified trunk segmentation or a depth map in metres.
+CLAHE, masks and seasonal residuals are empirical feature controls. The user is
+not promised an improvement. MRR is the new primary selection measure, with
+36 C/gamma/epsilon configurations after fixed-pilot representation screening.
+Repeated validation use does not establish new independent test accuracy.
+
+Original diagnostics show linear/SVR largest candidate Top-5 frequency 42/112 and
+14/112, top-ten shares 45.18% and 19.82%, and median true-pair ranks 51.5 and 49.5.
+Feature diagnostics report both directions and missing coverage rather than
+silently discarding failed pairs. No human identity confirmation is fabricated.
+
+Eight new checks initially passed, including a synthetic end-to-end run that
+reuses sample IDs/weights, rejects test-image access, reloads image inference,
+reuses the new selection lock and rejects changed inputs. Rendering was added to
+the end-to-end check after the first synthetic notebook exposed a missing cv2
+import in mask-illustration code; that import was corrected. A Windows Tk/worker
+conflict in the standalone command was fixed using a noninteractive plotting
+backend. Numeric caches are saved atomically. No model choice was changed in
+response to these implementation fixes. Final execution outcomes follow below.
+
+The completed real revision screened 30 image/representation settings with both
+regressors, then all 36 SVR parameter settings converged. The selected raw
+384/1000/0.85 representation excludes query-only columns and retains candidate
+columns; relative/seasonal or CLAHE/masked variants did not improve the pilot
+SVR. Selection chose C=1, gamma=scale, epsilon=0.2. New SVR validation Top-1 is
+4/112 versus original 3/112, Top-5 remains 7/112, and MRR is 0.07232 versus 0.06690.
+The shared-feature linear model worsens to 0/112, 5/112 and 0.04449. A different
+relative-feature linear control reaches MRR 0.0846, but it is not the SVR-selected
+representation. Results are not uniformly improved.
+
+Support vectors fall to 2,619/3,355 (78.06%). Larger epsilon does not guarantee
+better ranking. Validation D zero fractions average 0.120 Summer / 0.548 Winter;
+mask coverage is 30.4% / 14.7%, with no fallback for this data. Mask examples reveal
+that the heuristic is not a verified correspondence of trunk regions across
+seasons. The selected model does not use CLAHE or this mask. New SVR largest hub
+frequency is 17/112 (original 14/112); hubness is not resolved.
+
+All 54 tests passed. The 68-cell core synthetic notebook executed through the
+new revision successfully after fixing headless CLI plotting and a missing mask
+preview import. Both optimized models reloaded complete validation image inference
+and replayed all 12,544 numerical validation pair scores/ranks. The separate new
+export passed checksum/ranking verification. All 128 protected original files
+remained byte-identical, including original models, selections, human records and
+historical test results. No real test images were scored by this revision. No
+report, commit, push or upload occurred. The optimization-only fresh-kernel
+notebook run subsequently passed: all four new code cells executed without
+errors, reusing the new selection lock. The independent copied-bundle verifier
+checked 81 packaged files and reproduced both full validation rankings. Updated
+source notes and aggregate figures were included in the final export snapshot.
+
+## Notebook separation (25 October 2026)
+
+At the user's request, section 9 and its saved diagnostic/optimization outputs
+were moved into the new `apple_tree_matching_optimization.ipynb` copy. The copy
+retains stages 1-8 for context; the original `apple_tree_matching.ipynb` now
+contains stages 1-8 only. The optimization-only runner selects the new copy.
+The export adapter includes both notebook sources and updated run instructions
+without modifying locked feature/model implementation or selection files.
+
+## Model-parameter refinement in the original notebook (25 October 2026)
+
+The user requested model-parameter optimization inside the original notebook.
+Section 6.4 now refines RBF-SVR on the original 21-feature representation and
+shared 3,355 training examples/weights. It expands epsilon to 0.2/0.3 (36 total
+configurations) and selects validation MRR first. Linear Regression remains the
+same baseline. This is distinct from the feature revision in the optimization
+copy. Original source/model locks and historical test predictions are retained;
+the new `svr_tuned` model and validation artifacts use separate paths. AI does
+not add human identity confirmations or use independent test scores for tuning.
+
+All 36 real-data fits converged. MRR-first selection retained the original
+C=10, gamma=0.01, epsilon=0.01; validation Top-1/Top-5/MRR remain
+3/112, 7/112, 0.06690. Support count remains 3,336/3,355. No improvement
+is claimed from this expanded grid. Eleven targeted SVR/tuning tests passed,
+including class-error checks, failed-fit exclusion, leakage rejection,
+locked-input rejection and model/ranking replay.
+
+A cold-start check also covers a tracked selection lock with no local output
+directory: the declared grid is rebuilt, the locked validation metrics are
+verified, and its choice is retained. The initial tuning lock was backed up in
+ignored `.cache/` while this rebuild path was completed; the same real-data grid
+was rerun under the final implementation fingerprint. No numerical fitting or
+feature definition was changed by that cache-rebuild fix.
+
+Final verification passed on the completed implementation: the main notebook
+executed the configuration and three parameter-refinement cells in a fresh
+kernel, and its complete 66-cell synthetic core workflow also passed. The
+18-file numeric manifest replayed 12,544 scores/ranks for each regressor.
+All original code/test outputs, the optimization copy and 128 protected
+historical files remained unchanged. No report, commit, push or upload occurred.

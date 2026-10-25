@@ -15,16 +15,45 @@ APPEARANCE_COLUMNS = ["hsv_hellinger", "depth_hellinger", "depth_mean_difference
 
 
 def appearance_signature(settings: dict) -> str:
+    """Namespace appearance caches by histogram/preprocessing settings and source bytes.
+
+    Args:
+        settings (dict): image_size, crop, hue_bins, saturation_bins and depth_bins.
+
+    Returns:
+        str: First 20 hexadecimal characters of the settings/OpenCV/source digest.
+
+    Raises:
+        KeyError: A required setting is absent.
+        OSError: This module cannot be hashed.
+    """
     keys = ["image_size", "crop", "hue_bins", "saturation_bins", "depth_bins"]
     return stable_digest({"settings": {k: settings[k] for k in keys},
                           "opencv": cv2.__version__, "code": file_digest(Path(__file__))})[:20]
 
 
 def extract_appearance(rgb_path, depth_path, settings: dict, cache_dir: Path) -> dict:
-    """Cache per-image HSV and nonzero-D distributions using source content hashes.
+    """Cache HSV and nonzero-D summaries by source content.
 
-    Missing, unreadable, unsupported, or mismatched D is flagged and retained.
-    All-zero D has a known zero fraction but unavailable nonzero statistics.
+    Missing, unreadable, unsupported or mismatched D is retained through flags and
+    NaNs. All-zero D has zero fraction one and unavailable nonzero statistics. D
+    uses nearest-neighbour resizing to preserve intensity values, never metres.
+
+    Args:
+        rgb_path (str | Path): Required readable RGB image.
+        depth_path (str | Path | None): Optional D image matching the original RGB dimensions.
+        settings (dict): Image size/crop and HSV/D histogram bin counts.
+        cache_dir (Path): Writable NPZ cache directory, created when absent.
+
+    Returns:
+        dict: L1-normalized hsv and depth_hist arrays, D mean/std/zero fraction, missing_depth
+        and depth_no_nonzero indicators. Cache hits may return zero-dimensional arrays for
+        scalar entries.
+
+    Raises:
+        ValueError: RGB cannot be read or crop/size settings are invalid.
+        OSError: RGB or cache files cannot be read or written.
+        KeyError: A required setting is absent.
     """
     rgb_path = Path(rgb_path)
     depth_path = Path(depth_path) if depth_path else None
@@ -52,6 +81,7 @@ def extract_appearance(rgb_path, depth_path, settings: dict, cache_dir: Path) ->
             side = min(h, w)
             depth = depth[(h-side)//2:(h-side)//2+side, (w-side)//2:(w-side)//2+side]
         size = settings["image_size"]
+        # Nearest-neighbour sampling preserves the exported D-intensity categories.
         depth = cv2.resize(depth, (size, size), interpolation=cv2.INTER_NEAREST)
         valid = depth[depth != 0].astype(float)
         result.update(depth_zero_fraction=float(np.mean(depth == 0)), depth_no_nonzero=float(not len(valid)))
@@ -63,11 +93,35 @@ def extract_appearance(rgb_path, depth_path, settings: dict, cache_dir: Path) ->
 
 
 def hellinger(left, right) -> float:
-    """Hellinger distance for L1-normalized nonnegative histograms (range 0–1)."""
+    """Compare L1-normalized nonnegative histograms using Hellinger distance.
+
+    Args:
+        left (array-like): First normalized histogram.
+        right (array-like): Compatible second normalized histogram.
+
+    Returns:
+        float: Distance from zero to one for valid distributions; NaN inputs propagate.
+
+    Raises:
+        ValueError: Histogram shapes cannot be broadcast together.
+    """
     return float(np.sqrt(np.sum((np.sqrt(left) - np.sqrt(right)) ** 2) / 2))
 
 
 def pair_appearance(query: dict, candidate: dict) -> dict:
+    """Combine two image summaries into fixed-order appearance differences and flags.
+
+    Args:
+        query (dict): Summer summary returned by extract_appearance.
+        candidate (dict): Winter summary returned by extract_appearance.
+
+    Returns:
+        dict: Nine APPEARANCE_COLUMNS values. Histogram distances are dimensionless; D mean/std
+        differences use uint8 intensity units. Missing statistics remain NaN.
+
+    Raises:
+        KeyError: A required appearance summary field is absent.
+    """
     return dict(zip(APPEARANCE_COLUMNS, [
         hellinger(query["hsv"], candidate["hsv"]),
         hellinger(query["depth_hist"], candidate["depth_hist"]),
