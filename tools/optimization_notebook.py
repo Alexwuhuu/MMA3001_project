@@ -9,7 +9,7 @@ from tools.feature_optimization import (
     run_optimization, verify_export, write_json,
 )
 
-NOTEBOOK_NAME = "apple_tree_matching_optimization.ipynb"
+NOTEBOOK_NAME = "apple_tree_matching_opt_attempt.ipynb"
 
 
 def export_optimization(root, result, settings=None):

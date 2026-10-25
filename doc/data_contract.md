@@ -319,10 +319,10 @@ The optimization-copy notebook remains separate and is not edited by this run.
 
 `apple_tree_matching_opt_attempt.ipynb` contains the validation-only revision and
 its saved outputs. `apple_tree_matching.ipynb` retains the original stages 1-8.
-Use `tools/run_notebook.py --notebook apple_tree_matching_opt_attempt.ipynb
---optimization-only --in-place` to select this checkout's copy. The historical
-runner default and notebook-export wrapper still name the absent
-`apple_tree_matching_optimization.ipynb`; see the [first-run guide](quickstart.md).
+Use `tools/run_notebook.py --optimization-only --in-place` to select this
+checkout's copy. An explicit `--notebook` path overrides that default. The
+notebook-export wrapper packages the same supplied filename; see the
+[first-run guide](quickstart.md).
 
 The original src/ executable implementation and its locked model/test artifacts
 are preserved. Comments/docstrings were expanded for the software reference;

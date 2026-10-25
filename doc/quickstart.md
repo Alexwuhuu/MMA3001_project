@@ -54,19 +54,17 @@ lock/results and use separate experiment paths as explained in
 [maintenance](maintenance.md#source-hashes-and-historical-results).
 
 The supplied optimization copy is `apple_tree_matching_opt_attempt.ipynb`.
-The runner's historical default and `tools.optimization_notebook.NOTEBOOK_NAME`
-still refer to `apple_tree_matching_optimization.ipynb`, which is absent in this
-checkout. Select the existing file explicitly when using the runner:
+The runner selects this file by default with `--optimization-only`; the export
+wrapper packages the same copy. An explicit `--notebook` path can override it:
 
 ```powershell
 python tools/run_notebook.py --notebook apple_tree_matching_opt_attempt.ipynb --optimization-only --in-place
 ```
 
 This command selects configuration and cells tagged `feature_optimization`.
-Cells that call the separate notebook-export wrapper still require its configured
-notebook name to exist. Use `python -m tools.feature_optimization` for the direct
-optimization/export entry point. The documentation revision does not rename
-notebooks or alter those historical runner/export defaults.
+Use `python -m tools.optimization_notebook` for the corresponding command-line
+optimization/export entry point, or `python -m tools.feature_optimization` for the
+direct experiment exporter.
 
 ## Build and open the HTML documentation
 

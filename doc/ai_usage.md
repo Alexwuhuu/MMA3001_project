@@ -1,5 +1,26 @@
 # AI usage record: implementation stage
 
+## 2026-10-25: CI notebook-path and runner compatibility repair
+
+Codex reproduced the failing CI notebook command: it referenced the absent
+`apple_tree_matching_optimization.ipynb` instead of the supplied
+`apple_tree_matching_opt_attempt.ipynb`. The workflow, optimization-only runner
+default and optimization notebook exporter now use the supplied filename.
+README, first-run instructions and the data contract describe the repaired paths.
+
+Both jobs use Ubuntu 24.04 and v6 of checkout, setup-python and upload-artifact.
+Notebook artifacts are uploaded only when a matching executed file exists;
+artifact uploads fail explicitly if an expected file disappears before upload.
+Regression tests execute the default optimization-only selection in a real kernel
+and verify clean notebook packaging plus updated manifest hashes.
+
+Local verification: 58 tests passed. The exact core-plus-optimization synthetic
+CI command completed all 32 code cells; the full main synthetic command completed
+all 31 code cells with the optional ResNet extension enabled. Both generated
+notebooks contain no cell errors. Workflow YAML/notebook paths and the Sphinx
+build with 63 HTML pages passed validation. Hosted Actions execution still
+requires committing/pushing the repair; no commit or push was performed.
+
 ## 2026-10-25: inline comments, docstrings and HTML reference
 
 Codex revised production-module and tool docstrings to a consistent Google style,

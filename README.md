@@ -630,11 +630,11 @@ Run only the new notebook cells in a fresh kernel:
 & 'D:\anacoda3\envs\MMA3001\python.exe' tools/run_notebook.py --notebook apple_tree_matching_opt_attempt.ipynb --optimization-only --in-place
 ```
 
-The explicit path selects the copy present in this checkout and saves outputs there.
-The runner default and notebook-export wrapper still name the absent
-`apple_tree_matching_optimization.ipynb`; see [first-run notes](doc/quickstart.md).
-Alternatively run `python -m tools.feature_optimization` for the direct experiment/export,
-or add `--diagnostics-only` for the low-cost original validation analysis.
+The runner defaults to the supplied optimization copy when `--optimization-only`
+is used; the notebook-export wrapper packages the same file.
+Alternatively run `python -m tools.optimization_notebook` for the experiment/export,
+or `python -m tools.feature_optimization --diagnostics-only` for the low-cost
+original validation analysis.
 A full Restart & Run All of the copy also runs its
 retained stages 1-8; the optimization-only command executes configuration and
 section 9 without executing historical test cells this round.

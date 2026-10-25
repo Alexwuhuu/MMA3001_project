@@ -66,7 +66,7 @@ def main():
     if not kernel_python.is_file():
         parser.error(f"Kernel Python not found: {kernel_python}")
     notebook_path = ROOT / (arguments.notebook or (
-        "apple_tree_matching_optimization.ipynb" if arguments.optimization_only else "apple_tree_matching.ipynb"))
+        "apple_tree_matching_opt_attempt.ipynb" if arguments.optimization_only else "apple_tree_matching.ipynb"))
     if not notebook_path.is_file():
         parser.error(f"Notebook not found: {notebook_path}")
     notebook = nbformat.read(notebook_path, as_version=4)
