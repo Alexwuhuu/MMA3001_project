@@ -17,6 +17,7 @@ The :doc:`data_contract` specifies tables, missing values and experiment artifac
    quickstart
    workflow
    data_contract
+   experiment_reference
    _generated/index
    maintenance
    optimization_plan

@@ -7,15 +7,37 @@ Use Python 3.12 from the project directory. The primary workflow is
 ## Install the experiment environment
 
 ```powershell
-& 'D:\anacoda3\envs\MMA3001\python.exe' -m pip install -r config/requirements.txt
-& 'D:\anacoda3\envs\MMA3001\python.exe' -m ipykernel install --sys-prefix --name mma3001 --display-name 'MMA3001 (Python 3.12)'
+python -m venv .venv
+& ./.venv/Scripts/Activate.ps1
+python -m pip install -r config/requirements.txt
+python -m ipykernel install --sys-prefix --name mma3001 --display-name 'MMA3001 (Python 3.12)'
 ```
 
-On another machine, substitute your Python 3.12 interpreter. The optional neural
-extension also requires `config/requirements-resnet.txt` and the verified official
-checkpoint downloaded by `python tools/download_resnet_weights.py`. See the root
-README for CPU/CUDA installation commands. The ORB workflow can run with
-`--skip-resnet` without installing PyTorch.
+Use a Python 3.12 interpreter to create the environment. On Linux/macOS, activate
+with `source .venv/bin/activate`. On the original machine, the existing
+`D:/anacoda3/envs/MMA3001/python.exe` can replace the environment's interpreter.
+Select the same interpreter in Jupyter; the first code cell prints its actual path.
+
+## Optional ResNet environment
+
+The ORB workflow runs with `--skip-resnet` without installing PyTorch. For the
+frozen neural experiment, first install the core requirements, then choose **one**
+of the following additional package commands in that experiment environment:
+
+```powershell
+# CPU
+python -m pip install -r config/requirements-resnet.txt --index-url https://download.pytorch.org/whl/cpu --extra-index-url https://pypi.org/simple
+# Recorded CUDA 12.8 build, for a compatible NVIDIA environment
+python -m pip install -r config/requirements-resnet.txt --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple
+```
+
+Then run `python tools/download_resnet_weights.py` to download and verify the
+official checkpoint into `.cache/pretrained/`. Run All never downloads it and
+never substitutes random weights. `device=auto` supports CPU when CUDA is absent.
+The pinned requirements are PyTorch 2.11.0 and TorchVision 0.26.0; CPU/CUDA build
+suffixes and device-dependent features may differ from the historical run.
+Use separate selection/output paths for a different environment rather than
+changing recorded fingerprints; see the maintenance section below.
 
 ## Supply the original data
 
