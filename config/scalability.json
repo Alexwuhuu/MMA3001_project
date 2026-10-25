@@ -1,0 +1,11 @@
+{
+  "seed": 42,
+  "queries_per_split": 8,
+  "timing_repeats": 5,
+  "gallery_sizes": {
+    "train": [16, 32, 64, 128, 256, 305],
+    "validation": [16, 32, 64, 112]
+  },
+  "output_dir": "outputs/scalability",
+  "small_results_dir": "res/scalability"
+}

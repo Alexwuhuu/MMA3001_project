@@ -92,6 +92,67 @@ Appearance summaries are precomputed and excluded in every mode. Sampled absolut
 RSS includes other loaded models and can miss short peaks; it is not isolated
 per-model peak RAM. See notebook section 7.2 for full benchmark scope.
 
+### Development-gallery scalability
+
+Notebook section 7.2.1 adds a separate runtime experiment. Reproduce it with
+`python -m tools.benchmark_scalability`, using existing trusted stage-5/6 model
+files, the saved split manifest and original development images. Settings are in
+`config/scalability.json`; results are saved to `outputs/scalability/` and the small
+versioned evidence in `res/scalability/`. This command does not fit models, score
+test images, change selection locks or rerun independent evaluation.
+
+Each split has eight fixed queries spread across orchard rows. A seeded permutation
+defines nested gallery prefixes: 16/32/64/112 validation candidates and
+16/32/64/128/256/305 training candidates. These subsets benchmark runtime, not
+accuracy; the query's counterpart need not be present. Five repetitions shuffle
+size, query and model order. OpenCV and BLAS use one thread. An untimed pass checks
+every accessed image summary against production extraction and warms image I/O;
+the OS file cache is uncontrolled, so results are not cold-disk latency.
+
+Gallery-cache construction includes decoding candidate RGB/D and computing
+ORB/HSV/D into memory. Each query then measures its own image extraction, pair
+feature construction (matching/RANSAC and DataFrame assembly), fitted-pipeline
+prediction, and tie-aware ranking separately. Unlike the historical descriptor
+benchmark, appearance extraction is included and RGB decoding is shared between
+ORB and HSV. Therefore absolute timings are not a direct repeat of that benchmark.
+Image/pair work is shared between the two models to keep their input equal; each
+reported latency represents either model used alone.
+
+`online_seconds` sums the four measured query stages after gallery reuse;
+`first_query_seconds` additionally includes that repetition's complete gallery
+build once. Hashing, persistent cache writes, model loading, validation assertions
+and output-file I/O are outside the timers. Cache numeric array bytes exclude
+Python overhead and are not peak process RAM.
+
+`timings.csv` retains every model/query/size/repetition observation and
+`cache_timings.csv` retains each gallery build once. `per_query_summary.csv`
+reports within-query repeat dispersion; `summary.csv` pools queries and repeats.
+Both contain median, 25th/75th percentiles, sample standard deviation and range.
+Pooled quartiles reflect both query heterogeneity and timing variation, not
+confidence intervals. `cache_summary.csv` separately summarizes construction cost
+and array bytes. The plot uses median and IQR shading. `protocol.json` records IDs,
+source/model/config/image hashes, settings, thread libraries and measurement scope.
+
+These measurements assess gallery-size inference scaling at fixed trained models,
+up to 305 candidates. They do not measure training scaling, validate retrieval
+accuracy, or establish performance on larger orchards.
+
+The recorded real-image run contains 800 model-query observations and 50 cache
+builds. SVR online median [IQR] is 0.04652 [0.04361, 0.04765] s at 16 validation
+candidates, 0.23722 [0.22471, 0.28245] s at 112, and 0.58084 [0.57013, 0.59586] s
+at 305 train candidates. Gallery-build medians at 112/305 are 1.40169/3.68811 s;
+SVR first-query medians including those builds are 1.63380/4.26378 s. Curves are
+approximately linear in the measured range, without extrapolation.
+
+At 305 candidates, median pair-feature construction is 0.52226 s, compared with
+0.03898 s for SVR prediction and 0.00482 s for ranking. Linear prediction is
+0.00102 s, but its online total remains 0.54066 s because pair features dominate.
+Reusing gallery summaries saves repeated image extraction while leaving matching
+and RANSAC per candidate. These observations prioritize the pair-feature stage
+for future optimization; they do not demonstrate a new speed improvement or a
+retrieval gain. Stage medians need not add to the total median. The complete
+size-by-size table and measurement caveats are in `res/scalability/README.md`.
+
 ## Optional development experiments
 
 These commands run from the repository root and require existing stage-5 artifacts.

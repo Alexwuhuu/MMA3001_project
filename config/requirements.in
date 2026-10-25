@@ -12,4 +12,5 @@ scikit-learn
 scipy
 joblib
 psutil
+threadpoolctl
 # Optional pretrained image features: config/requirements-resnet.txt
