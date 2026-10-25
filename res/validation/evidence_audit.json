@@ -1,0 +1,138 @@
+{
+  "queries": 40,
+  "gallery_size": 132,
+  "audit_counts": {
+    "confirmed": 28,
+    "rejected": 7,
+    "uncertain": 5
+  },
+  "uniform_ranking_reference": {
+    "top1": 0.007575757575757576,
+    "top5": 0.03787878787878788,
+    "mrr": 0.04139242942142419
+  },
+  "constant_zero_reference": {
+    "all_pairs_mae": 0.007575757575757576,
+    "all_pairs_rmse": 0.08703882797784893,
+    "positive_mae": 1.0,
+    "negative_mae": 0.0,
+    "balanced_class_mae": 0.5
+  },
+  "models": {
+    "LinearRegression": {
+      "pairs_checked": 5280,
+      "verified_queries": 28,
+      "verified_retrieval": {
+        "top1": 0,
+        "top5": 0,
+        "mrr": 0.016436909419068432
+      },
+      "regression": {
+        "positive_pairs": {
+          "count": 28,
+          "mae": 0.5236767758936526,
+          "rmse": 0.5255472676990902
+        },
+        "negative_pairs": {
+          "count": 3668,
+          "mae": 0.4884101653448656,
+          "rmse": 0.49187703279116307
+        },
+        "all_pairs": {
+          "count": 3696,
+          "mae": 0.4886773366369018,
+          "rmse": 0.4921407699757015
+        }
+      }
+    },
+    "RBF-SVR": {
+      "pairs_checked": 5280,
+      "verified_queries": 28,
+      "verified_retrieval": {
+        "top1": 0,
+        "top5": 0,
+        "mrr": 0.02503928674919347
+      },
+      "regression": {
+        "positive_pairs": {
+          "count": 28,
+          "mae": 0.5428015133780766,
+          "rmse": 0.6601634619209197
+        },
+        "negative_pairs": {
+          "count": 3668,
+          "mae": 0.5034608676939286,
+          "rmse": 0.5729264281749007
+        },
+        "all_pairs": {
+          "count": 3696,
+          "mae": 0.5037589028885054,
+          "rmse": 0.5736371890925425
+        }
+      }
+    },
+    "ResNet18+LinearRegression": {
+      "pairs_checked": 5280,
+      "verified_queries": 28,
+      "verified_retrieval": {
+        "top1": 0,
+        "top5": 0.03571428571428571,
+        "mrr": 0.03789993701157563
+      },
+      "regression": {
+        "positive_pairs": {
+          "count": 28,
+          "mae": 0.5304019554936706,
+          "rmse": 0.5558411597187463
+        },
+        "negative_pairs": {
+          "count": 3668,
+          "mae": 0.4617567511574987,
+          "rmse": 0.48350463536798743
+        },
+        "all_pairs": {
+          "count": 3696,
+          "mae": 0.4622767905842879,
+          "rmse": 0.48409327411841585
+        }
+      }
+    },
+    "ResNet18+RBF-SVR": {
+      "pairs_checked": 5280,
+      "verified_queries": 28,
+      "verified_retrieval": {
+        "top1": 0.03571428571428571,
+        "top5": 0.03571428571428571,
+        "mrr": 0.05761987243980434
+      },
+      "regression": {
+        "positive_pairs": {
+          "count": 28,
+          "mae": 0.562061092668234,
+          "rmse": 0.5933500589152919
+        },
+        "negative_pairs": {
+          "count": 3668,
+          "mae": 0.419280334194037,
+          "rmse": 0.4673072882032026
+        },
+        "all_pairs": {
+          "count": 3696,
+          "mae": 0.4203620066067203,
+          "rmse": 0.46838967850725116
+        }
+      }
+    }
+  },
+  "source_sha256": {
+    "test_metrics.json": "dfd44b6afb9d4cdcb497d3d5aef8b6acbedd75c376ecb8ef57af827c5295cee6",
+    "independent_review_normalized.csv": "0c69b074c3ef93669b328919596428439e2ffbbe34b3d77cbc2e923b634a9f09",
+    "LinearRegression_test_rankings.csv": "bd60408b5ff3bb99f79958651dadd5908a4e6c110a1df8e91fc1ad7f0359211b",
+    "RBF-SVR_test_rankings.csv": "51c390e0fd99f4a7ffb5a888da08247fea4206e00167303612b86ea23765b976",
+    "ResNet18+LinearRegression_test_rankings.csv": "44862471d43de42c4bb2172afca6c7a55b7625e2f59712ff3a28bbce6de6daea",
+    "ResNet18+RBF-SVR_test_rankings.csv": "d0c09056a02269158b962510aa365077ba87754e0a25f485aae4272b5c4d0d4e"
+  },
+  "audit_implementation_sha256": "5897d7fe0cf263391b12082e098368fa5dc1963a436f1b35f17d43f70d61a986",
+  "passed": true,
+  "scope": "Saved numeric evidence only; human decisions are inputs. No image inference, fitting, selection or bootstrap re-estimation; no population accuracy guarantee."
+}

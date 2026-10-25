@@ -84,7 +84,7 @@ Alternatively, create the ignored `config/local.json`:
 RGB is required. D is optional uint8 intensity (0–255), with unknown physical units.
 GT masks, paths, IDs, row numbers and timestamps never enter the numeric matching features.
 R identifies an orchard row, N a nominal matched tree and U an unmatched observation.
-U has no verified cross-season identity label and is used qualitatively only.
+U has no verified cross-season identity label and is excluded from supervised evaluation.
 
 Human decisions are in `config/pair_review.csv`; the independent audit is in
 `config/evaluation/independent_review.csv`. Automated scores never create confirmations.

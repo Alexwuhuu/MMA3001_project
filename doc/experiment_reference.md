@@ -137,11 +137,46 @@ Run `python tools/generate_all_review_sheets.py` for the optional full N atlas a
 71 pages at eight pairs per page. `page_index.csv` maps IDs to pages. Decisions are
 generation-time snapshots; refresh pages after intentional ledger updates.
 
-The training-only ORB diagnostic compares 256/500/0.75, 384/1000/0.85 and
-384/1000/0.90 resolution/keypoint/ratio settings. More inliers do not establish
-better identity accuracy; nominal negative controls are not independently verified.
-
 ## Output and replay boundaries
+
+### Independent saved-evidence audit
+
+Main notebook sections 7.1 and 7.4–7.5 define the metric denominators, validation
+layers, analytical benchmarks and supported/unsupported inputs. The additional
+audit uses standard-library arithmetic independently of the production metric
+functions. It reads CSV/JSON scores and normalized audit states, not images or
+joblib models; it does not train or select a model.
+
+```powershell
+python -m tools.validate_evidence --output outputs/validation_audit/final_experiments.json
+```
+
+Supply `--results outputs/final_experiments_core` for an existing core-only run.
+`--queries` and `--gallery` can select that experiment's frozen CSV protocol; do
+not use the real protocol to validate a synthetic experiment. The notebook passes
+its active real/synthetic IDs directly. Only an explicit `--output` writes a report.
+
+The audit checks complete query/gallery coverage, finite scores, every saved rank
+and tie range, confirmed-subset Top-k/MRR, positive/negative MAE/RMSE, balanced MAE,
+binary Top-k Wilson intervals and whole-sample filename retrieval diagnostics.
+It records SHA-256 values for the files actually read. It neither revalidates
+human identities nor independently re-estimates the saved bootstrap intervals.
+The small real-data audit snapshot is in `res/validation/evidence_audit.json`.
+
+For a gallery of size G, uniform ordering has expected Top-1=1/G, Top-5=min(5,G)/G
+and MRR=H_G/G. A constant-zero score yields full-gallery ties and the same expected
+retrieval credit, with pair MAE=1/G and RMSE=sqrt(1/G), despite no identification
+ability. Class-specific and balanced errors therefore accompany overall pair loss.
+These are analytical references rather than additional fitted models or external
+segmentation benchmarks.
+
+In the main saved test features, 4,172/5,280 pair rows (79.02%) have failed geometry.
+This includes wrong candidates; it is not an identity-error rate. Both main models
+still return scores, with verified Top-1/Top-5=0/28. A software-consistent result is
+not evidence of useful matching. See the notebook for conditional paired intervals,
+the limits of four test rows, absent counterparts and possible visual failure factors.
+
+### Portable model replay
 
 Stage 8 exports model pipelines and explicit preprocessors, ordered feature schemas,
 versions, source/configuration, human records, numeric evidence and a SHA-256 manifest.

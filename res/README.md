@@ -8,6 +8,7 @@ evidence without original data or fitted model binaries.
 | `final_experiments/` | Comparison tables, intervals, controls and performance figures | Historical confirmed-subset test and separate development controls |
 | `svr_parameter_tuning/` | Search results, selected configuration and diagnostic plots | Validation-only refinement on original features |
 | `feature_optimization/` | Screening, diagnostics and selected representation comparison | Repeatedly selected validation results |
+| `validation/` | Independent arithmetic audit of saved scores and analytical references | Existing frozen evaluation only; no new inference or selection |
 
 The main workflow remains `apple_tree_matching.ipynb`. See the
 [experiment reference](../doc/experiment_reference.md) for interpretation and
